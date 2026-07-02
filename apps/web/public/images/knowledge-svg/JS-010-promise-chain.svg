@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#60a5fa"/>
+    </marker>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg2)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#60a5fa" text-anchor="middle">Promise 链式调用 — 数据流水线</text>
+
+  <!-- step 1 -->
+  <rect x="40" y="70" width="180" height="90" rx="10" fill="#60a5fa" fill-opacity="0.08" stroke="#60a5fa" stroke-opacity="0.4"/>
+  <text x="130" y="92" font-size="11" font-weight="700" fill="#93c5fd" text-anchor="middle">fetch(url)</text>
+  <text x="55" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">→ Promise&lt;Response&gt;</text>
+  <text x="55" y="135" font-size="9" fill="#64748b">网络请求，返回响应对象</text>
+
+  <!-- arrow -->
+  <line x1="225" y1="115" x2="263" y2="115" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="244" y="108" font-size="8.5" fill="#93c5fd" text-anchor="middle">.then</text>
+
+  <!-- step 2 -->
+  <rect x="270" y="70" width="180" height="90" rx="10" fill="#a78bfa" fill-opacity="0.08" stroke="#a78bfa" stroke-opacity="0.4"/>
+  <text x="360" y="92" font-size="11" font-weight="700" fill="#c4b5fd" text-anchor="middle">res =&gt; res.json()</text>
+  <text x="285" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">→ Promise&lt;Object&gt;</text>
+  <text x="285" y="135" font-size="9" fill="#64748b">解析 JSON，得到数据对象</text>
+
+  <!-- arrow -->
+  <line x1="455" y1="115" x2="493" y2="115" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="474" y="108" font-size="8.5" fill="#93c5fd" text-anchor="middle">.then</text>
+
+  <!-- step 3 -->
+  <rect x="500" y="70" width="220" height="90" rx="10" fill="#34d399" fill-opacity="0.08" stroke="#34d399" stroke-opacity="0.4"/>
+  <text x="610" y="92" font-size="11" font-weight="700" fill="#6ee7b7" text-anchor="middle">data =&gt; render(data)</text>
+  <text x="515" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">→ Promise&lt;void&gt;</text>
+  <text x="515" y="135" font-size="9" fill="#64748b">渲染数据到页面</text>
+
+  <!-- error handler -->
+  <rect x="40" y="200" width="680" height="70" rx="10" fill="#f87171" fill-opacity="0.06" stroke="#f87171" stroke-opacity="0.3"/>
+  <text x="60" y="225" font-size="11" font-weight="700" fill="#fca5a5">.catch(err =&gt; console.error(err))</text>
+  <text x="60" y="248" font-size="10" fill="#94a3b8">任意一步出错都会跳到这里 — 链式调用的"安全网"</text>
+
+  <!-- finally -->
+  <rect x="40" y="290" width="680" height="60" rx="10" fill="#fbbf24" fill-opacity="0.06" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="60" y="315" font-size="11" font-weight="700" fill="#fcd34d">.finally(() =&gt; hideLoading())</text>
+  <text x="60" y="335" font-size="10" fill="#94a3b8">无论成功失败都执行 — 适合清理工作（隐藏 loading、关闭连接）</text>
+
+  <text x="40" y="385" font-size="10" fill="#60a5fa">💡 每个 .then() 返回新 Promise，下一个 .then() 等待它 resolve — 这就是"链式"的本质。</text>
+  <text x="40" y="402" font-size="10" fill="#fca5a5">⚠️ .then() 里 throw 或 return Promise.reject 都会触发 .catch()</text>
+</svg>

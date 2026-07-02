@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#4f46e5"/></linearGradient>
+    <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#0284c7"/></linearGradient>
+    <linearGradient id="m3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ea580c"/></linearGradient>
+    <linearGradient id="m4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#059669"/></linearGradient>
+    <linearGradient id="m5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#db2777"/></linearGradient>
+    <linearGradient id="m6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="m7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#dc2626"/></linearGradient>
+    <linearGradient id="m8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#14b8a6"/><stop offset="100%" stop-color="#0d9488"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-opacity=".15"/></filter>
+  </defs>
+  <rect width="960" height="520" fill="#0f172a" rx="16"/>
+  <text x="480" y="36" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="700">氛围编程八大知识模块</text>
+  <text x="480" y="56" text-anchor="middle" fill="#64748b" font-size="12">Vibe Coding Knowledge Modules — 认知思维 → 工具链 → Prompt → 代码阅读 → 全栈工程 → AI高级 → 质量安全 → 实战项目</text>
+
+  <!-- 8 cards in 2 rows of 4 -->
+  <!-- Row 1 -->
+  <rect x="30" y="76" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="30" y="76" width="215" height="6" rx="3" fill="url(#m1)"/>
+  <text x="137" y="104" text-anchor="middle" fill="#a5b4fc" font-size="13" font-weight="700">一、认知与思维</text>
+  <text x="50" y="124" fill="#94a3b8" font-size="10">• Vibe Coding 范式理解</text>
+  <text x="50" y="140" fill="#94a3b8" font-size="10">• 氛围(Vibe)抽象能力</text>
+  <text x="50" y="156" fill="#94a3b8" font-size="10">• 产品化思维</text>
+  <text x="50" y="172" fill="#94a3b8" font-size="10">• 人机协作思维</text>
+  <text x="50" y="188" fill="#94a3b8" font-size="10">• 氛围描述黄金公式</text>
+  <rect x="42" y="200" width="50" height="18" rx="4" fill="#6366f1" opacity=".3"/><text x="67" y="213" text-anchor="middle" fill="#a5b4fc" font-size="9" font-weight="600">D1-D3</text>
+  <text x="100" y="213" fill="#6366f1" font-size="9">决定上限</text>
+
+  <rect x="257" y="76" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="257" y="76" width="215" height="6" rx="3" fill="url(#m2)"/>
+  <text x="364" y="104" text-anchor="middle" fill="#7dd3fc" font-size="13" font-weight="700">二、工具链</text>
+  <text x="277" y="124" fill="#94a3b8" font-size="10">• AI IDE (Cursor/Claude Code)</text>
+  <text x="277" y="140" fill="#94a3b8" font-size="10">• Git / 浏览器调试</text>
+  <text x="277" y="156" fill="#94a3b8" font-size="10">• 云平台一键部署</text>
+  <text x="277" y="172" fill="#94a3b8" font-size="10">• Prompt 模板库</text>
+  <text x="277" y="188" fill="#94a3b8" font-size="10">• AI 调试/评审/文档工具</text>
+  <rect x="269" y="200" width="50" height="18" rx="4" fill="#0ea5e9" opacity=".3"/><text x="294" y="213" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="600">D1-D3</text>
+  <text x="327" y="213" fill="#0ea5e9" font-size="9">每天必用</text>
+
+  <rect x="484" y="76" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="484" y="76" width="215" height="6" rx="3" fill="url(#m3)"/>
+  <text x="591" y="104" text-anchor="middle" fill="#fdba74" font-size="13" font-weight="700">三、提示词工程</text>
+  <text x="504" y="124" fill="#94a3b8" font-size="10">• 基础 Prompt 结构</text>
+  <text x="504" y="140" fill="#94a3b8" font-size="10">• 氛围类 Prompt (视觉/交互)</text>
+  <text x="504" y="156" fill="#94a3b8" font-size="10">• 高级技巧 (拆解/Few-shot)</text>
+  <text x="504" y="172" fill="#94a3b8" font-size="10">• 约束强化 / 迭代反馈闭环</text>
+  <text x="504" y="188" fill="#94a3b8" font-size="10">• 场景化 Prompt 模板</text>
+  <rect x="496" y="200" width="50" height="18" rx="4" fill="#f97316" opacity=".3"/><text x="521" y="213" text-anchor="middle" fill="#fdba74" font-size="9" font-weight="600">D2-D4</text>
+  <text x="554" y="213" fill="#f97316" font-size="9">核心技能</text>
+
+  <rect x="711" y="76" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="711" y="76" width="215" height="6" rx="3" fill="url(#m4)"/>
+  <text x="818" y="104" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="700">四、代码阅读与编程</text>
+  <text x="731" y="124" fill="#94a3b8" font-size="10">• 前端基础 (HTML/CSS/JS)</text>
+  <text x="731" y="140" fill="#94a3b8" font-size="10">• 后端基础 (HTTP/接口/DB)</text>
+  <text x="731" y="156" fill="#94a3b8" font-size="10">• 代码异味识别</text>
+  <text x="731" y="172" fill="#94a3b8" font-size="10">• 幻觉排查 / 结构判断</text>
+  <text x="731" y="188" fill="#94a3b8" font-size="10">• React/Vue 概念级理解</text>
+  <rect x="723" y="200" width="50" height="18" rx="4" fill="#10b981" opacity=".3"/><text x="748" y="213" text-anchor="middle" fill="#6ee7b7" font-size="9" font-weight="600">D1-D3</text>
+  <text x="781" y="213" fill="#10b981" font-size="9">能读能改能调</text>
+
+  <!-- Row 2 -->
+  <rect x="30" y="274" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="30" y="274" width="215" height="6" rx="3" fill="url(#m5)"/>
+  <text x="137" y="302" text-anchor="middle" fill="#f9a8d4" font-size="13" font-weight="700">五、全栈工程能力</text>
+  <text x="50" y="322" fill="#94a3b8" font-size="10">• 需求拆解与架构选型</text>
+  <text x="50" y="338" fill="#94a3b8" font-size="10">• 数据库设计</text>
+  <text x="50" y="354" fill="#94a3b8" font-size="10">• API 开发与联调</text>
+  <text x="50" y="370" fill="#94a3b8" font-size="10">• 一键部署 / 基础运维</text>
+  <text x="50" y="386" fill="#94a3b8" font-size="10">• 版本控制与团队协作</text>
+  <rect x="42" y="398" width="50" height="18" rx="4" fill="#ec4899" opacity=".3"/><text x="67" y="411" text-anchor="middle" fill="#f9a8d4" font-size="9" font-weight="600">D2-D3</text>
+  <text x="100" y="411" fill="#ec4899" font-size="9">能交付完整产品</text>
+
+  <rect x="257" y="274" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="257" y="274" width="215" height="6" rx="3" fill="url(#m6)"/>
+  <text x="364" y="302" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">六、AI 大模型与高级</text>
+  <text x="277" y="322" fill="#94a3b8" font-size="10">• LLM 原理与幻觉成因</text>
+  <text x="277" y="338" fill="#94a3b8" font-size="10">• RAG 检索增强生成</text>
+  <text x="277" y="354" fill="#94a3b8" font-size="10">• AI Agent 开发</text>
+  <text x="277" y="370" fill="#94a3b8" font-size="10">• 多轮对话 / 复杂逻辑</text>
+  <text x="277" y="386" fill="#94a3b8" font-size="10">• 多模态生成 (图/文案/视频)</text>
+  <rect x="269" y="398" width="50" height="18" rx="4" fill="#8b5cf6" opacity=".3"/><text x="294" y="411" text-anchor="middle" fill="#c4b5fd" font-size="9" font-weight="600">D3-D4</text>
+  <text x="327" y="411" fill="#8b5cf6" font-size="9">进阶/高薪必备</text>
+
+  <rect x="484" y="274" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="484" y="274" width="215" height="6" rx="3" fill="url(#m7)"/>
+  <text x="591" y="302" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="700">七、质量、安全与避坑</text>
+  <text x="504" y="322" fill="#94a3b8" font-size="10">• AI 代码评审清单</text>
+  <text x="504" y="338" fill="#94a3b8" font-size="10">• 幻觉识别与修复</text>
+  <text x="504" y="354" fill="#94a3b8" font-size="10">• 安全漏洞防范</text>
+  <text x="504" y="370" fill="#94a3b8" font-size="10">• 性能优化 / 依赖管理</text>
+  <text x="504" y="386" fill="#94a3b8" font-size="10">• TDD 流程</text>
+  <rect x="496" y="398" width="50" height="18" rx="4" fill="#ef4444" opacity=".3"/><text x="521" y="411" text-anchor="middle" fill="#fca5a5" font-size="9" font-weight="600">D3-D4</text>
+  <text x="554" y="411" fill="#ef4444" font-size="9">不翻车的关键</text>
+
+  <rect x="711" y="274" width="215" height="180" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="711" y="274" width="215" height="6" rx="3" fill="url(#m8)"/>
+  <text x="818" y="302" text-anchor="middle" fill="#5eead4" font-size="13" font-weight="700">八、实战项目</text>
+  <text x="731" y="322" fill="#94a3b8" font-size="10">• 入门级 (纯前端)</text>
+  <text x="731" y="338" fill="#94a3b8" font-size="10">• 中级 (前后端+数据库)</text>
+  <text x="731" y="354" fill="#94a3b8" font-size="10">• 高级 (全栈+AI+部署)</text>
+  <text x="731" y="370" fill="#94a3b8" font-size="10">• AI 聊天 / RAG 知识库</text>
+  <text x="731" y="386" fill="#94a3b8" font-size="10">• 带支付的全栈应用</text>
+  <rect x="723" y="398" width="50" height="18" rx="4" fill="#14b8a6" opacity=".3"/><text x="748" y="411" text-anchor="middle" fill="#5eead4" font-size="9" font-weight="600">D2-D4</text>
+  <text x="781" y="411" fill="#14b8a6" font-size="9">学完必须做</text>
+
+  <!-- 流程箭头 -->
+  <text x="480" y="490" text-anchor="middle" fill="#475569" font-size="11">认知思维 → 工具链 → Prompt → 代码阅读 → 全栈工程 → AI高级 → 质量安全 → 实战项目</text>
+</svg>

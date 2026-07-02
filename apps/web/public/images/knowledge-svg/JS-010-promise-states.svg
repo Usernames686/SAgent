@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg1)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">Promise 三种状态与流转</text>
+
+  <!-- pending -->
+  <circle cx="140" cy="180" r="65" fill="#fbbf24" fill-opacity="0.08" stroke="#fbbf24" stroke-opacity="0.5"/>
+  <text x="140" y="175" font-size="13" font-weight="700" fill="#fcd34d" text-anchor="middle">pending</text>
+  <text x="140" y="195" font-size="9.5" fill="#94a3b8" text-anchor="middle">进行中，未确定</text>
+  <text x="140" y="265" font-size="9" fill="#64748b" text-anchor="middle">new Promise 时</text>
+  <text x="140" y="280" font-size="9" fill="#64748b" text-anchor="middle">异步操作尚未完成</text>
+
+  <!-- fulfilled -->
+  <circle cx="430" cy="100" r="65" fill="#34d399" fill-opacity="0.08" stroke="#34d399" stroke-opacity="0.5"/>
+  <text x="430" y="95" font-size="13" font-weight="700" fill="#6ee7b7" text-anchor="middle">fulfilled</text>
+  <text x="430" y="115" font-size="9.5" fill="#94a3b8" text-anchor="middle">已成功，有 value</text>
+  <text x="430" y="185" font-size="9" fill="#64748b" text-anchor="middle">resolve(value) 触发</text>
+  <text x="430" y="200" font-size="9" fill="#64748b" text-anchor="middle">触发 .then(value)</text>
+
+  <!-- rejected -->
+  <circle cx="430" cy="260" r="65" fill="#f87171" fill-opacity="0.08" stroke="#f87171" stroke-opacity="0.5"/>
+  <text x="430" y="255" font-size="13" font-weight="700" fill="#fca5a5" text-anchor="middle">rejected</text>
+  <text x="430" y="275" font-size="9.5" fill="#94a3b8" text-anchor="middle">已失败，有 reason</text>
+  <text x="430" y="345" font-size="9" fill="#64748b" text-anchor="middle">reject(reason) 触发</text>
+  <text x="430" y="360" font-size="9" fill="#64748b" text-anchor="middle">触发 .catch(reason)</text>
+
+  <!-- arrows -->
+  <path d="M 200 155 Q 280 110 365 105" stroke="#34d399" stroke-width="1.8" fill="none" marker-end="url(#arr1)"/>
+  <text x="270" y="115" font-size="9" fill="#6ee7b7">resolve()</text>
+
+  <path d="M 200 205 Q 280 250 365 255" stroke="#f87171" stroke-width="1.8" fill="none" marker-end="url(#arr1)"/>
+  <text x="270" y="250" font-size="9" fill="#fca5a5">reject()</text>
+
+  <!-- key rules -->
+  <rect x="560" y="60" width="180" height="320" rx="10" fill="#a78bfa" fill-opacity="0.04" stroke="#a78bfa" stroke-opacity="0.2"/>
+  <text x="650" y="85" font-size="11" font-weight="700" fill="#c4b5fd" text-anchor="middle">🔑 三条铁律</text>
+  <text x="575" y="110" font-size="9.5" fill="#94a3b8">① 状态只能改变一次</text>
+  <text x="575" y="128" font-size="9.5" fill="#94a3b8">   fulfilled → 不能再 reject</text>
+  <text x="575" y="146" font-size="9.5" fill="#94a3b8">   rejected → 不能再 resolve</text>
+  <text x="575" y="175" font-size="9.5" fill="#94a3b8">② 状态不可逆</text>
+  <text x="575" y="193" font-size="9.5" fill="#94a3b8">   一旦确定，永久保持</text>
+  <text x="575" y="222" font-size="9.5" fill="#94a3b8">③ value/reason 不可变</text>
+  <text x="575" y="240" font-size="9.5" fill="#94a3b8">   resolve 后 value 固定</text>
+  <text x="575" y="258" font-size="9.5" fill="#94a3b8">   reject 后 reason 固定</text>
+  <text x="575" y="295" font-size="9.5" fill="#fcd34d">⚠️ 没有取消机制</text>
+  <text x="575" y="313" font-size="9.5" fill="#94a3b8">   Promise 一旦创建</text>
+  <text x="575" y="331" font-size="9.5" fill="#94a3b8">   必须等到 fulfilled/rejected</text>
+  <text x="575" y="358" font-size="9.5" fill="#6ee7b7">✅ 需要 AbortController</text>
+
+  <text x="40" y="395" font-size="10" fill="#a78bfa">💡 Promise 是个"状态机"：内部状态 + 状态转移规则。理解了状态流转，就理解了 Promise 的本质。</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="Segoe UI, PingFang SC, sans-serif">
+  <defs>
+    <linearGradient id="ext" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="400" fill="#0f172a" rx="16"/>
+  <text x="440" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#f8fafc">场景复用能力 · 从西亚斯到全行业</text>
+  <text x="440" y="54" text-anchor="middle" font-size="11" fill="#94a3b8">核心 Agent 编排 + Vibe Coding 范式可平移至多个教育与训练场景</text>
+
+  <circle cx="440" cy="210" r="80" fill="url(#ext)" opacity="0.2" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="440" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#c4b5fd">sAgent</text>
+  <text x="440" y="223" text-anchor="middle" font-size="10" fill="#e2e8f0">多智能体 + Vibe</text>
+  <text x="440" y="237" text-anchor="middle" font-size="10" fill="#e2e8f0">+ 自进化内核</text>
+
+  <g font-size="10">
+    <rect x="370" y="70" width="140" height="60" rx="10" fill="#1e293b" stroke="#34d399"/>
+    <text x="440" y="92" text-anchor="middle" font-weight="700" fill="#34d399">高校编程课</text>
+    <text x="440" y="110" text-anchor="middle" fill="#cbd5e1">替代助教答疑</text>
+    <text x="440" y="124" text-anchor="middle" font-size="9" fill="#94a3b8">西亚斯已验证</text>
+
+    <rect x="620" y="100" width="160" height="60" rx="10" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="700" y="122" text-anchor="middle" font-weight="700" fill="#38bdf8">职业培训</text>
+    <text x="700" y="140" text-anchor="middle" fill="#cbd5e1">转行求职加速</text>
+    <text x="700" y="154" text-anchor="middle" font-size="9" fill="#94a3b8">达内/传智广播</text>
+
+    <rect x="620" y="260" width="160" height="60" rx="10" fill="#1e293b" stroke="#f59e0b"/>
+    <text x="700" y="282" text-anchor="middle" font-weight="700" fill="#f59e0b">K12 信息学</text>
+    <text x="700" y="300" text-anchor="middle" fill="#cbd5e1">零基础启蒙</text>
+    <text x="700" y="314" text-anchor="middle" font-size="9" fill="#94a3b8">趣味化降门槛</text>
+
+    <rect x="370" y="300" width="140" height="60" rx="10" fill="#1e293b" stroke="#ec4899"/>
+    <text x="440" y="322" text-anchor="middle" font-weight="700" fill="#f472b6">企业内训</text>
+    <text x="440" y="340" text-anchor="middle" fill="#cbd5e1">新技术速学</text>
+    <text x="440" y="354" text-anchor="middle" font-size="9" fill="#94a3b8">Rust/AI 内训</text>
+
+    <rect x="100" y="260" width="160" height="60" rx="10" fill="#1e293b" stroke="#06b6d4"/>
+    <text x="180" y="282" text-anchor="middle" font-weight="700" fill="#06b6d4">在线教育平台</text>
+    <text x="180" y="300" text-anchor="middle" fill="#cbd5e1">B 端能力输出</text>
+    <text x="180" y="314" text-anchor="middle" font-size="9" fill="#94a3b8">API 开放平台</text>
+
+    <rect x="100" y="100" width="160" height="60" rx="10" fill="#1e293b" stroke="#a78bfa"/>
+    <text x="180" y="122" text-anchor="middle" font-weight="700" fill="#a78bfa">认证培训</text>
+    <text x="180" y="140" text-anchor="middle" fill="#cbd5e1">云/AI 证书备考</text>
+    <text x="180" y="154" text-anchor="middle" font-size="9" fill="#94a3b8">阿里云/AWS</text>
+  </g>
+
+  <g stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3" fill="none">
+    <line x1="440" y1="130" x2="440" y2="160"/>
+    <line x1="620" y1="130" x2="500" y2="190"/>
+    <line x1="620" y1="290" x2="500" y2="230"/>
+    <line x1="440" y1="260" x2="440" y2="290"/>
+    <line x1="260" y1="290" x2="380" y2="230"/>
+    <line x1="260" y1="130" x2="380" y2="190"/>
+  </g>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">var变量提升 · 声明提前，赋值不动</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">❌ var提升效果</text>
+<rect x="30" y="76" width="350" height="200" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="96" font-size="11" font-weight="600" fill="#ef4444">你写的代码：</text>
+<rect x="46" y="106" width="318" height="70" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+<text x="54" y="124" font-size="10" fill="#94a3b8" font-family="monospace">console.log(x);  // undefined</text>
+<text x="54" y="144" font-size="10" fill="#94a3b8" font-family="monospace">var x = 5;</text>
+<text x="54" y="164" font-size="10" fill="#94a3b8" font-family="monospace">console.log(x);  // 5</text>
+<text x="50" y="192" font-size="9" fill="#ef4444">⚠️ 声明前访问不报错，值是undefined</text>
+<text x="50" y="210" font-size="9" fill="#ef4444">这就是"变量提升"的效果</text>
+<text x="50" y="268" font-size="11" font-weight="600" fill="#22c55e">引擎实际执行：</text>
+<rect x="400" y="76" width="350" height="200" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.15"/>
+<rect x="416" y="96" width="318" height="90" rx="4" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.15"/>
+<text x="424" y="114" font-size="10" fill="#22c55e" font-family="monospace">var x;              // ← 提升到顶部!</text>
+<text x="424" y="134" font-size="10" fill="#94a3b8" font-family="monospace">console.log(x);     // undefined</text>
+<text x="424" y="154" font-size="10" fill="#94a3b8" font-family="monospace">x = 5;              // ← 赋值留在原位</text>
+<text x="424" y="174" font-size="10" fill="#94a3b8" font-family="monospace">console.log(x);     // 5</text>
+<text x="416" y="204" font-size="9" fill="#22c55e">✅ 只提升声明，不提升赋值</text>
+<text x="416" y="222" font-size="9" fill="#22c55e">这就是为什么值是undefined</text>
+<text x="40" y="300" font-size="13" font-weight="600" fill="#a855f7">🔍 提升规则详解</text>
+<rect x="30" y="312" width="720" height="240" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="336" font-size="10" fill="#a855f7" font-weight="600">1. var声明被提升到作用域顶部</text>
+<text x="50" y="358" font-size="10" fill="#94a3b8">   function内 → 提升到function顶部</text>
+<text x="50" y="378" font-size="10" fill="#94a3b8">   function外 → 提升到全局顶部</text>
+<text x="50" y="404" font-size="10" fill="#a855f7" font-weight="600">2. 只提升声明，不提升赋值</text>
+<text x="50" y="426" font-size="10" fill="#ef4444">   var x = 5; → var x; 提升到顶部, x = 5; 留在原位</text>
+<text x="50" y="452" font-size="10" fill="#a855f7" font-weight="600">3. 提升后初始化为undefined</text>
+<text x="50" y="474" font-size="10" fill="#ef4444">   所以声明前访问得到undefined，不报错</text>
+<text x="50" y="500" font-size="10" fill="#a855f7" font-weight="600">4. 重复var声明不报错</text>
+<text x="50" y="522" font-size="10" fill="#ef4444">   var x = 1; var x = 2; → 合法但危险，静默覆盖</text>
+<text x="50" y="544" font-size="10" fill="#f97316" font-weight="600">口诀：var提升声明不提升值，声明前是undefined</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">参数魔法 · 默认参数 · 剩余参数 · 解构</text>
+
+  <!-- ① 基本参数 -->
+  <text x="40" y="64" font-size="12" font-weight="600" fill="#f97316">① 基本参数 — 按位置传入</text>
+  <rect x="30" y="74" width="350" height="100" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+  <rect x="50" y="92" width="310" height="68" rx="4" fill="#0f172a" stroke="#1e293b"/>
+  <text x="62" y="110" font-size="9" fill="#3b82f6" font-family="monospace">function add(a, b) {</text>
+  <text x="62" y="124" font-size="9" fill="#3b82f6" font-family="monospace">  return a + b;</text>
+  <text x="62" y="138" font-size="9" fill="#3b82f6" font-family="monospace">}</text>
+  <text x="62" y="156" font-size="9" fill="#22c55e" font-family="monospace">add(3, 5);   // 8</text>
+
+  <!-- ② 默认参数 -->
+  <text x="40" y="194" font-size="12" font-weight="600" fill="#3b82f6">② 默认参数 — 没传或传 undefined 时生效</text>
+  <rect x="30" y="204" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <rect x="50" y="222" width="310" height="90" rx="4" fill="#0f172a" stroke="#1e293b"/>
+  <text x="62" y="240" font-size="9" fill="#3b82f6" font-family="monospace">function greet(name = "World") {</text>
+  <text x="62" y="254" font-size="9" fill="#3b82f6" font-family="monospace">  return \`Hello, \${name}!\`;</text>
+  <text x="62" y="268" font-size="9" fill="#3b82f6" font-family="monospace">}</text>
+  <text x="62" y="286" font-size="9" fill="#22c55e" font-family="monospace">greet();          // "Hello, World!"</text>
+  <text x="62" y="300" font-size="9" fill="#22c55e" font-family="monospace">greet("Alice");   // "Hello, Alice!"</text>
+
+  <!-- ③ 剩余参数 -->
+  <text x="400" y="64" font-size="12" font-weight="600" fill="#a855f7">③ 剩余参数 ...rest — 收集多余参数</text>
+  <rect x="400" y="74" width="350" height="150" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <rect x="420" y="92" width="310" height="120" rx="4" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="110" font-size="9" fill="#a855f7" font-family="monospace">function sum(...nums) {</text>
+  <text x="432" y="124" font-size="9" fill="#a855f7" font-family="monospace">  return nums.reduce((a, b) => a + b, 0);</text>
+  <text x="432" y="138" font-size="9" fill="#a855f7" font-family="monospace">}</text>
+  <text x="432" y="156" font-size="9" fill="#22c55e" font-family="monospace">sum(1, 2, 3);       // 6</text>
+  <text x="432" y="170" font-size="9" fill="#22c55e" font-family="monospace">sum(1, 2, 3, 4, 5); // 15</text>
+  <text x="432" y="186" font-size="9" fill="#eab308" font-family="monospace">⚠️ ...rest 必须是最后一个参数</text>
+
+  <!-- ④ 参数解构 -->
+  <text x="400" y="244" font-size="12" font-weight="600" fill="#22c55e">④ 参数解构 — 直接从对象/数组取值</text>
+  <rect x="400" y="254" width="350" height="120" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <rect x="420" y="272" width="310" height="90" rx="4" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="290" font-size="9" fill="#22c55e" font-family="monospace">function setup({ host, port = 3000 }) {</text>
+  <text x="432" y="304" font-size="9" fill="#22c55e" font-family="monospace">  console.log(\`\${host}:\${port}\`);</text>
+  <text x="432" y="318" font-size="9" fill="#22c55e" font-family="monospace">}</text>
+  <text x="432" y="336" font-size="9" fill="#22c55e" font-family="monospace">setup({ host: "localhost" });  // localhost:3000</text>
+  <text x="432" y="350" font-size="9" fill="#eab308" font-family="monospace">💡 配置对象常用此模式</text>
+
+  <!-- 底部：参数规则 -->
+  <text x="40" y="396" font-size="13" font-weight="600" fill="#eab308">⑤ 参数传递规则（重点！）</text>
+
+  <rect x="30" y="408" width="350" height="150" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="50" y="432" font-size="11" font-weight="600" fill="#ef4444">🚫 传少了 → 多余参数是 undefined</text>
+  <rect x="50" y="442" width="310" height="34" rx="4" fill="#0f172a"/>
+  <text x="62" y="462" font-size="9" fill="#ef4444" font-family="monospace">function f(a, b) { ... }</text>
+  <text x="62" y="476" font-size="9" fill="#ef4444" font-family="monospace">f(1);        // b = undefined</text>
+  <text x="50" y="510" font-size="11" font-weight="600" fill="#ef4444">🚫 传多了 → 多余参数被忽略</text>
+  <rect x="50" y="520" width="310" height="28" rx="4" fill="#0f172a"/>
+  <text x="62" y="540" font-size="9" fill="#ef4444" font-family="monospace">f(1, 2, 3);  // 3 被忽略（或用 ...rest 收集）</text>
+
+  <rect x="400" y="408" width="350" height="150" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="420" y="432" font-size="11" font-weight="600" fill="#22c55e">✅ 默认参数的触发条件</text>
+  <rect x="420" y="442" width="310" height="56" rx="4" fill="#0f172a"/>
+  <text x="432" y="460" font-size="9" fill="#22c55e" font-family="monospace">f(undefined);  // ✅ 触发默认值</text>
+  <text x="432" y="474" font-size="9" fill="#22c55e" font-family="monospace">f(null);       // ❌ null 不触发，传入 null</text>
+  <text x="432" y="488" font-size="9" fill="#22c55e" font-family="monospace">f(0);          // ❌ 0 是有效值，不触发</text>
+  <text x="420" y="520" font-size="11" font-weight="600" fill="#22c55e">💡 默认参数让函数更"宽容"</text>
+  <text x="420" y="540" font-size="9" fill="#94a3b8">即使调用方忘记传参，也有合理兜底</text>
+</svg>

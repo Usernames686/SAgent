@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ef4444"/></linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+    <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+  </defs>
+  <!-- 背景 -->
+  <rect width="960" height="720" fill="#0f172a" rx="16"/>
+  <!-- 标题 -->
+  <text x="480" y="38" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="700">sAgent 系统分层架构</text>
+
+  <!-- L0 接入层 -->
+  <rect x="40" y="56" width="880" height="90" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <text x="60" y="78" fill="#94a3b8" font-size="12" font-weight="600">接入层 Access Layer</text>
+  <rect x="120" y="88" width="180" height="44" rx="8" fill="url(#g1)" opacity=".9"/><text x="210" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Web Client</text><text x="210" y="128" text-anchor="middle" fill="#c7d2fe" font-size="10">Next.js 15</text>
+  <rect x="390" y="88" width="180" height="44" rx="8" fill="url(#g1)" opacity=".9"/><text x="480" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Mobile PWA</text><text x="480" y="128" text-anchor="middle" fill="#c7d2fe" font-size="10">响应式适配</text>
+  <rect x="660" y="88" width="180" height="44" rx="8" fill="url(#g1)" opacity=".9"/><text x="750" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">IDE Plugin</text><text x="750" y="128" text-anchor="middle" fill="#c7d2fe" font-size="10">VS Code Ext</text>
+  <!-- 箭头 -->
+  <line x1="480" y1="146" x2="480" y2="164" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker></defs>
+  <text x="500" y="158" fill="#64748b" font-size="10">HTTPS / WSS</text>
+
+  <!-- L1 网关层 -->
+  <rect x="40" y="166" width="880" height="80" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <text x="60" y="188" fill="#94a3b8" font-size="12" font-weight="600">网关层 Gateway Layer</text>
+  <rect x="200" y="198" width="560" height="36" rx="8" fill="url(#g2)" opacity=".85"/>
+  <text x="480" y="221" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Kong API Gateway</text>
+  <text x="310" y="221" text-anchor="middle" fill="#bae6fd" font-size="10">认证鉴权</text>
+  <text x="420" y="221" text-anchor="middle" fill="#bae6fd" font-size="10">限流熔断</text>
+  <text x="540" y="221" text-anchor="middle" fill="#bae6fd" font-size="10">灰度路由</text>
+  <text x="660" y="221" text-anchor="middle" fill="#bae6fd" font-size="10">日志追踪</text>
+
+  <!-- L2 业务服务层 -->
+  <rect x="40" y="258" width="880" height="110" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <text x="60" y="280" fill="#94a3b8" font-size="12" font-weight="600">业务服务层 Business Layer</text>
+  <!-- 第一行 -->
+  <rect x="60" y="292" width="130" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="125" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">用户服务</text>
+  <rect x="200" y="292" width="130" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="265" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">课程服务</text>
+  <rect x="340" y="292" width="130" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="405" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">练习服务</text>
+  <rect x="480" y="292" width="130" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="545" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">评估服务</text>
+  <rect x="620" y="292" width="130" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="685" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Agent 编排</text>
+  <rect x="760" y="292" width="140" height="32" rx="6" fill="url(#g3)" opacity=".85"/><text x="830" y="313" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">代码沙箱</text>
+  <!-- 第二行 -->
+  <rect x="60" y="330" width="130" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="125" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">内容服务</text>
+  <rect x="200" y="330" width="130" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="265" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">数据分析</text>
+  <rect x="340" y="330" width="130" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="405" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Vibe 学习</text>
+  <rect x="480" y="330" width="130" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="545" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">社区服务</text>
+  <rect x="620" y="330" width="130" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="685" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">成就系统</text>
+  <rect x="760" y="330" width="140" height="32" rx="6" fill="url(#g3)" opacity=".7"/><text x="830" y="351" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">面试模拟</text>
+
+  <!-- L3 智能引擎层 -->
+  <rect x="40" y="380" width="880" height="150" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <text x="60" y="402" fill="#94a3b8" font-size="12" font-weight="600">智能引擎层 Intelligence Layer</text>
+  <!-- Orchestrator -->
+  <rect x="120" y="412" width="720" height="34" rx="8" fill="url(#g5)" opacity=".9"/>
+  <text x="480" y="434" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Agent Orchestrator — 意图识别 │ 任务分解 │ Agent 调度 │ 上下文管理 │ 结果聚合</text>
+  <!-- Agent 网格 -->
+  <rect x="60" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="110" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Tutor</text>
+  <rect x="168" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="218" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Evaluator</text>
+  <rect x="276" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="326" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Path Planner</text>
+  <rect x="384" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="434" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Debug</text>
+  <rect x="492" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="542" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Code Review</text>
+  <rect x="600" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="650" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Knowledge</text>
+  <rect x="708" y="456" width="100" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="758" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Interview</text>
+  <rect x="816" y="456" width="90" height="30" rx="6" fill="#7c3aed" opacity=".8"/><text x="861" y="476" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Mentor</text>
+  <!-- 第二行 Agent -->
+  <rect x="200" y="494" width="140" height="30" rx="6" fill="#6d28d9" opacity=".8"/><text x="270" y="514" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Evolution Agent</text>
+  <rect x="400" y="494" width="160" height="30" rx="6" fill="#6d28d9" opacity=".8"/><text x="480" y="514" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">LLM Gateway (Qwen3.6)</text>
+
+  <!-- L4 基础设施层 -->
+  <rect x="40" y="544" width="880" height="90" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <text x="60" y="566" fill="#94a3b8" font-size="12" font-weight="600">基礎设施层 Infrastructure Layer</text>
+  <rect x="60" y="578" width="100" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="110" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">PostgreSQL</text>
+  <rect x="170" y="578" width="80" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="210" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Redis</text>
+  <rect x="260" y="578" width="90" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="305" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">MongoDB</text>
+  <rect x="360" y="578" width="110" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="415" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">ClickHouse</text>
+  <rect x="480" y="578" width="80" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="520" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">MinIO</text>
+  <rect x="570" y="578" width="100" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="620" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Elastic</text>
+  <rect x="680" y="578" width="80" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="720" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Milvus</text>
+  <rect x="770" y="578" width="130" height="32" rx="6" fill="url(#g4)" opacity=".85"/><text x="835" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">RabbitMQ</text>
+
+  <!-- 底部标注 -->
+  <text x="480" y="660" text-anchor="middle" fill="#475569" font-size="11">sAgent · 自我进化多智能体个性化学习氛围编程平台</text>
+  <text x="480" y="680" text-anchor="middle" fill="#334155" font-size="10">Self-Evolving Multi-Agent Personalized Vibe Coding Learning Platform</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="300" fill="url(#bg6)"/>
+  <text x="380" y="28" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">多态 — 同一接口，不同实现</text>
+  <rect x="40" y="55" width="320" height="100" rx="10" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="200" y="78" font-size="11" font-weight="600" fill="#93c5fd" text-anchor="middle" font-family="monospace">class Dog extends Animal</text>
+  <text x="60" y="100" font-size="10" fill="#94a3b8" font-family="monospace">speak() { return "汪汪！"; }</text>
+  <text x="60" y="118" font-size="10" fill="#94a3b8" font-family="monospace">fetch(item) { ... }</text>
+  <text x="60" y="140" font-size="9.5" fill="#64748b">Dog 重写 speak + 新增 fetch</text>
+  <rect x="400" y="55" width="320" height="100" rx="10" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="560" y="78" font-size="11" font-weight="600" fill="#6ee7b7" text-anchor="middle" font-family="monospace">class Cat extends Animal</text>
+  <text x="420" y="100" font-size="10" fill="#94a3b8" font-family="monospace">speak() { return "喵～"; }</text>
+  <text x="420" y="118" font-size="10" fill="#94a3b8" font-family="monospace">climb() { ... }</text>
+  <text x="420" y="140" font-size="9.5" fill="#64748b">Cat 重写 speak + 新增 climb</text>
+  <rect x="40" y="175" width="680" height="50" rx="8" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.2"/>
+  <text x="60" y="195" font-size="10.5" fill="#c4b5fd" font-family="monospace">const animals = [new Dog("旺财"), new Cat("咪咪")];</text>
+  <text x="60" y="212" font-size="10.5" fill="#c4b5fd" font-family="monospace">animals.forEach(a => console.log(a.speak()));  // "汪汪！" "喵～"</text>
+  <text x="40" y="255" font-size="11" font-weight="600" fill="#fbbf24">🔑 多态的本质：同一个 speak() 接口，不同子类有不同实现</text>
+  <text x="40" y="275" font-size="10" fill="#94a3b8">💡 JavaScript 的多态是"鸭子类型"——只要对象有 speak() 方法，就能调用，不要求继承自 Animal</text>
+</svg>

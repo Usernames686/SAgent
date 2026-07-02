@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">字符串与模板字面量 · 决策速查表</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#22c55e">① 按需求选方法</text>
+  <rect x="30" y="76" width="720" height="480" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <rect x="30" y="76" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="97" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">需求</text>
+  <rect x="210" y="76" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="345" y="97" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">推荐方法</text>
+  <rect x="480" y="76" width="270" height="32" fill="#06b6d4" fill-opacity="0.10"/>
+  <text x="615" y="97" font-size="11" font-weight="600" fill="#06b6d4" text-anchor="middle">示例</text>
+  <text x="120" y="128" font-size="10" fill="#cbd5e1" text-anchor="middle">拼接变量</text>
+  <text x="345" y="128" font-size="10" fill="#22c55e" text-anchor="middle">模板字面量 ``</text>
+  <text x="615" y="128" font-size="9" fill="#94a3b8" text-anchor="middle">`Hi ${name}`</text>
+  <text x="120" y="156" font-size="10" fill="#cbd5e1" text-anchor="middle">多行字符串</text>
+  <text x="345" y="156" font-size="10" fill="#22c55e" text-anchor="middle">模板字面量 ``</text>
+  <text x="615" y="156" font-size="9" fill="#94a3b8" text-anchor="middle">直接换行</text>
+  <text x="120" y="184" font-size="10" fill="#cbd5e1" text-anchor="middle">是否包含</text>
+  <text x="345" y="184" font-size="10" fill="#22c55e" text-anchor="middle">includes</text>
+  <text x="615" y="184" font-size="9" fill="#94a3b8" text-anchor="middle">s.includes("api")</text>
+  <text x="120" y="212" font-size="10" fill="#cbd5e1" text-anchor="middle">前缀/后缀</text>
+  <text x="345" y="212" font-size="10" fill="#22c55e" text-anchor="middle">startsWith/endsWith</text>
+  <text x="615" y="212" font-size="9" fill="#94a3b8" text-anchor="middle">s.startsWith("http")</text>
+  <text x="120" y="240" font-size="10" fill="#cbd5e1" text-anchor="middle">截取子串</text>
+  <text x="345" y="240" font-size="10" fill="#22c55e" text-anchor="middle">slice</text>
+  <text x="615" y="240" font-size="9" fill="#94a3b8" text-anchor="middle">s.slice(0, 5)</text>
+  <text x="120" y="268" font-size="10" fill="#cbd5e1" text-anchor="middle">拆分为数组</text>
+  <text x="345" y="268" font-size="10" fill="#22c55e" text-anchor="middle">split</text>
+  <text x="615" y="268" font-size="9" fill="#94a3b8" text-anchor="middle">s.split(",")</text>
+  <text x="120" y="296" font-size="10" fill="#cbd5e1" text-anchor="middle">去首尾空白</text>
+  <text x="345" y="296" font-size="10" fill="#22c55e" text-anchor="middle">trim</text>
+  <text x="615" y="296" font-size="9" fill="#94a3b8" text-anchor="middle">s.trim()</text>
+  <text x="120" y="324" font-size="10" fill="#cbd5e1" text-anchor="middle">替换第一个</text>
+  <text x="345" y="324" font-size="10" fill="#22c55e" text-anchor="middle">replace</text>
+  <text x="615" y="324" font-size="9" fill="#94a3b8" text-anchor="middle">s.replace("a","b")</text>
+  <text x="120" y="352" font-size="10" fill="#cbd5e1" text-anchor="middle">替换所有</text>
+  <text x="345" y="352" font-size="10" fill="#22c55e" text-anchor="middle">replaceAll 或 /g</text>
+  <text x="615" y="352" font-size="9" fill="#94a3b8" text-anchor="middle">s.replaceAll("a","b")</text>
+  <text x="120" y="380" font-size="10" fill="#cbd5e1" text-anchor="middle">补零/对齐</text>
+  <text x="345" y="380" font-size="10" fill="#22c55e" text-anchor="middle">padStart</text>
+  <text x="615" y="380" font-size="9" fill="#94a3b8" text-anchor="middle">"5".padStart(3,"0")</text>
+  <text x="120" y="408" font-size="10" fill="#cbd5e1" text-anchor="middle">大小写</text>
+  <text x="345" y="408" font-size="10" fill="#22c55e" text-anchor="middle">toUpperCase/toLowerCase</text>
+  <text x="615" y="408" font-size="9" fill="#94a3b8" text-anchor="middle">s.toLowerCase()</text>
+  <rect x="50" y="440" width="680" height="100" rx="6" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="70" y="462" font-size="12" font-weight="700" fill="#22c55e">🏆 总口诀</text>
+  <text x="70" y="484" font-size="10" fill="#cbd5e1">拼接用 `` 插值 · 查找用 includes · 截取用 slice · 拆分用 split</text>
+  <text x="70" y="504" font-size="10" fill="#cbd5e1">去空用 trim · 替换用 replace(一个) / replaceAll(全部) · 补位用 padStart</text>
+  <text x="70" y="524" font-size="10" fill="#eab308" font-weight="600">字符串不可变 · 所有方法返回新字符串 · 必须接住返回值</text>
+</svg>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f172a; min-height: 100vh; font-family: system-ui, sans-serif; }
+    .container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 32px; max-width: 400px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    .header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #f97316, #ec4899); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; box-shadow: 0 10px 20px rgba(249,115,22,0.3); }
+    .title { color: white; font-size: 20px; font-weight: bold; }
+    .subtitle { color: #9ca3af; font-size: 14px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; text-align: center; }
+    .stat-value { color: white; font-size: 28px; font-weight: bold; }
+    .stat-value.accent { color: #f97316; }
+    .stat-label { color: #9ca3af; font-size: 12px; margin-top: 4px; }
+    .btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #f97316, #ec4899); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.9; }
+    .status { position: fixed; top: 10px; left: 10px; background: #1e293b; color: #60a5fa; padding: 10px; border-radius: 8px; font-size: 12px; z-index: 1000; }
+  </style>
+</head>
+<body>
+  <div class="status" id="status">Loading...</div>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="avatar">U</div>
+        <div>
+          <div class="title">用户统计</div>
+          <div class="subtitle">实时数据概览</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="users">1,234</div>
+          <div class="stat-label">总用户</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value accent">89%</div>
+          <div class="stat-label">活跃率</div>
+        </div>
+      </div>
+      <button class="btn" onclick="handleClick()">点击次数: <span id="count">0</span></button>
+    </div>
+  </div>
+  
+  <script>
+    let count = 0;
+    function handleClick() {
+      count++;
+      document.getElementById('count').textContent = count;
+    }
+    document.getElementById('status').textContent = '✓ Preview loaded successfully!';
+    document.getElementById('status').style.background = '#064e3b';
+    document.getElementById('status').style.color = '#34d399';
+  <\/script>
+</body>
+</html>

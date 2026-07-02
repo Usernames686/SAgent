@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">闭包实战 · 工厂函数与柯里化</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#a855f7">🏭 工厂函数 — 生成定制化函数</text>
+<rect x="30" y="76" width="350" height="180" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.2"/>
+<text x="50" y="96" font-size="10" fill="#3b82f6" font-family="monospace">function createMultiplier(factor) {</text>
+<text x="70" y="116" font-size="10" fill="#a855f7" font-family="monospace">return (n) => n * factor;</text>
+<text x="50" y="136" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<text x="50" y="160" font-size="10" fill="#22c55e" font-family="monospace">const double = createMultiplier(2);</text>
+<text x="50" y="180" font-size="10" fill="#22c55e" font-family="monospace">const triple = createMultiplier(3);</text>
+<text x="50" y="204" font-size="10" fill="#94a3b8" font-family="monospace">double(5);   // 10</text>
+<text x="50" y="224" font-size="10" fill="#94a3b8" font-family="monospace">triple(5);   // 15</text>
+<text x="50" y="248" font-size="9" fill="#a855f7">double记住factor=2, triple记住factor=3</text>
+<text x="410" y="64" font-size="13" font-weight="600" fill="#3b82f6">✅ 柯里化 — 分步传参</text>
+<rect x="400" y="76" width="350" height="180" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+<text x="420" y="96" font-size="10" fill="#94a3b8" font-family="monospace">function curry(fn) {</text>
+<text x="440" y="116" font-size="10" fill="#94a3b8" font-family="monospace">return function curried(...args) {</text>
+<text x="460" y="136" font-size="10" fill="#94a3b8" font-family="monospace">if (args.length >= fn.length)</text>
+<text x="480" y="156" font-size="10" fill="#22c55e" font-family="monospace">return fn(...args);</text>
+<text x="460" y="176" font-size="10" fill="#3b82f6" font-family="monospace">return (...more) => curried(...args,...more);</text>
+<text x="440" y="196" font-size="10" fill="#94a3b8" font-family="monospace">};</text>
+<text x="420" y="216" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="420" y="240" font-size="9" fill="#22c55e">const add = curry((a,b,c) => a+b+c);</text>
+<text x="420" y="256" font-size="9" fill="#22c55e">add(1)(2)(3);  // 6</text>
+<text x="40" y="276" font-size="13" font-weight="600" fill="#22c55e">⏱️ 防抖/节流 — 闭包保持timer</text>
+<rect x="30" y="288" width="720" height="140" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.15"/>
+<text x="50" y="310" font-size="10" fill="#3b82f6" font-family="monospace">function debounce(fn, ms) {</text>
+<text x="70" y="330" font-size="10" fill="#22c55e" font-family="monospace">let timer;  // 闭包保持timer引用</text>
+<text x="70" y="350" font-size="10" fill="#3b82f6" font-family="monospace">return (...args) => {</text>
+<text x="90" y="370" font-size="10" fill="#f97316" font-family="monospace">clearTimeout(timer);  // 清除上次的</text>
+<text x="90" y="390" font-size="10" fill="#22c55e" font-family="monospace">timer = setTimeout(() => fn(...args), ms);</text>
+<text x="70" y="410" font-size="10" fill="#3b82f6" font-family="monospace">};</text>
+<text x="50" y="430" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<rect x="30" y="448" width="720" height="110" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="472" font-size="11" font-weight="600" fill="#a855f7">💡 闭包实战总结</text>
+<text x="50" y="496" font-size="10" fill="#94a3b8">• 工厂函数：闭包记住配置参数，生成定制化函数</text>
+<text x="50" y="516" font-size="10" fill="#94a3b8">• 柯里化：闭包记住已传参数，等待剩余参数</text>
+<text x="50" y="536" font-size="10" fill="#94a3b8">• 防抖/节流：闭包保持timer引用，控制执行频率</text>
+</svg>

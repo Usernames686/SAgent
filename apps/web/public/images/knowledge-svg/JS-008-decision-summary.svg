@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/><text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">作用域与闭包 · 决策速查表</text><text x="40" y="64" font-size="13" font-weight="600" fill="#ec4899">① 按需求选方案</text><rect x="30" y="76" width="720" height="480" rx="8" fill="#0f172a" stroke="#1e293b"/><rect x="30" y="76" width="180" height="28" fill="#f97316" fill-opacity="0.12"/><text x="120" y="95" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">需求</text><rect x="210" y="76" width="270" height="28" fill="#ec4899" fill-opacity="0.10"/><text x="345" y="95" font-size="11" font-weight="600" fill="#ec4899" text-anchor="middle">推荐方案</text><rect x="480" y="76" width="270" height="28" fill="#22c55e" fill-opacity="0.10"/><text x="615" y="95" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">说明</text>
+<text x="120" y="124" font-size="10" fill="#cbd5e1" text-anchor="middle">声明变量</text><text x="345" y="124" font-size="10" fill="#ec4899" text-anchor="middle">const优先/let次之</text><text x="615" y="124" font-size="9" fill="#94a3b8" text-anchor="middle">永远不用var</text>
+<text x="120" y="152" font-size="10" fill="#cbd5e1" text-anchor="middle">私有数据</text><text x="345" y="152" font-size="10" fill="#ec4899" text-anchor="middle">闭包封装</text><text x="615" y="152" font-size="9" fill="#94a3b8" text-anchor="middle">函数内let+返回方法</text>
+<text x="120" y="180" font-size="10" fill="#cbd5e1" text-anchor="middle">定制函数</text><text x="345" y="180" font-size="10" fill="#ec4899" text-anchor="middle">闭包工厂</text><text x="615" y="180" font-size="9" fill="#94a3b8" text-anchor="middle">createX(factor)</text>
+<text x="120" y="208" font-size="10" fill="#cbd5e1" text-anchor="middle">循环+异步</text><text x="345" y="208" font-size="10" fill="#ec4899" text-anchor="middle">用let</text><text x="615" y="208" font-size="9" fill="#94a3b8" text-anchor="middle">let创建块级作用域</text>
+<text x="120" y="236" font-size="10" fill="#cbd5e1" text-anchor="middle">防抖节流</text><text x="345" y="236" font-size="10" fill="#ec4899" text-anchor="middle">闭包+setTimeout</text><text x="615" y="236" font-size="9" fill="#94a3b8" text-anchor="middle">闭包保持timer</text>
+<text x="120" y="264" font-size="10" fill="#cbd5e1" text-anchor="middle">React Hooks</text><text x="345" y="264" font-size="10" fill="#ec4899" text-anchor="middle">闭包</text><text x="615" y="264" font-size="9" fill="#94a3b8" text-anchor="middle">useState就是闭包</text>
+<text x="120" y="292" font-size="10" fill="#cbd5e1" text-anchor="middle">stale closure</text><text x="345" y="292" font-size="10" fill="#ec4899" text-anchor="middle">函数式更新</text><text x="615" y="292" font-size="9" fill="#94a3b8" text-anchor="middle">setCount(c=>c+1)</text>
+<rect x="50" y="320" width="680" height="220" rx="6" fill="#ec4899" fill-opacity="0.06" stroke="#ec4899" stroke-opacity="0.2"/>
+<text x="70" y="342" font-size="12" font-weight="700" fill="#ec4899">总口诀</text>
+<text x="70" y="366" font-size="10" fill="#cbd5e1">1. 作用域三兄弟：全局/函数/块级 — let/const才有块级</text>
+<text x="70" y="388" font-size="10" fill="#cbd5e1">2. 作用域链：内层可访问外层，由内向外逐层查找</text>
+<text x="70" y="410" font-size="10" fill="#cbd5e1">3. 闭包 = 函数 + 它记住的外部变量</text>
+<text x="70" y="432" font-size="10" fill="#cbd5e1">4. 闭包用途：私有化/状态保持/工厂/回调</text>
+<text x="70" y="454" font-size="10" fill="#cbd5e1">5. 循环闭包陷阱：用let代替var</text>
+<text x="70" y="476" font-size="10" fill="#ef4444" font-weight="600">6. 闭包持有引用 — 可能内存泄漏，不用时置null</text>
+<text x="70" y="498" font-size="10" fill="#22c55e" font-weight="600">7. React Hooks = 闭包 — useState/useEffect都靠闭包</text>
+<text x="70" y="526" font-size="10" fill="#eab308" font-weight="600">8. 词法作用域：定义时确定，非运行时</text>
+</svg>

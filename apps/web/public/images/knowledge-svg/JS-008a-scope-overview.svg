@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">作用域链 · 从生活出发</text>
+
+  <!-- 办公楼类比 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#3b82f6">🏢 办公楼门禁类比</text>
+  <rect x="30" y="76" width="720" height="180" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+
+  <!-- 全局-大堂 -->
+  <rect x="50" y="88" width="680" height="48" rx="6" fill="#ef4444" fill-opacity="0.06" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="70" y="108" font-size="11" font-weight="600" fill="#ef4444">🌐 大堂（全局作用域）</text>
+  <text x="70" y="126" font-size="9" fill="#94a3b8">谁都能进，所有楼层共享的公告栏</text>
+
+  <!-- 函数-部门 -->
+  <rect x="80" y="142" width="620" height="48" rx="6" fill="#3b82f6" fill-opacity="0.06" stroke="#3b82f6" stroke-opacity="0.2"/>
+  <text x="100" y="162" font-size="11" font-weight="600" fill="#3b82f6">📦 2楼研发部（函数作用域）</text>
+  <text x="100" y="180" font-size="9" fill="#94a3b8">只有研发部员工能进，var声明的文件放在这里</text>
+
+  <!-- 块级-会议室 -->
+  <rect x="110" y="196" width="560" height="48" rx="6" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="130" y="216" font-size="11" font-weight="600" fill="#22c55e">🧱 会议室A（块级作用域）</text>
+  <text x="130" y="234" font-size="9" fill="#94a3b8">只有开会的人能进，let/const的文件只在这里</text>
+
+  <!-- 查找规则 -->
+  <text x="40" y="280" font-size="13" font-weight="600" fill="#a855f7">🔗 变量查找规则：由内向外</text>
+  <rect x="30" y="292" width="720" height="130" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.2"/>
+
+  <!-- 查找流程箭头 -->
+  <rect x="60" y="306" width="160" height="40" rx="20" fill="#22c55e" fill-opacity="0.1" stroke="#22c55e" stroke-opacity="0.3"/>
+  <text x="140" y="330" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">① 当前作用域找</text>
+
+  <text x="232" y="330" font-size="14" fill="#64748b">→</text>
+
+  <rect x="250" y="306" width="160" height="40" rx="20" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3"/>
+  <text x="330" y="330" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">② 外层作用域找</text>
+
+  <text x="422" y="330" font-size="14" fill="#64748b">→</text>
+
+  <rect x="440" y="306" width="160" height="40" rx="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-opacity="0.3"/>
+  <text x="520" y="330" font-size="10" font-weight="600" fill="#ef4444" text-anchor="middle">③ 全局作用域找</text>
+
+  <text x="612" y="330" font-size="14" fill="#64748b">→</text>
+
+  <rect x="630" y="306" width="100" height="40" rx="20" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-opacity="0.4"/>
+  <text x="680" y="330" font-size="9" font-weight="600" fill="#ef4444" text-anchor="middle">❌ 报错</text>
+
+  <text x="60" y="370" font-size="9" fill="#94a3b8">找到就停止，不再往外找。内层可以访问外层，外层不能访问内层。</text>
+
+  <!-- 底部提示 -->
+  <rect x="30" y="440" width="720" height="120" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="50" y="464" font-size="11" font-weight="600" fill="#f97316">💡 核心记忆</text>
+  <text x="50" y="486" font-size="10" fill="#94a3b8">• 全局作用域：最外层，到处可访问（尽量少用）</text>
+  <text x="50" y="506" font-size="10" fill="#94a3b8">• 函数作用域：function 内部，var 的作用范围</text>
+  <text x="50" y="526" font-size="10" fill="#94a3b8">• 块级作用域：{} 内部，let/const 的作用范围</text>
+  <text x="50" y="546" font-size="10" fill="#22c55e">• 词法作用域：编写时确定，不是运行时决定</text>
+</svg>

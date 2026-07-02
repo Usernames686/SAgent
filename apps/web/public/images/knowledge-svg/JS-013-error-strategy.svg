@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="420" fill="url(#bg3)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle">错误处理策略 — 分层防御</text>
+  <rect x="30" y="60" width="700" height="80" rx="10" fill="#6ee7b7" fill-opacity="0.06" stroke="#6ee7b7" stroke-opacity="0.3"/>
+  <text x="50" y="85" font-size="12" font-weight="700" fill="#6ee7b7">① 输入验证层 — 阻止非法输入进入业务逻辑</text>
+  <text x="50" y="108" font-size="10" fill="#fbbf24" font-family="monospace">if (!email.includes('@')) throw new ValidationError('email', '邮箱格式错误');</text>
+  <text x="50" y="128" font-size="9" fill="#64748b">用 class-validator / zod / yup 等库做 schema 验证</text>
+  <rect x="30" y="155" width="700" height="80" rx="10" fill="#93c5fd" fill-opacity="0.06" stroke="#93c5fd" stroke-opacity="0.3"/>
+  <text x="50" y="180" font-size="12" font-weight="700" fill="#93c5fd">② 业务逻辑层 — try/catch 包裹关键操作</text>
+  <text x="50" y="203" font-size="10" fill="#fbbf24" font-family="monospace">try { await processOrder(order); }</text>
+  <text x="50" y="223" font-size="9" fill="#64748b">捕获已知业务异常，转为用户友好的错误信息</text>
+  <rect x="30" y="250" width="700" height="80" rx="10" fill="#fca5a5" fill-opacity="0.06" stroke="#fca5a5" stroke-opacity="0.3"/>
+  <text x="50" y="275" font-size="12" font-weight="700" fill="#fca5a5">③ 全局兜底层 — 未捕获的异常最后一道防线</text>
+  <text x="50" y="298" font-size="10" fill="#fbbf24" font-family="monospace">process.on('uncaughtException', (err) => { logger.error(err); process.exit(1); });</text>
+  <text x="50" y="318" font-size="9" fill="#64748b">NestJS 用 ExceptionFilter；Express 用 error middleware</text>
+  <rect x="30" y="345" width="700" height="55" rx="10" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.3"/>
+  <text x="50" y="368" font-size="11" font-weight="700" fill="#c4b5fd">④ 日志与监控 — 所有错误都要记录，便于排查</text>
+  <text x="50" y="388" font-size="9" fill="#64748b">logger.error({ err, userId, action }) + Sentry / Datadog 告警</text>
+</svg>

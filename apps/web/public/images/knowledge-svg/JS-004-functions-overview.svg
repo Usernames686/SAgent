@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">函数 · JavaScript 的一等公民</text>
+  <text x="390" y="54" font-size="11" fill="#a855f7" text-anchor="middle">📦 把逻辑封装成"积木块"，随时调用、传递、返回</text>
+
+  <!-- 左：函数 = 黑盒机器 -->
+  <text x="40" y="86" font-size="13" font-weight="600" fill="#f97316">① 函数 = 一台"黑盒机器"</text>
+  <rect x="30" y="96" width="350" height="240" rx="10" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <!-- 输入箭头 -->
+  <text x="55" y="132" font-size="10" fill="#3b82f6" font-family="monospace">参数 a, b</text>
+  <line x1="80" y1="138" x2="140" y2="180" stroke="#3b82f6" stroke-width="1.8"/>
+  <polygon points="140,180 130,176 134,168" fill="#3b82f6"/>
+
+  <!-- 函数盒子 -->
+  <rect x="140" y="150" width="160" height="80" rx="8" fill="#a855f7" fill-opacity="0.15" stroke="#a855f7" stroke-opacity="0.5" stroke-width="1.5"/>
+  <text x="220" y="180" font-size="13" font-weight="700" fill="#a855f7" text-anchor="middle">add(a, b)</text>
+  <text x="220" y="200" font-size="10" fill="#cbd5e1" text-anchor="middle">return a + b</text>
+  <text x="220" y="218" font-size="9" fill="#64748b" text-anchor="middle">📦 封装的逻辑</text>
+
+  <!-- 输出箭头 -->
+  <line x1="300" y1="180" x2="360" y2="138" stroke="#22c55e" stroke-width="1.8"/>
+  <polygon points="360,138 350,142 354,150" fill="#22c55e"/>
+  <text x="320" y="132" font-size="10" fill="#22c55e" font-family="monospace">→ 返回值</text>
+
+  <rect x="50" y="252" width="310" height="68" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="62" y="272" font-size="10" fill="#94a3b8" font-family="monospace">// 调用：传入 3, 5</text>
+  <text x="62" y="290" font-size="10" fill="#22c55e" font-family="monospace">const result = add(3, 5);</text>
+  <text x="62" y="308" font-size="10" fill="#22c55e" font-family="monospace">console.log(result);  // 8</text>
+
+  <!-- 右：四种定义方式 -->
+  <text x="400" y="86" font-size="13" font-weight="600" fill="#3b82f6">② 四种定义函数的方式</text>
+  <rect x="400" y="96" width="350" height="240" rx="10" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <rect x="420" y="116" width="310" height="44" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="134" font-size="9" fill="#f97316" font-weight="600">① 函数声明（有提升）</text>
+  <text x="432" y="150" font-size="9" fill="#94a3b8" font-family="monospace">function add(a, b) { return a + b; }</text>
+
+  <rect x="420" y="170" width="310" height="44" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="188" font-size="9" fill="#3b82f6" font-weight="600">② 函数表达式（无提升）</text>
+  <text x="432" y="204" font-size="9" fill="#94a3b8" font-family="monospace">const add = function(a, b) { return a + b; };</text>
+
+  <rect x="420" y="224" width="310" height="44" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="242" font-size="9" fill="#a855f7" font-weight="600">③ 箭头函数（ES6，最简洁）</text>
+  <text x="432" y="258" font-size="9" fill="#94a3b8" font-family="monospace">const add = (a, b) => a + b;</text>
+
+  <rect x="420" y="278" width="310" height="44" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="296" font-size="9" fill="#22c55e" font-weight="600">④ 方法简写（在对象中）</text>
+  <text x="432" y="312" font-size="9" fill="#94a3b8" font-family="monospace">const obj = { add(a, b) { return a + b; } };</text>
+
+  <!-- 底部：7 步路径 -->
+  <text x="40" y="362" font-size="13" font-weight="600" fill="#a855f7">③ 7 步深度学习路径</text>
+
+  <g font-size="10">
+    <rect x="30"  y="378" width="100" height="56" rx="8" fill="#f97316" fill-opacity="0.10" stroke="#f97316" stroke-opacity="0.3"/>
+    <text x="80"  y="400" text-anchor="middle" font-weight="700" fill="#f97316">① 函数本质</text>
+    <text x="80"  y="418" text-anchor="middle" font-size="8" fill="#94a3b8">黑盒机器</text>
+
+    <rect x="135" y="378" width="100" height="56" rx="8" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.3"/>
+    <text x="185" y="400" text-anchor="middle" font-weight="700" fill="#3b82f6">② 四种声明</text>
+    <text x="185" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">声明/表达式</text>
+
+    <rect x="240" y="378" width="100" height="56" rx="8" fill="#a855f7" fill-opacity="0.10" stroke="#a855f7" stroke-opacity="0.3"/>
+    <text x="290" y="400" text-anchor="middle" font-weight="700" fill="#a855f7">③ 参数魔法</text>
+    <text x="290" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">默认/剩余</text>
+
+    <rect x="345" y="378" width="100" height="56" rx="8" fill="#22c55e" fill-opacity="0.10" stroke="#22c55e" stroke-opacity="0.3"/>
+    <text x="395" y="400" text-anchor="middle" font-weight="700" fill="#22c55e">④ return 规则</text>
+    <text x="395" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">换行陷阱</text>
+
+    <rect x="450" y="378" width="100" height="56" rx="8" fill="#eab308" fill-opacity="0.10" stroke="#eab308" stroke-opacity="0.3"/>
+    <text x="500" y="400" text-anchor="middle" font-weight="700" fill="#eab308">⑤ 箭头函数</text>
+    <text x="500" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">this 绑定</text>
+
+    <rect x="555" y="378" width="100" height="56" rx="8" fill="#06b6d4" fill-opacity="0.10" stroke="#06b6d4" stroke-opacity="0.3"/>
+    <text x="605" y="400" text-anchor="middle" font-weight="700" fill="#06b6d4">⑥ 高阶函数</text>
+    <text x="605" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">回调/闭包</text>
+
+    <rect x="660" y="378" width="90"  height="56" rx="8" fill="#ec4899" fill-opacity="0.10" stroke="#ec4899" stroke-opacity="0.3"/>
+    <text x="705" y="400" text-anchor="middle" font-weight="700" fill="#ec4899">⑦ 决策口诀</text>
+    <text x="705" y="418" text-anchor="middle" font-size="8" fill="#94a3b8">速查表</text>
+  </g>
+
+  <text x="390" y="478" font-size="12" font-weight="600" fill="#22c55e" text-anchor="middle">🎯 学完这 7 步，函数基础不再有盲区</text>
+  <text x="390" y="500" font-size="10" fill="#64748b" text-anchor="middle">每一步都配 SVG 图解 · 图文并茂 · 由浅入深</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg3)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#fb923c" text-anchor="middle">import 的四种写法</text>
+
+  <!-- named -->
+  <rect x="30" y="60" width="340" height="140" rx="10" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="50" y="85" font-size="12" font-weight="700" fill="#6ee7b7">① 命名导入（最常用）</text>
+  <text x="50" y="110" font-size="10" fill="#94a3b8" font-family="monospace">import { PI, add } from './math.js';</text>
+  <text x="50" y="135" font-size="10" fill="#94a3b8" font-family="monospace">// 重命名</text>
+  <text x="50" y="153" font-size="10" fill="#94a3b8" font-family="monospace">import { add as sum } from './math.js';</text>
+  <text x="50" y="180" font-size="9" fill="#64748b">✅ 名字必须匹配，支持重命名</text>
+
+  <!-- default -->
+  <rect x="390" y="60" width="340" height="140" rx="10" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.3"/>
+  <text x="410" y="85" font-size="12" font-weight="700" fill="#c4b5fd">② 默认导入</text>
+  <text x="410" y="110" font-size="10" fill="#94a3b8" font-family="monospace">// math.js: export default function() {}</text>
+  <text x="410" y="135" font-size="10" fill="#94a3b8" font-family="monospace">import myFunc from './math.js';</text>
+  <text x="410" y="160" font-size="10" fill="#94a3b8" font-family="monospace">// 名字随意取，不要求匹配</text>
+  <text x="410" y="180" font-size="9" fill="#64748b">✅ 每个模块只能有一个 default</text>
+
+  <!-- namespace -->
+  <rect x="30" y="220" width="340" height="140" rx="10" fill="#fbbf24" fill-opacity="0.06" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="50" y="245" font-size="12" font-weight="700" fill="#fcd34d">③ 命名空间导入</text>
+  <text x="50" y="270" font-size="10" fill="#94a3b8" font-family="monospace">import * as math from './math.js';</text>
+  <text x="50" y="295" font-size="10" fill="#94a3b8" font-family="monospace">math.add(1, 2);  // 3</text>
+  <text x="50" y="313" font-size="10" fill="#94a3b8" font-family="monospace">math.PI;         // 3.14</text>
+  <text x="50" y="340" font-size="9" fill="#64748b">✅ 用 as 别名，整体作为对象</text>
+
+  <!-- side effect -->
+  <rect x="390" y="220" width="340" height="140" rx="10" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="410" y="245" font-size="12" font-weight="700" fill="#93c5fd">④ 副作用导入</text>
+  <text x="410" y="270" font-size="10" fill="#94a3b8" font-family="monospace">import './polyfill.js';</text>
+  <text x="410" y="295" font-size="10" fill="#94a3b8" font-family="monospace">// 不导入任何绑定，仅执行模块</text>
+  <text x="410" y="320" font-size="10" fill="#94a3b8" font-family="monospace">// 常用于：polyfill、CSS、全局配置</text>
+  <text x="410" y="340" font-size="9" fill="#64748b">✅ 只为执行模块代码</text>
+
+  <!-- dynamic -->
+  <rect x="30" y="370" width="700" height="40" rx="8" fill="#f87171" fill-opacity="0.06" stroke="#f87171" stroke-opacity="0.3"/>
+  <text x="50" y="395" font-size="11" font-weight="700" fill="#fca5a5">⑤ 动态 import（返回 Promise）</text>
+  <text x="280" y="395" font-size="10" fill="#94a3b8" font-family="monospace">const mod = await import('./math.js');</text>
+</svg>

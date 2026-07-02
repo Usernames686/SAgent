@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">解构赋值与展开运算符 · ES6 实用语法糖</text>
+  <text x="390" y="54" font-size="11" fill="#eab308" text-anchor="middle">📦 从数组/对象中快速取值 / 合并 / 浅拷贝</text>
+  <text x="40" y="86" font-size="13" font-weight="600" fill="#eab308">① 解构 = 快速拆包</text>
+  <rect x="30" y="96" width="350" height="130" rx="10" fill="#eab308" fill-opacity="0.04" stroke="#eab308" stroke-opacity="0.25"/>
+  <text x="50" y="118" font-size="10" font-weight="600" fill="#eab308">数组解构 — 按位置取值</text>
+  <text x="50" y="136" font-size="9" fill="#94a3b8" font-family="monospace">const [a, b, c] = [1, 2, 3];</text>
+  <text x="50" y="154" font-size="9" fill="#22c55e" font-family="monospace">// a=1, b=2, c=3</text>
+  <text x="50" y="176" font-size="10" font-weight="600" fill="#eab308">对象解构 — 按名称取值</text>
+  <text x="50" y="194" font-size="9" fill="#94a3b8" font-family="monospace">const { name, age } = { name:"小明", age:20 };</text>
+  <text x="50" y="212" font-size="9" fill="#22c55e" font-family="monospace">// name="小明", age=20</text>
+  <text x="400" y="86" font-size="13" font-weight="600" fill="#a855f7">② 展开 = 快速打包/拆包</text>
+  <rect x="400" y="96" width="350" height="130" rx="10" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="420" y="118" font-size="10" font-weight="600" fill="#a855f7">展开（拆开）</text>
+  <text x="420" y="136" font-size="9" fill="#94a3b8" font-family="monospace">[...arr1, ...arr2]  // 合并数组</text>
+  <text x="420" y="154" font-size="9" fill="#94a3b8" font-family="monospace">{...obj1, ...obj2}  // 合并对象</text>
+  <text x="420" y="176" font-size="10" font-weight="600" fill="#a855f7">收集（聚拢）</text>
+  <text x="420" y="194" font-size="9" fill="#94a3b8" font-family="monospace">function sum(...nums) { }</text>
+  <text x="420" y="212" font-size="9" fill="#94a3b8" font-family="monospace">const [first, ...rest] = arr</text>
+  <text x="40" y="250" font-size="13" font-weight="600" fill="#22c55e">③ React 中的核心应用</text>
+  <rect x="30" y="260" width="720" height="80" rx="8" fill="#22c55e" fill-opacity="0.05" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="50" y="282" font-size="10" fill="#22c55e" font-family="monospace">const [value, setValue] = useState(0);   // 数组解构</text>
+  <text x="50" y="300" font-size="10" fill="#22c55e" font-family="monospace">const { name, age } = props;             // 对象解构</text>
+  <text x="50" y="318" font-size="10" fill="#22c55e" font-family="monospace">setState({...state, key: newValue});     // 展开更新状态</text>
+  <text x="40" y="362" font-size="13" font-weight="600" fill="#06b6d4">④ 7 步深度学习路径</text>
+  <g font-size="10">
+    <rect x="30"  y="376" width="100" height="56" rx="8" fill="#f97316" fill-opacity="0.10" stroke="#f97316" stroke-opacity="0.3"/>
+    <text x="80"  y="398" text-anchor="middle" font-weight="700" fill="#f97316">① 概览</text>
+    <text x="80"  y="416" text-anchor="middle" font-size="8" fill="#94a3b8">生活类比</text>
+    <rect x="135" y="376" width="100" height="56" rx="8" fill="#eab308" fill-opacity="0.10" stroke="#eab308" stroke-opacity="0.3"/>
+    <text x="185" y="398" text-anchor="middle" font-weight="700" fill="#eab308">② 数组解构</text>
+    <text x="185" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">位置取值</text>
+    <rect x="240" y="376" width="100" height="56" rx="8" fill="#a855f7" fill-opacity="0.10" stroke="#a855f7" stroke-opacity="0.3"/>
+    <text x="290" y="398" text-anchor="middle" font-weight="700" fill="#a855f7">③ 对象解构</text>
+    <text x="290" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">名称取值</text>
+    <rect x="345" y="376" width="100" height="56" rx="8" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.3"/>
+    <text x="395" y="398" text-anchor="middle" font-weight="700" fill="#3b82f6">④ 数组展开</text>
+    <text x="395" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">合并/拷贝</text>
+    <rect x="450" y="376" width="100" height="56" rx="8" fill="#22c55e" fill-opacity="0.10" stroke="#22c55e" stroke-opacity="0.3"/>
+    <text x="500" y="398" text-anchor="middle" font-weight="700" fill="#22c55e">⑤ 对象展开</text>
+    <text x="500" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">React状态</text>
+    <rect x="555" y="376" width="100" height="56" rx="8" fill="#ef4444" fill-opacity="0.10" stroke="#ef4444" stroke-opacity="0.3"/>
+    <text x="605" y="398" text-anchor="middle" font-weight="700" fill="#ef4444">⑥ 浅拷贝</text>
+    <text x="605" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">嵌套陷阱</text>
+    <rect x="660" y="376" width="90"  height="56" rx="8" fill="#ec4899" fill-opacity="0.10" stroke="#ec4899" stroke-opacity="0.3"/>
+    <text x="705" y="398" text-anchor="middle" font-weight="700" fill="#ec4899">⑦ 口诀</text>
+    <text x="705" y="416" text-anchor="middle" font-size="8" fill="#94a3b8">速查表</text>
+  </g>
+  <text x="390" y="462" font-size="12" font-weight="600" fill="#22c55e" text-anchor="middle">🎯 学完这 7 步，解构与展开不再有盲区</text>
+</svg>

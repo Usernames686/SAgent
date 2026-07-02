@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg2)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">ES6 class 结构解剖</text>
+
+  <!-- class block -->
+  <rect x="40" y="60" width="680" height="340" rx="14" fill="#a78bfa" fill-opacity="0.04" stroke="#a78bfa" stroke-opacity="0.25" stroke-dasharray="4 4"/>
+
+  <!-- class declaration -->
+  <rect x="60" y="80" width="640" height="40" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-opacity="0.3"/>
+  <text x="80" y="105" font-size="12" font-weight="700" fill="#c4b5fd" font-family="monospace">class Person {</text>
+
+  <!-- constructor -->
+  <rect x="60" y="135" width="640" height="80" rx="8" fill="#fbbf24" fill-opacity="0.05" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="80" y="158" font-size="11" font-weight="600" fill="#fbbf24" font-family="monospace">constructor(name, age) {</text>
+  <text x="100" y="178" font-size="10.5" fill="#94a3b8" font-family="monospace">this.name = name;   // 实例属性</text>
+  <text x="100" y="195" font-size="10.5" fill="#94a3b8" font-family="monospace">this.age  = age;</text>
+  <text x="80" y="210" font-size="10" fill="#64748b">↑ new 时自动调用，初始化实例</text>
+
+  <!-- instance method -->
+  <rect x="60" y="230" width="640" height="65" rx="8" fill="#60a5fa" fill-opacity="0.05" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="80" y="253" font-size="11" font-weight="600" fill="#60a5fa" font-family="monospace">greet() {</text>
+  <text x="100" y="273" font-size="10.5" fill="#94a3b8" font-family="monospace">return `你好，我是${this.name}`;</text>
+  <text x="80" y="288" font-size="10" fill="#64748b">↑ 实例方法，挂在 Person.prototype 上</text>
+
+  <!-- static method -->
+  <rect x="60" y="310" width="640" height="65" rx="8" fill="#34d399" fill-opacity="0.05" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="80" y="333" font-size="11" font-weight="600" fill="#34d399" font-family="monospace">static create(name) {</text>
+  <text x="100" y="353" font-size="10.5" fill="#94a3b8" font-family="monospace">return new Person(name);</text>
+  <text x="80" y="368" font-size="10" fill="#64748b">↑ 静态方法，通过 Person.create() 调用，不通过实例</text>
+
+  <text x="700" y="105" font-size="14" fill="#64748b" text-anchor="end">}</text>
+  <text x="380" y="395" font-size="10" fill="#94a3b8" text-anchor="middle">💡 class 本质是 function + prototype 的语法糖，但写法更接近 Java/C++</text>
+</svg>

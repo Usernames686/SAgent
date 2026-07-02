@@ -1,0 +1,82 @@
+[
+  {
+    "id": 0,
+    "title": "从生活出发：为什么需要 Promise？",
+    "subtitle": "5 分钟 · 零基础友好",
+    "sections": [
+      { "type": "intro", "title": "📖 异步 = 不等结果就往下走", "text": "想象你去咖啡店点单。同步方式：点单→等咖啡做好→拿到咖啡→才能离开。异步方式：点单→拿到号码牌→先去座位坐下→咖啡好了叫你。JavaScript 的网络请求、文件读取、定时器全部是异步的——它们不会阻塞后续代码。", "variant": "blue" },
+      { "type": "grid", "items": [
+        { "icon": "☕", "label": "同步", "desc": "排队等，做完了才下一步", "color": "red" },
+        { "icon": "🎟️", "label": "异步", "desc": "拿号牌，先做别的，好了通知", "color": "green" },
+        { "icon": "🔄", "label": "Promise", "desc": "就是那个号码牌", "color": "purple" }
+      ]},
+      { "type": "code", "title": "❌ 回调地狱 — Promise 之前的世界", "code": "// 串行请求 3 个接口，层层嵌套\nfetchUser(id, (user) => {\n  fetchPosts(user.id, (posts) => {\n    fetchComments(posts[0].id, (comments) => {\n      console.log(comments);  // 终于拿到了\n      // 再嵌套下去就是\"回调地狱\"\n    });\n  });\n});", "variant": "red" },
+      { "type": "code", "title": "✅ Promise 链 — 扁平化", "code": "fetchUser(id)\n  .then(user => fetchPosts(user.id))\n  .then(posts => fetchComments(posts[0].id))\n  .then(comments => console.log(comments))\n  .catch(err => console.error(err));  // 任意一步出错都到这里", "variant": "green" }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Promise 三种状态与流转",
+    "subtitle": "10 分钟 · 核心概念",
+    "sections": [
+      { "type": "intro", "title": "📖 Promise 是个状态机", "text": "每个 Promise 有三种状态：pending（进行中）、fulfilled（已成功）、rejected（已失败）。状态只能从 pending → fulfilled 或 pending → rejected，一旦确定就不可逆。这是 Promise 最核心的契约。", "variant": "blue" },
+      { "type": "svg", "svgSrc": "/images/knowledge-svg/JS-010-promise-states.svg" },
+      { "type": "code", "title": "📝 手动创建 Promise", "code": "const p = new Promise((resolve, reject) => {\n  // 异步操作\n  const ok = Math.random() > 0.5;\n  setTimeout(() => {\n    if (ok) resolve('成功数据');   // pending → fulfilled\n    else   reject(new Error('失败原因')); // pending → rejected\n  }, 1000);\n});\n\np.then(v => console.log('成功:', v))\n .catch(e => console.log('失败:', e.message));", "variant": "purple" },
+      { "type": "warning", "text": "**三条铁律**：① 状态只能改变一次；② 状态不可逆；③ value/reason 不可变。理解了这三条，就理解了 Promise 的本质。", "variant": "red" }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "链式调用 — 数据流水线",
+    "subtitle": "10 分钟 · 深入原理",
+    "sections": [
+      { "type": "intro", "title": "📖 .then() 返回新 Promise", "text": "每次调用 .then() 都会返回一个新的 Promise。这个新 Promise 的状态由 .then() 回调的返回值决定：返回普通值 → fulfilled；返回 Promise → 等待它；抛出错误 → rejected。这就是链式调用的本质。", "variant": "blue" },
+      { "type": "svg", "svgSrc": "/images/knowledge-svg/JS-010-promise-chain.svg" },
+      { "type": "code", "title": "✅ 链式调用的三种返回", "code": "Promise.resolve(1)\n  .then(v => v + 1)           // 返回 2 → 下一环收到 2\n  .then(v => Promise.resolve(v + 1))  // 返回 Promise → 等待，收到 3\n  .then(v => { throw new Error('boom'); })  // 抛错 → 跳到 catch\n  .catch(e => console.log(e.message))  // 'boom'\n  .then(() => 'catch 后还能继续')  // catch 也返回 Promise\n  .then(v => console.log(v));", "variant": "blue" },
+      { "type": "tip", "title": "💡 .then() 的第二个参数", "text": ".then(onFulfilled, onRejected) 可以同时传成功和失败回调。但实际开发中推荐用 .catch()，因为它能捕获前面所有 .then() 的错误，而 onRejected 只能捕获当前 Promise 的错误。" }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Promise 组合方法",
+    "subtitle": "10 分钟 · 并发控制",
+    "sections": [
+      { "type": "intro", "title": "📖 四个组合方法", "text": "Promise.all / race / allSettled / any 是处理多个 Promise 的工具。它们的核心区别在'成功条件'和'失败行为'上。掌握这四个方法，就能应对所有并发场景。", "variant": "purple" },
+      { "type": "svg", "svgSrc": "/images/knowledge-svg/JS-010-promise-combinators.svg" },
+      { "type": "code", "title": "✅ 实战：并行加载用户数据", "code": "async function loadProfile(userId) {\n  // 三个请求并行发出，全部成功才返回\n  const [user, posts, friends] = await Promise.all([\n    fetch(`/api/users/${userId}`).then(r => r.json()),\n    fetch(`/api/posts?user=${userId}`).then(r => r.json()),\n    fetch(`/api/friends?user=${userId}`).then(r => r.json()),\n  ]);\n  return { user, posts, friends };\n}", "variant": "green" },
+      { "type": "code", "title": "✅ 实战：超时控制", "code": "function withTimeout(promise, ms) {\n  const timeout = new Promise((_, reject) =>\n    setTimeout(() => reject(new Error('超时')), ms)\n  );\n  return Promise.race([promise, timeout]);\n}\n\n// 5 秒内没返回就超时\nconst data = await withTimeout(fetch(url), 5000);", "variant": "orange" },
+      { "type": "success", "text": "**选择指南**：全部成功用 all，第一个完成用 race，全部完成不管成败用 allSettled，第一个成功用 any。" }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "常见陷阱与最佳实践",
+    "subtitle": "8 分钟 · 避坑指南",
+    "sections": [
+      { "type": "warning", "text": "**5 个常见陷阱**：\n1. 🚫 忘记 return — .then() 里异步操作没有 return，链式调用拿到 undefined\n2. 🚫 .then() 链没有 .catch() — 未处理的 rejection 会导致 UnhandledPromiseRejection\n3. 🚫 在循环里 await — 串行执行，应该用 Promise.all 并行\n4. 🚫 Promise.all 一个失败全失败 — 部分失败场景应该用 allSettled\n5. 🚫 以为 Promise 能取消 — 原生 Promise 无法取消，需要 AbortController", "variant": "red" },
+      { "type": "code", "title": "❌ 陷阱 1：忘记 return", "code": "// ❌ 错误：忘记 return\ngetUser().then(user => {\n  getPosts(user.id);  // 没有 return！\n}).then(posts => {\n  console.log(posts);  // undefined！\n});\n\n// ✅ 正确：return Promise\ngetUser().then(user => {\n  return getPosts(user.id);\n}).then(posts => {\n  console.log(posts);  // posts 数组\n});", "variant": "red" },
+      { "type": "code", "title": "❌ 陷阱 3：循环里 await", "code": "// ❌ 串行：每个请求等前一个完成\nfor (const url of urls) {\n  await fetch(url);  // 10 个 URL = 10 倍时间\n}\n\n// ✅ 并行：所有请求同时发出\nawait Promise.all(urls.map(url => fetch(url)));", "variant": "red" },
+      { "type": "tip", "title": "💡 AbortController 取消请求", "text": "fetch 原生支持 AbortController 取消：\n\nconst ctrl = new AbortController();\nfetch(url, { signal: ctrl.signal });\nctrl.abort();  // 取消请求" }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "实战：并发与串行控制",
+    "subtitle": "10 分钟 · 高级应用",
+    "sections": [
+      { "type": "intro", "title": "📖 并发太多会出事", "text": "Promise.all 会同时发出所有请求。如果 urls 有 10000 个，浏览器/服务器会直接崩溃。实际开发中需要'并发限制'——同时最多 N 个请求，完成一个补一个。", "variant": "blue" },
+      { "type": "code", "title": "✅ 并发限制器", "code": "async function pool(tasks, limit) {\n  const results = [];\n  const running = new Set();\n\n  for (const task of tasks) {\n    const p = task().then(r => { running.delete(p); return r; });\n    running.add(p);\n    results.push(p);\n\n    if (running.size >= limit) {\n      await Promise.race(running);  // 等任意一个完成\n    }\n  }\n\n  return Promise.all(results);\n}\n\n// 100 个任务，同时最多 5 个并发\nawait pool(urls.map(url => () => fetch(url)), 5);", "variant": "purple" },
+      { "type": "code", "title": "✅ 串行执行（for...of + await）", "code": "async function sequential(urls) {\n  const results = [];\n  for (const url of urls) {\n    // 一个完成才开始下一个\n    const r = await fetch(url);\n    results.push(r);\n  }\n  return results;\n}", "variant": "blue" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "总结与决策",
+    "subtitle": "3 分钟 · 记住这些就够了",
+    "sections": [
+      { "type": "intro", "title": "🏆 决策口诀", "text": "**Promise 是异步的容器，状态一旦确定不可逆。**\n\n1. 创建 Promise → new Promise((resolve, reject) => ...)\n2. 链式调用 → .then().then().catch()\n3. 并发等待 → Promise.all / allSettled\n4. 超时控制 → Promise.race([p, timeout])\n5. 取消请求 → AbortController", "variant": "orange" },
+      { "type": "code", "title": "📝 速查表", "code": "// 创建\nnew Promise((resolve, reject) => { ... });\nPromise.resolve(value);  // 直接 fulfilled\nPromise.reject(reason);  // 直接 rejected\n\n// 组合\nPromise.all([p1, p2])       // 全成功\nPromise.race([p1, p2])      // 第一个完成\nPromise.allSettled([p1, p2]) // 全完成\nPromise.any([p1, p2])       // 第一个成功\n\n// 链式\np.then(v => ...).catch(e => ...).finally(() => ...);", "variant": "purple" },
+      { "type": "success", "text": "恭喜完成 Promise 与异步编程的深度学习！🎉 接下来去学习 async/await，它是 Promise 的语法糖，让异步代码像同步一样直观。" }
+    ]
+  }
+]

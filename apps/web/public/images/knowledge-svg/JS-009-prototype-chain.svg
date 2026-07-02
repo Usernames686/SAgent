@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg1)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">原型链查找机制 — 一步步向上找</text>
+
+  <!-- instance -->
+  <rect x="40" y="70" width="200" height="90" rx="10" fill="#a78bfa" fill-opacity="0.08" stroke="#a78bfa" stroke-opacity="0.35"/>
+  <text x="140" y="92" font-size="11" font-weight="600" fill="#c4b5fd" text-anchor="middle">const cat = new Cat()</text>
+  <text x="60" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">cat.name = "咪咪"</text>
+  <text x="60" y="132" font-size="9.5" fill="#94a3b8" font-family="monospace">cat.__proto__ → Cat.prototype</text>
+  <text x="60" y="149" font-size="9" fill="#64748b">↑ 实例自身属性 + __proto__ 指针</text>
+
+  <!-- Cat.prototype -->
+  <rect x="280" y="70" width="200" height="90" rx="10" fill="#60a5fa" fill-opacity="0.08" stroke="#60a5fa" stroke-opacity="0.35"/>
+  <text x="380" y="92" font-size="11" font-weight="600" fill="#93c5fd" text-anchor="middle">Cat.prototype</text>
+  <text x="300" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">speak() { ... }</text>
+  <text x="300" y="132" font-size="9.5" fill="#94a3b8" font-family="monospace">__proto__ → Animal.prototype</text>
+  <text x="300" y="149" font-size="9" fill="#64748b">↑ 子类原型方法</text>
+
+  <!-- Animal.prototype -->
+  <rect x="520" y="70" width="200" height="90" rx="10" fill="#34d399" fill-opacity="0.08" stroke="#34d399" stroke-opacity="0.35"/>
+  <text x="620" y="92" font-size="11" font-weight="600" fill="#6ee7b7" text-anchor="middle">Animal.prototype</text>
+  <text x="540" y="115" font-size="9.5" fill="#94a3b8" font-family="monospace">speak() { ... }</text>
+  <text x="540" y="132" font-size="9.5" fill="#94a3b8" font-family="monospace">__proto__ → Object.prototype</text>
+  <text x="540" y="149" font-size="9" fill="#64748b">↑ 父类原型方法</text>
+
+  <!-- arrows -->
+  <line x1="240" y1="115" x2="278" y2="115" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr1)"/>
+  <line x1="480" y1="115" x2="518" y2="115" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arr1)"/>
+
+  <!-- lookup sequence -->
+  <text x="40" y="200" font-size="12" font-weight="600" fill="#fbbf24">🔍 访问 cat.speak() 时的查找顺序：</text>
+
+  <rect x="40" y="215" width="680" height="35" rx="6" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.2"/>
+  <text x="55" y="237" font-size="10" fill="#c4b5fd">① 查 cat 自身 → 没有 speak</text>
+
+  <rect x="40" y="258" width="680" height="35" rx="6" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.2"/>
+  <text x="55" y="280" font-size="10" fill="#93c5fd">② 沿 __proto__ 查 Cat.prototype → 子类重写了 speak，命中！✅</text>
+
+  <rect x="40" y="301" width="680" height="35" rx="6" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.2"/>
+  <text x="55" y="323" font-size="10" fill="#6ee7b7">③ 若子类没重写，继续查 Animal.prototype → 找到父类 speak</text>
+
+  <text x="40" y="365" font-size="10" fill="#94a3b8">💡 原型链 = __proto__ 串联起来的查找链。终点是 Object.prototype，再往上就是 null。</text>
+  <text x="40" y="385" font-size="10" fill="#94a3b8">💡 class 的 extends 本质就是手动拼接这条 __proto__ 链。</text>
+  <text x="40" y="405" font-size="10" fill="#f87171">⚠️ 不要直接用 __proto__ 访问，用 Object.getPrototypeOf(obj) 代替。</text>
+</svg>

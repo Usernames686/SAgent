@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg3)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#2dd4bf" text-anchor="middle">错误处理三种模式</text>
+
+  <!-- try/catch -->
+  <rect x="30" y="60" width="220" height="160" rx="10" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="140" y="85" font-size="12" font-weight="700" fill="#6ee7b7" text-anchor="middle">① try/catch</text>
+  <text x="45" y="110" font-size="9.5" fill="#94a3b8" font-family="monospace">try {</text>
+  <text x="60" y="125" font-size="9.5" fill="#94a3b8" font-family="monospace">const r = await p;</text>
+  <text x="45" y="140" font-size="9.5" fill="#94a3b8" font-family="monospace">} catch (e) {</text>
+  <text x="60" y="155" font-size="9.5" fill="#94a3b8" font-family="monospace">console.log(e);</text>
+  <text x="45" y="170" font-size="9.5" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="45" y="195" font-size="9" fill="#6ee7b7">✅ 推荐方式</text>
+  <text x="45" y="210" font-size="9" fill="#6ee7b7">✅ 像同步代码一样</text>
+
+  <!-- .catch -->
+  <rect x="270" y="60" width="220" height="160" rx="10" fill="#fbbf24" fill-opacity="0.06" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="380" y="85" font-size="12" font-weight="700" fill="#fcd34d" text-anchor="middle">② .catch()</text>
+  <text x="285" y="110" font-size="9.5" fill="#94a3b8" font-family="monospace">const r = await p</text>
+  <text x="300" y="125" font-size="9.5" fill="#94a3b8" font-family="monospace">.catch(e => null);</text>
+  <text x="285" y="155" font-size="9" fill="#fcd34d">✅ 简洁，适合兜底</text>
+  <text x="285" y="170" font-size="9" fill="#fcd34d">✅ 失败给默认值</text>
+  <text x="285" y="195" font-size="9" fill="#94a3b8">💡 适合"尽力而为"</text>
+
+  <!-- nullish -->
+  <rect x="510" y="60" width="220" height="160" rx="10" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="620" y="85" font-size="12" font-weight="700" fill="#93c5fd" text-anchor="middle">③ 兜底默认值</text>
+  <text x="525" y="110" font-size="9.5" fill="#94a3b8" font-family="monospace">const r = await p</text>
+  <text x="540" y="125" font-size="9.5" fill="#94a3b8" font-family="monospace">.catch(() => []);</text>
+  <text x="525" y="155" font-size="9" fill="#93c5fd">✅ 失败返回空数组</text>
+  <text x="525" y="170" font-size="9" fill="#93c5fd">✅ 后续代码安全</text>
+  <text x="525" y="195" font-size="9" fill="#94a3b8">💡 适合列表加载</text>
+
+  <!-- best practice -->
+  <rect x="30" y="240" width="700" height="160" rx="10" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.3"/>
+  <text x="50" y="265" font-size="12" font-weight="700" fill="#c4b5fd">🏆 最佳实践组合</text>
+  <text x="50" y="290" font-size="10" fill="#94a3b8" font-family="monospace">async function loadData() {</text>
+  <text x="65" y="308" font-size="10" fill="#94a3b8" font-family="monospace">try {</text>
+  <text x="80" y="326" font-size="10" fill="#94a3b8" font-family="monospace">const data = await fetch(url).then(r => r.json());</text>
+  <text x="80" y="344" font-size="10" fill="#94a3b8" font-family="monospace">return data;</text>
+  <text x="65" y="362" font-size="10" fill="#94a3b8" font-family="monospace">} catch (e) {</text>
+  <text x="80" y="380" font-size="10" fill="#94a3b8" font-family="monospace">console.error('加载失败:', e); return [];</text>
+</svg>

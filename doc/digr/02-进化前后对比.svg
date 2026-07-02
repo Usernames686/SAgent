@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="450" fill="#0f172a" rx="16"/>
+  <text x="500" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#f8fafc">进化前后对比</text>
+  
+  <rect x="30" y="70" width="450" height="350" rx="16" fill="rgba(239,68,68,0.06)" stroke="#ef4444" stroke-opacity="0.3"/>
+  <text x="255" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#ef4444">进化前</text>
+  
+  <rect x="50" y="120" width="410" height="80" rx="8" fill="rgba(239,68,68,0.08)"/>
+  <text x="60" y="145" font-size="12" font-weight="bold" fill="#f8fafc">教学方法：直接讲授法</text>
+  <text x="60" y="165" font-size="11" fill="#94a3b8">Prompt：毛玻璃效果 = backdrop-filter + 半透明背景</text>
+  <text x="60" y="185" font-size="11" fill="#94a3b8">问题：学生只是机械记忆，不理解原理</text>
+  
+  <rect x="50" y="215" width="410" height="90" rx="8" fill="rgba(239,68,68,0.04)"/>
+  <text x="60" y="240" font-size="11" font-weight="bold" fill="#f8fafc">学生典型回答：</text>
+  <text x="60" y="260" font-size="10" fill="#94a3b8">学生A: "毛玻璃效果是 backdrop-filter"  → 35分</text>
+  <text x="60" y="280" font-size="10" fill="#94a3b8">学生B: "毛玻璃效果包含模糊和半透明"  → 45分</text>
+  
+  <rect x="50" y="320" width="410" height="80" rx="8" fill="rgba(239,68,68,0.08)"/>
+  <text x="60" y="345" font-size="12" font-weight="bold" fill="#f8fafc">统计数据</text>
+  <text x="60" y="370" font-size="11" fill="#94a3b8">平均分: 45/100   通过率: 20%   评价: 效果差</text>
+  
+  <rect x="500" y="70" width="450" height="350" rx="16" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="725" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#10b981">进化后</text>
+  
+  <rect x="520" y="120" width="410" height="80" rx="8" fill="rgba(16,185,129,0.08)"/>
+  <text x="530" y="145" font-size="12" font-weight="bold" fill="#f8fafc">教学方法：苏格拉底式引导</text>
+  <text x="530" y="165" font-size="11" fill="#94a3b8">Prompt：你想创建毛玻璃效果的卡片，你会考虑哪些方面？</text>
+  <text x="530" y="185" font-size="11" fill="#10b981">改进：引导学生主动思考，自己发现规律</text>
+  
+  <rect x="520" y="215" width="410" height="90" rx="8" fill="rgba(16,185,129,0.04)"/>
+  <text x="530" y="240" font-size="11" font-weight="bold" fill="#f8fafc">学生典型回答：</text>
+  <text x="530" y="260" font-size="10" fill="#94a3b8">学生A: "风格：磨砂玻璃；技术：CSS backdrop-filter"  → 85分</text>
+  <text x="530" y="280" font-size="10" fill="#94a3b8">学生B: "视觉+技术+性能优化方案"  → 90分</text>
+  
+  <rect x="520" y="320" width="410" height="80" rx="8" fill="rgba(16,185,129,0.08)"/>
+  <text x="530" y="345" font-size="12" font-weight="bold" fill="#f8fafc">统计数据</text>
+  <text x="530" y="370" font-size="11" fill="#94a3b8">平均分: 90/100   通过率: 95%   评价: 效果好</text>
+  
+  <rect x="450" y="180" width="100" height="40" rx="20" fill="#f97316"/>
+  <text x="500" y="205" text-anchor="middle" font-size="12" font-weight="bold" fill="white">+100%</text>
+</svg>

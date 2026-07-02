@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">闭包 · 总结速查表</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#ec4899">📋 闭包核心速查</text>
+<rect x="30" y="76" width="720" height="180" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="100" font-size="12" font-weight="600" fill="#ec4899">定义</text>
+<text x="50" y="120" font-size="10" fill="#94a3b8">闭包 = 函数 + 它记住的外部变量（即使外层函数已执行完）</text>
+<text x="50" y="146" font-size="12" font-weight="600" fill="#3b82f6">形成条件</text>
+<text x="50" y="166" font-size="10" fill="#94a3b8">1. 有外层和内层函数 2. 内层引用外层变量 3. 内层被返回/传递</text>
+<text x="50" y="192" font-size="12" font-weight="600" fill="#22c55e">原理</text>
+<text x="50" y="212" font-size="10" fill="#94a3b8">引用计数 &gt; 0 → GC不回收 → 变量持续存活</text>
+<text x="50" y="238" font-size="12" font-weight="600" fill="#f97316">用途</text>
+<text x="50" y="258" font-size="10" fill="#94a3b8">私有化 / 状态保持 / 工厂函数 / 柯里化 / 防抖节流</text>
+<text x="40" y="280" font-size="13" font-weight="600" fill="#a855f7">8条核心要点</text>
+<rect x="30" y="292" width="720" height="260" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+<text x="50" y="316" font-size="10" fill="#ec4899" font-weight="600">1.</text><text x="70" y="316" font-size="10" fill="#94a3b8">闭包 = 函数 + 它记住的外部变量</text>
+<text x="50" y="340" font-size="10" fill="#ec4899" font-weight="600">2.</text><text x="70" y="340" font-size="10" fill="#94a3b8">形成条件：内层函数引用外层变量 + 被返回/传递</text>
+<text x="50" y="364" font-size="10" fill="#ec4899" font-weight="600">3.</text><text x="70" y="364" font-size="10" fill="#94a3b8">原理：引用计数&gt;0，GC不回收</text>
+<text x="50" y="388" font-size="10" fill="#ec4899" font-weight="600">4.</text><text x="70" y="388" font-size="10" fill="#94a3b8">用途：私有化/状态保持/工厂/柯里化/防抖</text>
+<text x="50" y="412" font-size="10" fill="#ec4899" font-weight="600">5.</text><text x="70" y="412" font-size="10" fill="#ef4444">循环陷阱：用let代替var</text>
+<text x="50" y="436" font-size="10" fill="#ec4899" font-weight="600">6.</text><text x="70" y="436" font-size="10" fill="#ef4444">React陷阱：stale closure，用函数式更新</text>
+<text x="50" y="460" font-size="10" fill="#ec4899" font-weight="600">7.</text><text x="70" y="460" font-size="10" fill="#ef4444">内存泄漏：闭包持有引用，不用时置null</text>
+<text x="50" y="484" font-size="10" fill="#ec4899" font-weight="600">8.</text><text x="70" y="484" font-size="10" fill="#22c55e">React Hooks = 闭包 — useState/useEffect都靠闭包</text>
+<rect x="50" y="508" width="680" height="28" rx="8" fill="#ec4899" fill-opacity="0.06" stroke="#ec4899" stroke-opacity="0.2"/>
+<text x="390" y="526" font-size="11" font-weight="600" fill="#ec4899" text-anchor="middle">💡 口诀：闭包=函数+记忆，记住定义时不是调用时</text>
+</svg>

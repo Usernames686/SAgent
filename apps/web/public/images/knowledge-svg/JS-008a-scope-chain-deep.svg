@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+<rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">作用域链 · 由内向外的查找规则</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#3b82f6">🔗 作用域链查找过程</text>
+<rect x="30" y="76" width="720" height="240" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.15"/>
+<text x="50" y="96" font-size="10" fill="#ef4444" font-family="monospace">const lang = "JavaScript";  // ① 全局</text>
+<text x="50" y="116" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="50" y="132" font-size="10" fill="#3b82f6" font-family="monospace">function outer() {</text>
+<text x="70" y="152" font-size="10" fill="#3b82f6" font-family="monospace">const topic = "作用域链";  // ② outer函数</text>
+<text x="70" y="172" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="70" y="188" font-size="10" fill="#22c55e" font-family="monospace">function inner() {</text>
+<text x="90" y="208" font-size="10" fill="#22c55e" font-family="monospace">const detail = "查找规则";  // ③ inner函数</text>
+<text x="90" y="228" font-size="10" fill="#22c55e" font-family="monospace">console.log(lang);   // ③→②→① 找到!</text>
+<text x="90" y="248" font-size="10" fill="#22c55e" font-family="monospace">console.log(topic);  // ③→② 找到!</text>
+<text x="90" y="268" font-size="10" fill="#22c55e" font-family="monospace">console.log(detail); // ③ 找到!</text>
+<text x="70" y="288" font-size="10" fill="#22c55e" font-family="monospace">}</text>
+<text x="50" y="306" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<text x="40" y="336" font-size="13" font-weight="600" fill="#a855f7">🔗 作用域链示意</text>
+<rect x="30" y="348" width="720" height="110" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<rect x="60" y="362" width="200" height="78" rx="6" fill="#22c55e" fill-opacity="0.08" stroke="#22c55e" stroke-opacity="0.3"/>
+<text x="160" y="384" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">inner 作用域</text>
+<text x="160" y="404" font-size="9" fill="#94a3b8" text-anchor="middle">detail="查找规则"</text>
+<text x="160" y="422" font-size="9" fill="#94a3b8" text-anchor="middle">→ 查找 lang: 未找到</text>
+<text x="270" y="404" font-size="14" fill="#64748b">→</text>
+<rect x="290" y="362" width="200" height="78" rx="6" fill="#3b82f6" fill-opacity="0.08" stroke="#3b82f6" stroke-opacity="0.3"/>
+<text x="390" y="384" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">outer 作用域</text>
+<text x="390" y="404" font-size="9" fill="#94a3b8" text-anchor="middle">topic="作用域链"</text>
+<text x="390" y="422" font-size="9" fill="#94a3b8" text-anchor="middle">→ 查找 lang: 未找到</text>
+<text x="500" y="404" font-size="14" fill="#64748b">→</text>
+<rect x="520" y="362" width="200" height="78" rx="6" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-opacity="0.3"/>
+<text x="620" y="384" font-size="10" font-weight="600" fill="#ef4444" text-anchor="middle">全局作用域</text>
+<text x="620" y="404" font-size="9" fill="#94a3b8" text-anchor="middle">lang="JavaScript"</text>
+<text x="620" y="422" font-size="9" fill="#22c55e" text-anchor="middle">✅ 找到！</text>
+<rect x="30" y="478" width="720" height="80" rx="8" fill="#a855f7" fill-opacity="0.06" stroke="#a855f7" stroke-opacity="0.15"/>
+<text x="50" y="502" font-size="11" font-weight="600" fill="#a855f7">💡 作用域链 = 作用域的链表</text>
+<text x="50" y="524" font-size="10" fill="#94a3b8">每个作用域持有外层作用域的引用，形成链表。变量查找沿链表遍历，找到即停。</text>
+<text x="50" y="544" font-size="10" fill="#ef4444">⚠️ 外层不能访问内层！就像你不会翻别人的口袋。</text>
+</svg>

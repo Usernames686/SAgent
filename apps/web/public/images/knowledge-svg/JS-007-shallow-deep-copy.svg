@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">浅拷贝 vs 深拷贝 · 嵌套对象陷阱</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">① 浅拷贝：展开只拷贝第一层</text>
+  <rect x="30" y="74" width="720" height="140" rx="8" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.3"/>
+  <text x="50" y="96" font-size="10" fill="#94a3b8" font-family="monospace">const obj = { a: 1, nested: { x: 2 } };</text>
+  <text x="50" y="114" font-size="10" fill="#ef4444" font-family="monospace">const copy = { ...obj };</text>
+  <text x="50" y="132" font-size="10" fill="#ef4444" font-family="monospace">copy.nested.x = 99;</text>
+  <text x="50" y="150" font-size="10" fill="#ef4444" font-family="monospace">obj.nested.x  // 也是 99！共享引用</text>
+  <text x="50" y="168" font-size="9" fill="#ef4444">第一层独立，嵌套层共享同一引用</text>
+  <text x="50" y="186" font-size="9" fill="#eab308">数组同理：[...arr] 只浅拷贝，嵌套对象仍是引用</text>
+  <text x="40" y="232" font-size="13" font-weight="600" fill="#22c55e">② 深拷贝方案</text>
+  <rect x="30" y="242" width="350" height="120" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="50" y="264" font-size="10" font-weight="600" fill="#22c55e">JSON 序列化</text>
+  <text x="50" y="282" font-size="9" fill="#94a3b8" font-family="monospace">JSON.parse(JSON.stringify(obj))</text>
+  <text x="50" y="300" font-size="9" fill="#ef4444">局限：丢失函数/undefined/循环引用</text>
+  <text x="50" y="322" font-size="10" font-weight="600" fill="#22c55e">structuredClone（推荐）</text>
+  <text x="50" y="340" font-size="9" fill="#94a3b8" font-family="monospace">structuredClone(obj)</text>
+  <text x="50" y="354" font-size="9" fill="#22c55e">支持更多类型，现代浏览器原生</text>
+  <rect x="400" y="242" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="420" y="264" font-size="10" font-weight="600" fill="#3b82f6">手动深展开</text>
+  <text x="420" y="282" font-size="9" fill="#94a3b8" font-family="monospace">{...obj, nested: {...obj.nested}}</text>
+  <text x="420" y="300" font-size="9" fill="#eab308">只深一层，适合简单嵌套</text>
+  <text x="420" y="322" font-size="10" font-weight="600" fill="#3b82f6">lodash.cloneDeep</text>
+  <text x="420" y="340" font-size="9" fill="#94a3b8" font-family="monospace">_.cloneDeep(obj)</text>
+  <text x="420" y="354" font-size="9" fill="#eab308">最完善，需引入 lodash</text>
+  <text x="40" y="382" font-size="13" font-weight="600" fill="#a855f7">③ React 状态更新规则</text>
+  <rect x="30" y="392" width="720" height="160" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="414" font-size="10" font-weight="600" fill="#ef4444">禁止直接修改 state</text>
+  <text x="50" y="432" font-size="9" fill="#ef4444" font-family="monospace">state.name = "new";  // ❌</text>
+  <text x="50" y="450" font-size="10" font-weight="600" fill="#22c55e">必须创建新对象</text>
+  <text x="50" y="468" font-size="9" fill="#22c55e" font-family="monospace">setState({...state, name: "new"});  // ✅</text>
+  <text x="50" y="490" font-size="10" font-weight="600" fill="#22c55e">嵌套对象更新</text>
+  <text x="50" y="508" font-size="9" fill="#22c55e" font-family="monospace">setState({...state, user: {...state.user, name: "new"}});</text>
+  <text x="50" y="530" font-size="9" fill="#eab308">💡 每一层嵌套都要展开一次</text>
+  <text x="50" y="548" font-size="9" fill="#94a3b8">嵌套太深时考虑 useReducer 或 immer</text>
+</svg>

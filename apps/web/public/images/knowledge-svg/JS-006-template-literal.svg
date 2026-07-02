@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">模板字面量 · 插值 / 多行 / 表达式</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#22c55e">① 插值 — 告别 + 拼接</text>
+  <rect x="30" y="74" width="720" height="80" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <rect x="50" y="90" width="340" height="44" rx="4" fill="#ef4444" fill-opacity="0.06"/>
+  <text x="62" y="108" font-size="9" fill="#ef4444" font-family="monospace">"Hi " + name + ", age " + age</text>
+  <text x="62" y="124" font-size="9" fill="#ef4444">→ 5个+号，4对引号，极易漏</text>
+  <rect x="410" y="90" width="320" height="44" rx="4" fill="#22c55e" fill-opacity="0.08"/>
+  <text x="422" y="108" font-size="9" fill="#22c55e" font-family="monospace">`Hi ${name}, age ${age}`</text>
+  <text x="422" y="124" font-size="9" fill="#22c55e">→ 清晰优雅不易出错</text>
+  <text x="40" y="180" font-size="13" font-weight="600" fill="#3b82f6">② 多行字符串 — 直接换行</text>
+  <rect x="30" y="190" width="720" height="80" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="50" y="212" font-size="9" fill="#ef4444" font-family="monospace">❌ "&lt;div&gt;\n  &lt;h1&gt;" + title + "&lt;/h1&gt;\n&lt;/div&gt;"</text>
+  <text x="50" y="232" font-size="9" fill="#22c55e" font-family="monospace">✅ `&lt;div&gt;   ← 直接换行，不需要 \n</text>
+  <text x="60" y="248" font-size="9" fill="#22c55e" font-family="monospace">  &lt;h1&gt;${title}&lt;/h1&gt;</text>
+  <text x="60" y="260" font-size="9" fill="#22c55e" font-family="monospace">&lt;/div&gt;`</text>
+  <text x="40" y="290" font-size="13" font-weight="600" fill="#a855f7">③ 表达式插值</text>
+  <rect x="30" y="300" width="720" height="120" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="322" font-size="10" fill="#a855f7" font-family="monospace">`Total: ${price * quantity}`</text>
+  <text x="50" y="342" font-size="10" fill="#a855f7" font-family="monospace">`${name}今年${age}岁，${age >= 18 ? '成年' : '未成年'}`</text>
+  <text x="50" y="362" font-size="10" fill="#a855f7" font-family="monospace">`Hello, ${user.getName().toUpperCase()}!`</text>
+  <text x="50" y="390" font-size="10" fill="#eab308">💡 反引号在 ESC 下面，${} 里放任何 JS 表达式</text>
+  <text x="40" y="424" font-size="13" font-weight="600" fill="#eab308">④ 标签模板（高级）</text>
+  <rect x="30" y="434" width="720" height="120" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="50" y="456" font-size="10" fill="#eab308" font-family="monospace">function highlight(strings, ...values) {</text>
+  <text x="50" y="472" font-size="10" fill="#eab308" font-family="monospace">  return strings.reduce((res, str, i) =&gt;</text>
+  <text x="50" y="488" font-size="10" fill="#eab308" font-family="monospace">    res + str + (values[i] ? `&lt;b&gt;${values[i]}&lt;/b&gt;` : ''), '');</text>
+  <text x="50" y="504" font-size="10" fill="#eab308" font-family="monospace">}</text>
+  <text x="50" y="524" font-size="10" fill="#94a3b8" font-family="monospace">highlight`Hello ${name}, age ${age}`</text>
+  <text x="50" y="544" font-size="9" fill="#94a3b8">→ "Hello &lt;b&gt;小明&lt;/b&gt;, age &lt;b&gt;20&lt;/b&gt;"</text>
+</svg>

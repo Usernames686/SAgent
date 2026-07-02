@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">函数基础 · 决策速查表</text>
+
+  <!-- ① 决策树 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#f97316">① 决策树：什么时候用什么？</text>
+
+  <rect x="290" y="80" width="200" height="32" rx="16" fill="#f97316" fill-opacity="0.12" stroke="#f97316" stroke-opacity="0.4"/>
+  <text x="390" y="100" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">需要定义函数？</text>
+
+  <line x1="320" y1="112" x2="160" y2="138" stroke="#475569" stroke-width="1"/>
+  <text x="220" y="128" font-size="9" fill="#94a3b8">独立功能</text>
+  <rect x="60" y="138" width="200" height="40" rx="6" fill="#22c55e" fill-opacity="0.10" stroke="#22c55e" stroke-opacity="0.4"/>
+  <text x="160" y="155" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">function 声明</text>
+  <text x="160" y="170" font-size="8" fill="#94a3b8" text-anchor="middle">有提升，可声明前调用</text>
+
+  <line x1="390" y1="112" x2="390" y2="138" stroke="#475569" stroke-width="1"/>
+  <text x="400" y="128" font-size="9" fill="#94a3b8">回调/简短</text>
+  <rect x="280" y="138" width="220" height="40" rx="6" fill="#a855f7" fill-opacity="0.10" stroke="#a855f7" stroke-opacity="0.4"/>
+  <text x="390" y="155" font-size="10" font-weight="600" fill="#a855f7" text-anchor="middle">箭头函数 () =&gt; { }</text>
+  <text x="390" y="170" font-size="8" fill="#94a3b8" text-anchor="middle">最简洁，无自己的 this</text>
+
+  <line x1="460" y1="112" x2="620" y2="138" stroke="#475569" stroke-width="1"/>
+  <text x="510" y="128" font-size="9" fill="#94a3b8">赋值/闭包</text>
+  <rect x="520" y="138" width="200" height="40" rx="6" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.4"/>
+  <text x="620" y="155" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">const f = function() {}</text>
+  <text x="620" y="170" font-size="8" fill="#94a3b8" text-anchor="middle">函数表达式，无提升</text>
+
+  <!-- ② 速查表 -->
+  <text x="40" y="210" font-size="13" font-weight="600" fill="#3b82f6">② 函数写法速查</text>
+
+  <rect x="30" y="222" width="720" height="220" rx="8" fill="#0f172a" stroke="#1e293b"/>
+
+  <rect x="30" y="222" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="243" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">场景</text>
+
+  <rect x="210" y="222" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="345" y="243" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">推荐写法</text>
+
+  <rect x="480" y="222" width="270" height="32" fill="#a855f7" fill-opacity="0.10"/>
+  <text x="615" y="243" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">原因</text>
+
+  <text x="120" y="278" font-size="10" fill="#cbd5e1" text-anchor="middle">React 事件处理</text>
+  <text x="345" y="278" font-size="10" fill="#3b82f6" text-anchor="middle">箭头函数</text>
+  <text x="615" y="278" font-size="10" fill="#94a3b8" text-anchor="middle">避免 this 绑定问题</text>
+
+  <text x="120" y="306" font-size="10" fill="#cbd5e1" text-anchor="middle">数组遍历/转换</text>
+  <text x="345" y="306" font-size="10" fill="#3b82f6" text-anchor="middle">arr.map(n =&gt; n*2)</text>
+  <text x="615" y="306" font-size="10" fill="#94a3b8" text-anchor="middle">箭头函数 + 链式调用</text>
+
+  <text x="120" y="334" font-size="10" fill="#cbd5e1" text-anchor="middle">对象方法</text>
+  <text x="345" y="334" font-size="10" fill="#3b82f6" text-anchor="middle">method() { } 简写</text>
+  <text x="615" y="334" font-size="10" fill="#94a3b8" text-anchor="middle">this 指向对象本身</text>
+
+  <text x="120" y="362" font-size="10" fill="#cbd5e1" text-anchor="middle">构造函数</text>
+  <text x="345" y="362" font-size="10" fill="#3b82f6" text-anchor="middle">function F() { }</text>
+  <text x="615" y="362" font-size="10" fill="#94a3b8" text-anchor="middle">箭头函数不能用 new</text>
+
+  <text x="120" y="390" font-size="10" fill="#cbd5e1" text-anchor="middle">回调（setTimeout）</text>
+  <text x="345" y="390" font-size="10" fill="#3b82f6" text-anchor="middle">() =&gt; { ... }</text>
+  <text x="615" y="390" font-size="10" fill="#94a3b8" text-anchor="middle">保留外层 this</text>
+
+  <text x="120" y="418" font-size="10" fill="#cbd5e1" text-anchor="middle">配置对象参数</text>
+  <text x="345" y="418" font-size="10" fill="#3b82f6" text-anchor="middle">f({ host, port = 3000 })</text>
+  <text x="615" y="418" font-size="10" fill="#94a3b8" text-anchor="middle">参数解构 + 默认值</text>
+
+  <!-- ③ 总口诀 -->
+  <text x="40" y="468" font-size="13" font-weight="600" fill="#a855f7">③ 总口诀</text>
+  <rect x="30" y="478" width="720" height="84" rx="8" fill="#a855f7" fill-opacity="0.06" stroke="#a855f7" stroke-opacity="0.2"/>
+
+  <text x="50" y="502" font-size="11" font-weight="700" fill="#a855f7">🏆 函数基础 10 条核心要点</text>
+  <text x="50" y="522" font-size="10" fill="#cbd5e1">1. 函数是一等公民：可赋值、可传参、可返回</text>
+  <text x="50" y="540" font-size="10" fill="#cbd5e1">2. function 声明有提升；const 表达式无提升（TDZ 保护）</text>
+  <text x="50" y="556" font-size="10" fill="#eab308" font-weight="600">3. 默认参数只在 undefined 时触发；剩余参数 ...rest 收集多余参数</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg2)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#fb923c" text-anchor="middle">CommonJS — 动态 require/module.exports</text>
+
+  <!-- math.js -->
+  <rect x="30" y="60" width="220" height="200" rx="10" fill="#60a5fa" fill-opacity="0.08" stroke="#60a5fa" stroke-opacity="0.4"/>
+  <text x="140" y="85" font-size="13" font-weight="700" fill="#93c5fd" text-anchor="middle">math.js</text>
+  <line x1="50" y1="95" x2="230" y2="95" stroke="#60a5fa" stroke-opacity="0.2"/>
+  <text x="50" y="115" font-size="10" fill="#94a3b8" font-family="monospace">// 导出</text>
+  <text x="50" y="133" font-size="10" fill="#fbbf24" font-family="monospace">const PI = 3.14;</text>
+  <text x="50" y="151" font-size="10" fill="#fbbf24" font-family="monospace">function add(a,b){</text>
+  <text x="65" y="169" font-size="10" fill="#94a3b8" font-family="monospace">return a + b;</text>
+  <text x="50" y="187" font-size="10" fill="#fbbf24" font-family="monospace">}</text>
+  <text x="50" y="210" font-size="10" fill="#fbbf24" font-family="monospace">module.exports = { PI, add };</text>
+  <text x="50" y="235" font-size="9" fill="#64748b">📦 运行时确定依赖</text>
+  <text x="50" y="250" font-size="9" fill="#64748b">🔄 值的拷贝（不是引用）</text>
+
+  <!-- app.js -->
+  <rect x="510" y="60" width="220" height="200" rx="10" fill="#a78bfa" fill-opacity="0.08" stroke="#a78bfa" stroke-opacity="0.4"/>
+  <text x="620" y="85" font-size="13" font-weight="700" fill="#c4b5fd" text-anchor="middle">app.js</text>
+  <line x1="530" y1="95" x2="710" y2="95" stroke="#a78bfa" stroke-opacity="0.2"/>
+  <text x="530" y="115" font-size="10" fill="#94a3b8" font-family="monospace">// 导入</text>
+  <text x="530" y="133" font-size="10" fill="#fbbf24" font-family="monospace">const { PI, add }</text>
+  <text x="545" y="151" font-size="10" fill="#fbbf24" font-family="monospace">= require('./math.js');</text>
+  <text x="530" y="175" font-size="10" fill="#94a3b8" font-family="monospace">console.log(PI);    // 3.14</text>
+  <text x="530" y="193" font-size="10" fill="#94a3b8" font-family="monospace">console.log(add(1,2)); // 3</text>
+  <text x="530" y="220" font-size="9" fill="#64748b">🎯 动态加载：可在 if/函数内</text>
+  <text x="530" y="250" font-size="9" fill="#64748b">⚡ 同步加载</text>
+
+  <!-- arrow -->
+  <path d="M 260 160 L 500 160" stroke="#60a5fa" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="380" y="155" font-size="10" fill="#60a5fa" text-anchor="middle">require('./math.js')</text>
+
+  <!-- key features -->
+  <rect x="30" y="290" width="700" height="110" rx="10" fill="#f87171" fill-opacity="0.06" stroke="#f87171" stroke-opacity="0.3"/>
+  <text x="50" y="315" font-size="12" font-weight="700" fill="#fca5a5">🔑 CommonJS 核心特性</text>
+  <text x="50" y="340" font-size="10" fill="#94a3b8">✅ 动态加载 — require 可在任意位置调用，支持条件加载</text>
+  <text x="50" y="360" font-size="10" fill="#94a3b8">✅ 值拷贝 — module.exports 导出的是值的拷贝，原模块变化不影响</text>
+  <text x="50" y="380" font-size="10" fill="#94a3b8">✅ 同步加载 — require 会阻塞后续代码，适合服务端</text>
+</svg>

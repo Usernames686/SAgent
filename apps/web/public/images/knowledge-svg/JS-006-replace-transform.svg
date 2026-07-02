@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">替换转换 · replace / replaceAll / 大小写</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#f97316">① replace — 替换第一个匹配</text>
+  <rect x="30" y="74" width="720" height="100" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+  <text x="50" y="96" font-size="10" fill="#f97316" font-family="monospace">"a-b-c".replace("-", "_")   // "a_b-c" 只替换第一个!</text>
+  <text x="50" y="114" font-size="10" fill="#22c55e" font-family="monospace">"a-b-c".replaceAll("-", "_") // "a_b_c" 替换所有 (ES2021)</text>
+  <text x="50" y="132" font-size="10" fill="#3b82f6" font-family="monospace">"a-b-c".replace(/-/g, "_")  // "a_b_c" 正则 /g 替换所有</text>
+  <text x="50" y="156" font-size="9" fill="#ef4444">⚠️ replace 只替换第一个！全部替换用 replaceAll 或正则 /g</text>
+  <text x="40" y="180" font-size="13" font-weight="600" fill="#3b82f6">② replace 高级 — 捕获组 &amp; 函数</text>
+  <rect x="30" y="190" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="50" y="212" font-size="10" font-weight="600" fill="#3b82f6">捕获组替换</text>
+  <text x="50" y="230" font-size="9" fill="#94a3b8" font-family="monospace">"2024-01-15"</text>
+  <text x="50" y="246" font-size="9" fill="#94a3b8" font-family="monospace">  .replace(/(\d+)-(\d+)-(\d+)/,</text>
+  <text x="50" y="262" font-size="9" fill="#94a3b8" font-family="monospace">    "$3/$2/$1")</text>
+  <text x="50" y="278" font-size="9" fill="#22c55e" font-family="monospace">// "15/01/2024" 日期重排</text>
+  <text x="50" y="298" font-size="9" fill="#eab308">$1 $2 $3 引用捕获组</text>
+  <rect x="400" y="190" width="350" height="120" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="420" y="212" font-size="10" font-weight="600" fill="#a855f7">函数替换</text>
+  <text x="420" y="230" font-size="9" fill="#94a3b8" font-family="monospace">"hello world"</text>
+  <text x="420" y="246" font-size="9" fill="#94a3b8" font-family="monospace">  .replace(/\w+/g, w =&gt;</text>
+  <text x="420" y="262" font-size="9" fill="#94a3b8" font-family="monospace">    w[0].toUpperCase()</text>
+  <text x="420" y="278" font-size="9" fill="#94a3b8" font-family="monospace">    + w.slice(1))</text>
+  <text x="420" y="298" font-size="9" fill="#22c55e" font-family="monospace">// "Hello World" 首字母大写</text>
+  <text x="40" y="330" font-size="13" font-weight="600" fill="#22c55e">③ 大小写转换</text>
+  <rect x="30" y="340" width="720" height="80" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="50" y="362" font-size="10" fill="#22c55e" font-family="monospace">"Hello".toUpperCase()  // "HELLO"</text>
+  <text x="50" y="380" font-size="10" fill="#22c55e" font-family="monospace">"Hello".toLowerCase()  // "hello"</text>
+  <text x="50" y="398" font-size="9" fill="#eab308">💡 判断时先 toLowerCase() 统一大小写，避免大小写敏感问题</text>
+  <text x="40" y="432" font-size="13" font-weight="600" fill="#eab308">④ repeat / concat</text>
+  <rect x="30" y="442" width="350" height="60" rx="8" fill="#eab308" fill-opacity="0.04" stroke="#eab308" stroke-opacity="0.25"/>
+  <text x="50" y="464" font-size="10" fill="#eab308" font-family="monospace">"ha".repeat(3)     // "hahaha"</text>
+  <text x="50" y="482" font-size="10" fill="#eab308" font-family="monospace">"a".concat("b","c") // "abc"</text>
+  <rect x="400" y="442" width="350" height="60" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="420" y="464" font-size="10" fill="#94a3b8">💡 repeat 生成重复模式</text>
+  <text x="420" y="482" font-size="10" fill="#94a3b8">💡 concat 不如 + 或 `` 常用</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">全局作用域 · 最外层的共享空间</text>
+
+  <!-- 全局作用域示意 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">🌐 全局作用域示意</text>
+  <rect x="30" y="76" width="720" height="220" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+
+  <!-- 全局区域 -->
+  <rect x="50" y="90" width="680" height="190" rx="6" fill="none" stroke="#ef4444" stroke-opacity="0.3" stroke-dasharray="6,3"/>
+  <text x="70" y="112" font-size="11" font-weight="600" fill="#ef4444">全局作用域</text>
+
+  <!-- 全局变量 -->
+  <rect x="70" y="122" width="200" height="30" rx="4" fill="#ef4444" fill-opacity="0.08"/>
+  <text x="80" y="142" font-size="9" fill="#ef4444" font-family="monospace">const appName = "sAgent"</text>
+
+  <rect x="290" y="122" width="200" height="30" rx="4" fill="#ef4444" fill-opacity="0.08"/>
+  <text x="300" y="142" font-size="9" fill="#ef4444" font-family="monospace">var version = "1.0"</text>
+
+  <!-- 函数内 -->
+  <rect x="90" y="164" width="300" height="100" rx="4" fill="#3b82f6" fill-opacity="0.06" stroke="#3b82f6" stroke-opacity="0.2"/>
+  <text x="110" y="184" font-size="10" fill="#3b82f6" font-family="monospace">function anyFunction() {</text>
+  <text x="130" y="204" font-size="10" fill="#22c55e" font-family="monospace">console.log(appName); ✅</text>
+  <text x="130" y="224" font-size="10" fill="#22c55e" font-family="monospace">console.log(version);  ✅</text>
+  <text x="110" y="248" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+
+  <!-- if块 -->
+  <rect x="410" y="164" width="300" height="100" rx="4" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="430" y="184" font-size="10" fill="#22c55e" font-family="monospace">if (true) {</text>
+  <text x="450" y="204" font-size="10" fill="#22c55e" font-family="monospace">console.log(appName); ✅</text>
+  <text x="450" y="224" font-size="10" fill="#22c55e" font-family="monospace">console.log(version);  ✅</text>
+  <text x="430" y="248" font-size="10" fill="#22c55e" font-family="monospace">}</text>
+
+  <!-- var vs let/const 全局 -->
+  <text x="40" y="316" font-size="13" font-weight="600" fill="#f97316">⚠️ var 的全局污染 vs let/const 的安全</text>
+
+  <rect x="30" y="328" width="350" height="100" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+  <text x="50" y="350" font-size="11" font-weight="600" fill="#ef4444">❌ var — 挂到 window 对象</text>
+  <text x="50" y="372" font-size="9" fill="#94a3b8" font-family="monospace">var globalVar = "污染";</text>
+  <text x="50" y="392" font-size="9" fill="#ef4444" font-family="monospace">window.globalVar  // "污染"</text>
+  <text x="50" y="412" font-size="8" fill="#ef4444">⚠️ 可能与其他脚本冲突！</text>
+
+  <rect x="400" y="328" width="350" height="100" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.15"/>
+  <text x="420" y="350" font-size="11" font-weight="600" fill="#3b82f6">✅ let/const — 不挂到 window</text>
+  <text x="420" y="372" font-size="9" fill="#94a3b8" font-family="monospace">let safeGlobal = "安全";</text>
+  <text x="420" y="392" font-size="9" fill="#22c55e" font-family="monospace">window.safeGlobal  // undefined</text>
+  <text x="420" y="412" font-size="8" fill="#22c55e">✅ 不会污染全局命名空间</text>
+
+  <!-- 底部 -->
+  <rect x="30" y="448" width="720" height="110" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="50" y="474" font-size="11" font-weight="600" fill="#f97316">💡 最佳实践</text>
+  <text x="50" y="498" font-size="10" fill="#94a3b8">• 尽量减少全局变量 — 用模块化（import/export）代替</text>
+  <text x="50" y="518" font-size="10" fill="#94a3b8">• 全局变量用 const 声明 — 防止意外修改</text>
+  <text x="50" y="538" font-size="10" fill="#ef4444">• 永远不用 var 声明全局变量 — 会污染 window</text>
+</svg>

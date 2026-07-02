@@ -1,0 +1,207 @@
+[
+  {
+    "id": 0,
+    "title": "从生活出发：为什么需要模块化？",
+    "subtitle": "5 分钟 · 零基础友好",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 模块化 = 把代码拆成独立文件",
+        "text": "想象一家餐厅：厨师做菜、服务员点单、收银员结账，各司其职。模块化就是这种思路——把大程序拆成小文件，每个文件负责一个功能。",
+        "variant": "orange"
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "📦",
+            "label": "封装",
+            "desc": "隐藏内部实现，只暴露接口",
+            "color": "purple"
+          },
+          {
+            "icon": "🔄",
+            "label": "复用",
+            "desc": "一个模块可在多处使用",
+            "color": "blue"
+          },
+          {
+            "icon": "🧩",
+            "label": "解耦",
+            "desc": "模块之间通过接口通信",
+            "color": "green"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "title": "❌ 没有模块化的世界",
+        "code": "<!-- index.html -->\n<script src=\"utils.js\"></script>\n<script src=\"math.js\"></script>\n<script src=\"app.js\"></script>\n<!-- 问题：\n  1. 全局变量污染\n  2. 依赖关系不明确\n  3. 加载顺序必须手动维护 -->",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ ES Modules",
+        "code": "// math.js\nexport const PI = 3.14;\nexport function add(a, b) { return a + b; }\n\n// app.js\nimport { PI, add } from './math.js';\nconsole.log(add(PI, 1));  // 4.14",
+        "variant": "green"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "ES Module 基础：import / export",
+    "subtitle": "10 分钟 · 核心语法",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 静态模块系统",
+        "text": "ES Modules 是 ES6 引入的标准模块系统。它在编译时确定依赖关系，支持 tree-shaking（摇树优化）。",
+        "variant": "blue"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-012-esm-basics.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 命名导入/导出",
+        "code": "// math.js — 导出\nexport const PI = 3.14;\nexport function add(a, b) { return a + b; }\n\n// app.js — 导入（名字必须匹配）\nimport { PI, add } from './math.js';\nconsole.log(PI, add(1, 2));  // 3.14 3\n\n// 重命名导入\nimport { add as sum } from './math.js';\nsum(1, 2);  // 3",
+        "variant": "blue"
+      },
+      {
+        "type": "tip",
+        "title": "💡 Live Binding",
+        "text": "ESM 导出的是引用（Live Binding），不是值的拷贝。原模块的值变化会反映到导入方。这是 ESM 和 CommonJS 的关键区别。"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "import 的四种写法",
+    "subtitle": "10 分钟 · 语法详解",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-012-import-types.svg"
+      },
+      {
+        "type": "code",
+        "title": "① 命名导入 ② 默认导入",
+        "code": "// ① 命名导入 — 名字必须匹配\nimport { PI, add } from './math.js';\n\n// ② 默认导入 — 名字随意取\nimport myFunc from './math.js';\n// math.js: export default function() {}\n\n// 混合：默认 + 命名\nimport React, { useState, useEffect } from 'react';",
+        "variant": "purple"
+      },
+      {
+        "type": "code",
+        "title": "③ 命名空间 ④ 副作用",
+        "code": "// ③ 命名空间导入 — 整体作为对象\nimport * as math from './math.js';\nmath.add(1, 2);  // 3\nmath.PI;         // 3.14\n\n// ④ 副作用导入 — 只为执行模块\nimport './polyfill.js';\nimport './styles.css';",
+        "variant": "teal"
+      },
+      {
+        "type": "code",
+        "title": "⑤ 动态 import — 返回 Promise",
+        "code": "// 按需加载，常用于路由懒加载\nconst module = await import('./math.js');\nmodule.add(1, 2);  // 3\n\n// React 路由懒加载示例\nconst LazyComp = React.lazy(\n  () => import('./LazyComp')\n);",
+        "variant": "orange"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "export 的三种方式",
+    "subtitle": "8 分钟 · 导出详解",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-012-export-types.svg"
+      },
+      {
+        "type": "code",
+        "title": "① 命名导出 ② 默认导出",
+        "code": "// ① 命名导出 — 可导出多个\nexport const PI = 3.14;\nexport function add(a, b) { return a + b; }\n// 或：export { PI, add };\n\n// ② 默认导出 — 每个模块只能一个\nexport default function add(a, b) {\n  return a + b;\n}\n// 导入时名字随意取",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "③ 转发导出 — index.js 聚合",
+        "code": "// utils/index.js\nexport { PI, add } from './math.js';\nexport { format } from './format.js';\nexport * from './constants.js';\n\n// 使用方\nimport { PI, add, format } from './utils';",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 何时用 default vs named？",
+        "text": "default：模块只导出一个主要功能（如 React 组件、类）。named：工具函数库、多导出场景。实际项目中 named 更易维护，工具链自动补全更友好。"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "CommonJS：Node.js 的传统模块系统",
+    "subtitle": "10 分钟 · require / module.exports",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-012-cjs-basics.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 require + module.exports",
+        "code": "// math.js — 导出\nconst PI = 3.14;\nfunction add(a, b) { return a + b; }\nmodule.exports = { PI, add };\n\n// app.js — 导入\nconst { PI, add } = require('./math.js');\nconsole.log(PI, add(1, 2));  // 3.14 3\n\n// 动态加载\nif (needMath) {\n  const math = require('./math.js');\n}",
+        "variant": "blue"
+      },
+      {
+        "type": "tip",
+        "title": "💡 值拷贝 vs 引用",
+        "text": "CommonJS 导出的是值的拷贝（快照）。原模块的值变化不会影响已导入的副本。这是 CJS 和 ESM 的核心差异。\n\n// math.js\nlet count = 0;\nsetInterval(() => count++, 1000);\nmodule.exports = { count };  // 拷贝，永远是 0\n\n// ESM 版本用 export { count }，导入方会看到更新。"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "ESM vs CommonJS 对比",
+    "subtitle": "8 分钟 · 选型决策",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-012-esm-vs-cjs.svg"
+      },
+      {
+        "type": "warning",
+        "text": "**互操作陷阱**：ESM 中可以用 `import` 引入 CJS 模块（只有 default），但 CJS 中不能用 `require` 引入 ESM 模块。混用时容易踩坑。\n\n// ESM 引入 CJS（OK）\nimport pkg from 'cjs-package';\n\n// CJS 引入 ESM（❌ 报错）\nconst esm = require('esm-package');  // 必须用 await import()",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ 在 Node.js 中启用 ESM",
+        "code": "// package.json\n{\n  \"type\": \"module\",\n  \"name\": \"my-app\"\n}\n\n// 现在可以用 import/export\nimport fs from 'fs';\nconst data = JSON.parse(fs.readFileSync('data.json'));",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 何时用 ESM？",
+        "text": "新项目用 ESM。现代 Node.js、Deno、Bun、所有前端工具链都支持 ESM。生态正在全面向 ESM 迁移，2024+ 的新包基本只发 ESM 版本。"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "总结与决策",
+    "subtitle": "3 分钟 · 记住这些就够了",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "🏆 决策口诀",
+        "text": "**新项目用 ESM，老项目维护 CJS。default 一个就够，named 导出最常用。**\n\n1. ESM 静态加载，支持 tree-shaking\n2. CommonJS 动态加载，导出值拷贝\n3. import 四种写法，动态用 import()\n4. Node.js 用 \"type\": \"module\" 启用 ESM",
+        "variant": "orange"
+      },
+      {
+        "type": "code",
+        "title": "📝 速查表",
+        "code": "// ESM\nimport { x } from './m';\nimport x from './m';       // default\nimport * as ns from './m';\nconst m = await import('./m');\n\n// CommonJS\nconst { x } = require('./m');\nconst m = require('./m');\nmodule.exports = { x };\nexports.x = x;",
+        "variant": "purple"
+      },
+      {
+        "type": "success",
+        "text": "恭喜完成 ES Modules 与 CommonJS 的深度学习！🎉"
+      }
+    ]
+  }
+]

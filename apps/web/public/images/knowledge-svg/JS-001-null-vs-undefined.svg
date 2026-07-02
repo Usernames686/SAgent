@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 520" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="520" fill="url(#bg)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="390" y="30" font-size="15" font-weight="700" fill="white" text-anchor="middle">null vs undefined — 空值双胞胎 · 原理图解</text>
+
+  <!-- ═══ Section 1: 诞生方式 ═══ -->
+  <text x="30" y="56" font-size="11" font-weight="600" fill="#f97316">① 诞生方式：谁产生的？</text>
+
+  <!-- undefined 侧 -->
+  <rect x="30" y="66" width="350" height="130" rx="8" fill="#3b82f6" fill-opacity="0.03" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="205" y="84" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">❓ undefined — JavaScript 自动产生</text>
+  <rect x="46" y="92" width="318" height="94" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="54" y="108" font-size="10" fill="#94a3b8" font-family="monospace">let x;                    // 未赋值 → undefined</text>
+  <text x="54" y="124" font-size="10" fill="#94a3b8" font-family="monospace">function f() {}           // 无 return → undefined</text>
+  <text x="54" y="140" font-size="10" fill="#94a3b8" font-family="monospace">const obj = {};</text>
+  <text x="54" y="156" font-size="10" fill="#94a3b8" font-family="monospace">obj.foo;                  // 不存在属性 → undefined</text>
+  <text x="54" y="172" font-size="10" fill="#94a3b8" font-family="monospace">[1,2][99];                // 越界索引 → undefined</text>
+  <rect x="46" y="190" width="318" height="4" rx="2" fill="#3b82f6" fill-opacity="0.15"/>
+
+  <!-- null 侧 -->
+  <rect x="400" y="66" width="350" height="130" rx="8" fill="#a855f7" fill-opacity="0.03" stroke="#a855f7" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="575" y="84" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">⊘ null — 程序员手动赋值</text>
+  <rect x="416" y="92" width="318" height="94" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="424" y="108" font-size="10" fill="#94a3b8" font-family="monospace">let user = null;          // 主动设为空</text>
+  <text x="424" y="124" font-size="10" fill="#94a3b8" font-family="monospace">// 查询数据库，找不到 → 返回 null</text>
+  <text x="424" y="140" font-size="10" fill="#94a3b8" font-family="monospace">function findUser(id) {</text>
+  <text x="424" y="156" font-size="10" fill="#94a3b8" font-family="monospace">  return null;  // "有这个位置，但没人"</text>
+  <text x="424" y="172" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+  <rect x="416" y="190" width="318" height="4" rx="2" fill="#a855f7" fill-opacity="0.15"/>
+
+  <!-- ═══ Section 2: typeof 陷阱 ═══ -->
+  <text x="30" y="218" font-size="11" font-weight="600" fill="#f97316">② typeof 检测 — null 的历史 BUG</text>
+
+  <rect x="30" y="228" width="350" height="90" rx="8" fill="#3b82f6" fill-opacity="0.03" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="205" y="246" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">✅ typeof undefined</text>
+  <rect x="46" y="254" width="318" height="52" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="54" y="272" font-size="11" fill="#22c55e" font-family="monospace">typeof undefined  // "undefined" ✅</text>
+  <text x="54" y="290" font-size="10" fill="#64748b">结果正确，类型和值一致</text>
+
+  <rect x="400" y="228" width="350" height="90" rx="8" fill="#ef4444" fill-opacity="0.03" stroke="#ef4444" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="575" y="246" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">⚠️ typeof null — 历史遗留 BUG</text>
+  <rect x="416" y="254" width="318" height="52" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="424" y="272" font-size="11" fill="#ef4444" font-family="monospace">typeof null  // "object" ❌ BUG!</text>
+  <text x="424" y="290" font-size="10" fill="#64748b">null 是原始类型，但 typeof 返回 "object"</text>
+  <text x="424" y="302" font-size="8" fill="#ef4444" fill-opacity="0.6">1995 年 JS 首版实现 bug，已无法修复</text>
+
+  <!-- ═══ Section 3: 正确判断方式 ═══ -->
+  <text x="30" y="340" font-size="11" font-weight="600" fill="#f97316">③ 正确判断 null 和 undefined</text>
+
+  <rect x="30" y="350" width="720" height="70" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="46" y="370" font-size="10" fill="#94a3b8" font-family="monospace">// ❌ 错误方式</text>
+  <text x="46" y="386" font-size="10" fill="#ef4444" font-family="monospace">if (x == null)    ...  // 松散相等，null == undefined → true，分不清！</text>
+  <text x="46" y="406" font-size="10" fill="#94a3b8" font-family="monospace">// ✅ 正确方式</text>
+  <text x="46" y="422" font-size="10" fill="#22c55e" font-family="monospace">if (x === null)       ...  // 严格相等，只匹配 null</text>
+  <text x="340" y="422" font-size="10" fill="#22c55e" font-family="monospace">if (x === undefined)  ...  // 严格相等，只匹配 undefined</text>
+
+  <!-- ═══ Section 4: 实战语义 ═══ -->
+  <text x="30" y="446" font-size="11" font-weight="600" fill="#f97316">④ 实战语义：什么时候用哪个？</text>
+
+  <rect x="30" y="456" width="350" height="50" rx="8" fill="#3b82f6" fill-opacity="0.03" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="205" y="474" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">undefined = "还没来"</text>
+  <text x="205" y="492" font-size="9" fill="#64748b" text-anchor="middle">变量声明未赋值 / 函数缺参数 / 缺返回值</text>
+
+  <rect x="400" y="456" width="350" height="50" rx="8" fill="#a855f7" fill-opacity="0.03" stroke="#a855f7" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="575" y="474" font-size="10" font-weight="600" fill="#a855f7" text-anchor="middle">null = "故意清空"</text>
+  <text x="575" y="492" font-size="9" fill="#64748b" text-anchor="middle">查找无结果 / 重置状态 / 释放引用</text>
+
+  <!-- 底部口诀 -->
+  <rect x="40" y="504" width="700" height="10" rx="4" fill="#f97316" fill-opacity="0.06" stroke="#f97316" stroke-opacity="0.12" stroke-width="0.5"/>
+  <text x="390" y="512" font-size="8" font-weight="600" fill="#f97316" text-anchor="middle">💡 undefined = 还没来，null = 故意清空。判断永远用 ===</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">字符串陷阱 · 不可变 / 比较 / 编码</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">① 不可变 — 所有方法返回新字符串</text>
+  <rect x="30" y="74" width="720" height="60" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="50" y="96" font-size="10" fill="#ef4444" font-family="monospace">let s = "hello"; s.toUpperCase(); // s 还是 "hello"！必须 s = s.toUpperCase()</text>
+  <text x="50" y="116" font-size="9" fill="#eab308">字符串和数组不同：字符串不可变，所有方法都返回新字符串</text>
+  <text x="40" y="150" font-size="13" font-weight="600" fill="#eab308">② 比较陷阱</text>
+  <rect x="30" y="160" width="350" height="120" rx="8" fill="#eab308" fill-opacity="0.04" stroke="#eab308" stroke-opacity="0.25"/>
+  <text x="50" y="180" font-size="10" fill="#ef4444" font-weight="600">字符串按字符比较</text>
+  <text x="50" y="198" font-size="9" fill="#94a3b8" font-family="monospace">"10" &gt; "9"   // false！"1" &lt; "9"</text>
+  <text x="50" y="216" font-size="9" fill="#22c55e" font-family="monospace">Number("10") &gt; Number("9") // true ✅</text>
+  <text x="50" y="240" font-size="10" fill="#ef4444" font-weight="600">localeCompare</text>
+  <text x="50" y="258" font-size="9" fill="#94a3b8" font-family="monospace">"b".localeCompare("a") // 1 正确</text>
+  <text x="50" y="272" font-size="9" fill="#eab308">排序字符串用 localeCompare</text>
+  <rect x="400" y="160" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="420" y="180" font-size="10" fill="#3b82f6" font-weight="600">=== 比较引用</text>
+  <text x="420" y="198" font-size="9" fill="#94a3b8" font-family="monospace">"hello" === "hello"  // true ✅</text>
+  <text x="420" y="216" font-size="9" fill="#94a3b8" font-family="monospace">new String("h") === new String("h")</text>
+  <text x="420" y="234" font-size="9" fill="#ef4444" font-family="monospace">// false ❌ 不同对象</text>
+  <text x="420" y="258" font-size="9" fill="#eab308">💡 永远用字面量 ""，不用 new String()</text>
+  <text x="40" y="300" font-size="13" font-weight="600" fill="#a855f7">③ Unicode / emoji 陷阱</text>
+  <rect x="30" y="310" width="720" height="120" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="332" font-size="10" fill="#ef4444" font-weight="600">length 对 emoji 不准</text>
+  <text x="50" y="350" font-size="9" fill="#94a3b8" font-family="monospace">"👍".length  // 2！emoji 是 2 个 code unit</text>
+  <text x="50" y="368" font-size="9" fill="#22c55e" font-family="monospace">[..."👍"].length  // 1 ✅ 用展开运算符</text>
+  <text x="50" y="390" font-size="10" fill="#ef4444" font-weight="600">split("") 对 emoji 不准</text>
+  <text x="50" y="408" font-size="9" fill="#94a3b8" font-family="monospace">"👍👍".split("")  // 4 个代理对，不是 2 个 emoji</text>
+  <text x="50" y="426" font-size="9" fill="#22c55e" font-family="monospace">[..."👍👍"]  // ["👍","👍"] ✅</text>
+  <text x="40" y="456" font-size="13" font-weight="600" fill="#22c55e">④ slice vs splice 别搞混</text>
+  <rect x="30" y="466" width="720" height="90" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="50" y="488" font-size="10" fill="#22c55e" font-weight="600">slice — 字符串/数组截取，不改原值，返回新值</text>
+  <text x="50" y="508" font-size="10" fill="#ef4444" font-weight="600">splice — 数组增删，修改原数组！字符串没有 splice</text>
+  <text x="50" y="528" font-size="9" fill="#eab308">💡 记忆：slice 切片（不破坏），splice 拼接（破坏）</text>
+</svg>

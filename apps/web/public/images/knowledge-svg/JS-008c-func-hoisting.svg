@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">函数提升 · 整体提前 vs 只提变量</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#22c55e">✅ 函数声明 — 整体提升</text>
+<rect x="30" y="76" width="350" height="180" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="50" y="96" font-size="11" font-weight="600" fill="#22c55e">声明前可调用！</text>
+<rect x="46" y="108" width="318" height="70" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+<text x="54" y="128" font-size="10" fill="#22c55e" font-family="monospace">greet();  // "Hello!" ✅</text>
+<text x="54" y="148" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="54" y="168" font-size="10" fill="#94a3b8" font-family="monospace">function greet() {</text>
+<text x="54" y="188" font-size="10" fill="#94a3b8" font-family="monospace">  return "Hello!";</text>
+<text x="54" y="208" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="50" y="240" font-size="9" fill="#22c55e">引擎把整个函数定义提升到顶部</text>
+<text x="410" y="64" font-size="13" font-weight="600" fill="#ef4444">❌ 函数表达式 — 只提升变量</text>
+<rect x="400" y="76" width="350" height="180" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+<text x="420" y="96" font-size="11" font-weight="600" fill="#ef4444">声明前调用报错！</text>
+<rect x="416" y="108" width="318" height="70" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+<text x="424" y="128" font-size="10" fill="#ef4444" font-family="monospace">sayHi();  // ❌ TypeError!</text>
+<text x="424" y="148" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="424" y="168" font-size="10" fill="#94a3b8" font-family="monospace">var sayHi = function() {</text>
+<text x="424" y="188" font-size="10" fill="#94a3b8" font-family="monospace">  return "Hi!";</text>
+<text x="424" y="208" font-size="10" fill="#94a3b8" font-family="monospace">};</text>
+<text x="420" y="240" font-size="9" fill="#ef4444">var sayHi提升，但函数体不提升</text>
+<text x="40" y="276" font-size="13" font-weight="600" fill="#a855f7">🔍 关键区别</text>
+<rect x="30" y="288" width="720" height="130" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="312" font-size="12" font-weight="600" fill="#22c55e">function声明</text>
+<text x="50" y="334" font-size="10" fill="#94a3b8">整体提升 → 声明前可调用 → ✅ 安全</text>
+<text x="50" y="358" font-size="10" fill="#94a3b8">function foo() { ... } → foo在被提升到顶部</text>
+<text x="350" y="312" font-size="12" font-weight="600" fill="#ef4444">var函数表达式</text>
+<text x="350" y="334" font-size="10" fill="#94a3b8">只提升var → 声明前是undefined → ❌ 报错</text>
+<text x="350" y="358" font-size="10" fill="#94a3b8">var foo = function() { ... } → var foo提升,函数体不提升</text>
+<text x="50" y="392" font-size="10" fill="#f97316">⚠️ 箭头函数 const fn = () =&gt; {} 同理：只提升const声明（且在TDZ内）</text>
+<text x="40" y="434" font-size="13" font-weight="600" fill="#3b82f6">💡 最佳实践</text>
+<rect x="30" y="446" width="720" height="110" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.15"/>
+<text x="50" y="470" font-size="10" fill="#22c55e">✅ 用函数声明定义工具函数 → 可以在文件任意位置调用</text>
+<text x="50" y="494" font-size="10" fill="#22c55e">✅ 用const+箭头函数定义回调 → 避免提升混淆</text>
+<text x="50" y="518" font-size="10" fill="#ef4444">❌ 不要用var+函数表达式 → 容易出错</text>
+<text x="50" y="542" font-size="10" fill="#f97316" font-weight="600">原则：先定义再使用，不要依赖提升</text>
+</svg>

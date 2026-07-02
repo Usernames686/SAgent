@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+<rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">函数作用域 · function的围墙</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#3b82f6">📦 函数内部变量 — 外部不可见</text>
+<rect x="30" y="76" width="720" height="180" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+<text x="50" y="100" font-size="10" fill="#3b82f6" font-family="monospace">function createUser(name) {</text>
+<text x="70" y="120" font-size="10" fill="#ec4899" font-family="monospace">const id = generateId();  // 函数作用域</text>
+<text x="70" y="140" font-size="10" fill="#ec4899" font-family="monospace">const role = "user";      // 函数作用域</text>
+<text x="70" y="160" font-size="10" fill="#22c55e" font-family="monospace">return { name, id, role };</text>
+<text x="50" y="180" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<rect x="50" y="194" width="680" height="44" rx="4" fill="#3b82f6" fill-opacity="0.06"/>
+<text x="62" y="212" font-size="9" fill="#22c55e">const user = createUser("小明");  ✅ 返回值可访问</text>
+<text x="62" y="230" font-size="9" fill="#ef4444">console.log(id);   // ❌ ReferenceError! 函数外部不可见</text>
+<text x="40" y="278" font-size="13" font-weight="600" fill="#a855f7">🔗 函数作用域的围墙效应</text>
+<rect x="30" y="290" width="350" height="120" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="50" y="312" font-size="11" font-weight="600" fill="#22c55e">✅ 内部可以访问外部</text>
+<text x="50" y="336" font-size="9" fill="#94a3b8" font-family="monospace">const x = "outer";</text>
+<text x="50" y="354" font-size="9" fill="#94a3b8" font-family="monospace">function fn() {</text>
+<text x="70" y="372" font-size="9" fill="#22c55e" font-family="monospace">console.log(x);  // ✅</text>
+<text x="50" y="390" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+<rect x="400" y="290" width="350" height="120" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+<text x="420" y="312" font-size="11" font-weight="600" fill="#ef4444">❌ 外部不能访问内部</text>
+<text x="420" y="336" font-size="9" fill="#94a3b8" font-family="monospace">function fn() {</text>
+<text x="440" y="354" font-size="9" fill="#ef4444" font-family="monospace">const secret = "hidden";</text>
+<text x="420" y="372" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+<text x="420" y="396" font-size="9" fill="#ef4444" font-family="monospace">console.log(secret);  // ❌</text>
+<text x="40" y="434" font-size="13" font-weight="600" fill="#f97316">⚠️ var的问题：只有函数作用域</text>
+<rect x="30" y="446" width="720" height="110" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="470" font-size="10" fill="#ef4444" font-family="monospace">function example() {</text>
+<text x="70" y="490" font-size="10" fill="#94a3b8" font-family="monospace">if (true) {</text>
+<text x="90" y="510" font-size="10" fill="#ef4444" font-family="monospace">var x = 1;  // ← 声明在if里，但泄漏到整个函数！</text>
+<text x="70" y="530" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="70" y="548" font-size="10" fill="#ef4444" font-family="monospace">console.log(x);  // 1 ✅ 居然能访问！var没有块级作用域</text>
+</svg>

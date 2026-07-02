@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg4)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle">并发 vs 串行 — 性能差异巨大</text>
+
+  <!-- serial timeline -->
+  <text x="40" y="70" font-size="12" font-weight="700" fill="#fca5a5">❌ 串行（for + await）：3 秒</text>
+  <line x1="40" y1="100" x2="720" y2="100" stroke="#475569" stroke-width="1"/>
+  <rect x="40" y="90" width="200" height="20" rx="4" fill="#fca5a5" fill-opacity="0.3"/>
+  <text x="140" y="104" font-size="9" fill="#fff" text-anchor="middle">请求 A (1s)</text>
+  <rect x="240" y="90" width="200" height="20" rx="4" fill="#fca5a5" fill-opacity="0.3"/>
+  <text x="340" y="104" font-size="9" fill="#fff" text-anchor="middle">请求 B (1s)</text>
+  <rect x="440" y="90" width="200" height="20" rx="4" fill="#fca5a5" fill-opacity="0.3"/>
+  <text x="540" y="104" font-size="9" fill="#fff" text-anchor="middle">请求 C (1s)</text>
+  <text x="650" y="104" font-size="10" fill="#fca5a5" font-weight="700">= 3s</text>
+
+  <!-- parallel timeline -->
+  <text x="40" y="150" font-size="12" font-weight="700" fill="#6ee7b7">✅ 并发（Promise.all）：1 秒</text>
+  <line x1="40" y1="180" x2="720" y2="180" stroke="#475569" stroke-width="1"/>
+  <rect x="40" y="170" width="200" height="20" rx="4" fill="#6ee7b7" fill-opacity="0.3"/>
+  <text x="140" y="184" font-size="9" fill="#fff" text-anchor="middle">请求 A (1s)</text>
+  <rect x="40" y="195" width="200" height="20" rx="4" fill="#6ee7b7" fill-opacity="0.3"/>
+  <text x="140" y="209" font-size="9" fill="#fff" text-anchor="middle">请求 B (1s)</text>
+  <rect x="40" y="220" width="200" height="20" rx="4" fill="#6ee7b7" fill-opacity="0.3"/>
+  <text x="140" y="234" font-size="9" fill="#fff" text-anchor="middle">请求 C (1s)</text>
+  <text x="250" y="209" font-size="10" fill="#6ee7b7" font-weight="700">= 1s</text>
+
+  <!-- code examples -->
+  <rect x="40" y="270" width="340" height="130" rx="10" fill="#fca5a5" fill-opacity="0.06" stroke="#fca5a5" stroke-opacity="0.3"/>
+  <text x="60" y="295" font-size="11" font-weight="700" fill="#fca5a5">❌ 串行（慢）</text>
+  <text x="60" y="315" font-size="9.5" fill="#94a3b8" font-family="monospace">const results = [];</text>
+  <text x="60" y="332" font-size="9.5" fill="#94a3b8" font-family="monospace">for (const url of urls) {</text>
+  <text x="75" y="349" font-size="9.5" fill="#94a3b8" font-family="monospace">results.push(await fetch(url));</text>
+  <text x="60" y="366" font-size="9.5" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="60" y="388" font-size="9" fill="#fca5a5">⚠️ 3 个请求 = 3 秒</text>
+
+  <rect x="400" y="270" width="320" height="130" rx="10" fill="#6ee7b7" fill-opacity="0.06" stroke="#6ee7b7" stroke-opacity="0.3"/>
+  <text x="420" y="295" font-size="11" font-weight="700" fill="#6ee7b7">✅ 并发（快）</text>
+  <text x="420" y="315" font-size="9.5" fill="#94a3b8" font-family="monospace">const results = await</text>
+  <text x="435" y="332" font-size="9.5" fill="#94a3b8" font-family="monospace">Promise.all(</text>
+  <text x="450" y="349" font-size="9.5" fill="#94a3b8" font-family="monospace">urls.map(url => fetch(url))</text>
+  <text x="435" y="366" font-size="9.5" fill="#94a3b8" font-family="monospace">);</text>
+  <text x="420" y="388" font-size="9" fill="#6ee7b7">✅ 3 个请求 = 1 秒</text>
+</svg>

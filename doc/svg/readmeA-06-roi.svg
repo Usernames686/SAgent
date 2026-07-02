@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" font-family="Segoe UI, PingFang SC, sans-serif">
+  <defs>
+    <linearGradient id="roi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="cost" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="460" fill="#0f172a" rx="16"/>
+  <text x="440" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#f8fafc">西亚斯学院内测 · ROI 量化收益</text>
+
+  <rect x="40" y="60" width="400" height="380" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="240" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#34d399">📈 提效收益（生均）</text>
+
+  <g font-size="10">
+    <text x="60" y="120" fill="#e2e8f0">学习效率</text>
+    <rect x="60" y="128" width="120" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="128" width="384" height="18" fill="url(#roi)" rx="3"/>
+    <text x="452" y="141" fill="#34d399" font-weight="700">3.2x</text>
+
+    <text x="60" y="170" fill="#e2e8f0">知识掌握率</text>
+    <rect x="60" y="178" width="186" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="178" width="261" height="18" fill="url(#roi)" rx="3"/>
+    <text x="270" y="191" fill="#34d399" font-weight="700">87%</text>
+
+    <text x="60" y="220" fill="#e2e8f0">首次通过率</text>
+    <rect x="60" y="228" width="150" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="228" width="255" height="18" fill="url(#roi)" rx="3"/>
+    <text x="265" y="241" fill="#34d399" font-weight="700">85%</text>
+
+    <text x="60" y="270" fill="#e2e8f0">30 日留存</text>
+    <rect x="60" y="278" width="72" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="278" width="152" height="18" fill="url(#roi)" rx="3"/>
+    <text x="162" y="291" fill="#34d399" font-weight="700">38%</text>
+
+    <text x="60" y="320" fill="#e2e8f0">反馈延迟</text>
+    <rect x="60" y="328" width="400" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="328" width="12" height="18" fill="url(#roi)" rx="3"/>
+    <text x="80" y="341" fill="#34d399" font-weight="700">≤ 3s</text>
+
+    <text x="60" y="370" fill="#e2e8f0">AI 辅导满意度</text>
+    <rect x="60" y="378" width="240" height="18" fill="#475569" rx="3"/>
+    <rect x="60" y="378" width="312" height="18" fill="url(#roi)" rx="3"/>
+    <text x="322" y="391" fill="#34d399" font-weight="700">4.3/5</text>
+
+    <text x="60" y="425" font-size="9" fill="#64748b">灰条=传统基准 · 绿条=sAgent 内测值</text>
+  </g>
+
+  <rect x="460" y="60" width="380" height="380" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="650" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#fbbf24">💰 降本收益（生均 · 8 周）</text>
+
+  <g font-size="10">
+    <text x="480" y="120" fill="#e2e8f0">助教人力</text>
+    <text x="480" y="138" font-size="9" fill="#94a3b8">传统 1 助教/30 生</text>
+    <rect x="480" y="146" width="340" height="22" rx="4" fill="#ef4444" opacity="0.25"/>
+    <text x="490" y="161" fill="#fca5a5">¥ 320 / 生</text>
+    <rect x="480" y="172" width="85" height="22" rx="4" fill="url(#cost)" opacity="0.6"/>
+    <text x="490" y="187" fill="#fbbf24">¥ 80</text>
+    <text x="660" y="187" fill="#34d399" font-weight="700">省 75%</text>
+
+    <text x="480" y="220" fill="#e2e8f0">教师评阅时间</text>
+    <text x="480" y="238" font-size="9" fill="#94a3b8">传统手工批改</text>
+    <rect x="480" y="246" width="340" height="22" rx="4" fill="#ef4444" opacity="0.25"/>
+    <text x="490" y="261" fill="#fca5a5">10 min/份</text>
+    <rect x="480" y="272" width="17" height="22" rx="4" fill="url(#cost)" opacity="0.6"/>
+    <text x="505" y="287" fill="#fbbf24">0.5 min</text>
+    <text x="660" y="287" fill="#34d399" font-weight="700">省 95%</text>
+
+    <text x="480" y="320" fill="#e2e8f0">材料更新成本</text>
+    <text x="480" y="338" font-size="9" fill="#94a3b8">传统每季人工修订</text>
+    <rect x="480" y="346" width="340" height="22" rx="4" fill="#ef4444" opacity="0.25"/>
+    <text x="490" y="361" fill="#fca5a5">¥ 15K / 季</text>
+    <rect x="480" y="372" width="34" height="22" rx="4" fill="url(#cost)" opacity="0.6"/>
+    <text x="525" y="387" fill="#fbbf24">¥ 1.5K</text>
+    <text x="660" y="387" fill="#34d399" font-weight="700">省 90%</text>
+
+    <text x="480" y="425" font-size="9" fill="#64748b">红条=传统成本 · 橙条=sAgent 成本</text>
+  </g>
+</svg>

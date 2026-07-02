@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" font-family="system-ui,sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="340" fill="url(#bg)" rx="12"/>
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">=== 严格相等 vs == 松散相等</text>
+  <rect x="30" y="52" width="350" height="140" rx="10" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="205" y="76" font-size="13" font-weight="600" fill="#22c55e" text-anchor="middle">✅ === 严格相等（推荐）</text>
+  <text x="205" y="94" font-size="11" fill="#94a3b8" text-anchor="middle">类型和值都必须相同</text>
+  <text x="55" y="116" font-size="11" fill="#22c55e">1 === 1 → true</text>
+  <text x="55" y="134" font-size="11" fill="#22c55e">1 === "1" → false</text>
+  <text x="55" y="152" font-size="11" fill="#22c55e">null === undefined → false</text>
+  <text x="55" y="170" font-size="11" fill="#22c55e">0 === false → false</text>
+  <rect x="400" y="52" width="350" height="140" rx="10" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="575" y="76" font-size="13" font-weight="600" fill="#ef4444" text-anchor="middle">❌ == 松散相等（禁用）</text>
+  <text x="575" y="94" font-size="11" fill="#94a3b8" text-anchor="middle">会做隐式类型转换</text>
+  <text x="425" y="116" font-size="11" fill="#ef4444">1 == "1" → true ⚠️</text>
+  <text x="425" y="134" font-size="11" fill="#ef4444">"" == 0 → true ⚠️</text>
+  <text x="425" y="152" font-size="11" fill="#ef4444">[] == false → true ⚠️</text>
+  <text x="425" y="170" font-size="11" fill="#ef4444">null == undefined → true ⚠️</text>
+  <text x="390" y="220" font-size="13" font-weight="600" fill="white" text-anchor="middle">比较运算符速查</text>
+  <rect x="40" y="236" width="700" height="28" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="130" y="254" font-size="11" fill="#94a3b8" text-anchor="middle">===  !==</text>
+  <text x="310" y="254" font-size="11" fill="#94a3b8" text-anchor="middle">严格相等 / 严格不等</text>
+  <text x="510" y="254" font-size="11" fill="#22c55e" text-anchor="middle">✅ 推荐</text>
+  <rect x="40" y="268" width="700" height="28" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="0.3"/>
+  <text x="130" y="286" font-size="11" fill="#94a3b8" text-anchor="middle">>  &lt;  >=  &lt;=</text>
+  <text x="310" y="286" font-size="11" fill="#94a3b8" text-anchor="middle">大于 / 小于 / 大于等于 / 小于等于</text>
+  <text x="510" y="286" font-size="11" fill="#22c55e" text-anchor="middle">✅ 安全</text>
+  <rect x="40" y="300" width="700" height="28" rx="6" fill="#ef4444" fill-opacity="0.03" stroke="#ef4444" stroke-opacity="0.1" stroke-width="0.5"/>
+  <text x="130" y="318" font-size="11" fill="#94a3b8" text-anchor="middle">==  !=</text>
+  <text x="310" y="318" font-size="11" fill="#94a3b8" text-anchor="middle">松散相等 / 松散不等</text>
+  <text x="510" y="318" font-size="11" fill="#ef4444" text-anchor="middle">❌ 禁用</text>
+</svg>

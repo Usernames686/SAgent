@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="dangerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="safeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.01"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="390" y="30" font-size="15" font-weight="700" fill="white" text-anchor="middle">let vs const vs var — 三兄弟对决 · 原理深度图解</text>
+
+  <!-- ═══ SECTION 1: 作用域 ═══ -->
+  <text x="30" y="56" font-size="11" font-weight="600" fill="#f97316">① 作用域范围对比</text>
+
+  <!-- var: 函数作用域 -->
+  <rect x="30" y="66" width="230" height="130" rx="8" fill="url(#dangerGrad)" stroke="#ef4444" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="145" y="84" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">❌ var — 函数作用域</text>
+  <rect x="46" y="92" width="198" height="94" rx="4" fill="none" stroke="#ef4444" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="54" y="106" font-size="9" fill="#ef4444" font-opacity="0.7" font-family="monospace">function fn() {</text>
+  <rect x="62" y="112" width="174" height="36" rx="3" fill="#ef4444" fill-opacity="0.06"/>
+  <text x="70" y="126" font-size="9" fill="#94a3b8" font-family="monospace">if (true) {</text>
+  <text x="78" y="140" font-size="9" fill="#ef4444" font-family="monospace">var x = 1;</text>
+  <text x="70" y="154" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="54" y="168" font-size="9" fill="#ef4444" font-family="monospace">console.log(x); // 1 ✅</text>
+  <text x="54" y="182" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="145" y="194" font-size="8" fill="#ef4444" text-anchor="middle">⚠️ x 泄漏到整个函数！</text>
+
+  <!-- let/const: 块级作用域 -->
+  <rect x="280" y="66" width="470" height="130" rx="8" fill="url(#safeGrad)" stroke="#3b82f6" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="515" y="84" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">✅ let / const — 块级作用域</text>
+  <rect x="296" y="92" width="438" height="94" rx="4" fill="none" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="304" y="106" font-size="9" fill="#3b82f6" font-opacity="0.7" font-family="monospace">function fn() {</text>
+  <rect x="312" y="112" width="414" height="36" rx="3" fill="#3b82f6" fill-opacity="0.06"/>
+  <text x="320" y="126" font-size="9" fill="#94a3b8" font-family="monospace">if (true) {</text>
+  <text x="328" y="140" font-size="9" fill="#3b82f6" font-family="monospace">let a = 1; const b = 2;</text>
+  <text x="320" y="154" font-size="9" fill="#94a3b8" font-family="monospace">} // a, b 在此销毁</text>
+  <text x="304" y="168" font-size="9" fill="#ef4444" font-family="monospace">console.log(a); // ❌ ReferenceError</text>
+  <text x="304" y="182" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="515" y="194" font-size="8" fill="#22c55e" text-anchor="middle">✅ a, b 被限制在 if 块内，外部无法访问</text>
+
+  <!-- ═══ SECTION 2: Hoisting vs TDZ ═══ -->
+  <text x="30" y="220" font-size="11" font-weight="600" fill="#f97316">② 变量提升(Hoisting) vs 暂时性死区(TDZ)</text>
+
+  <!-- var hoisting -->
+  <rect x="30" y="230" width="350" height="150" rx="8" fill="url(#dangerGrad)" stroke="#ef4444" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="205" y="248" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">❌ var 的变量提升</text>
+  <rect x="46" y="256" width="318" height="42" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="54" y="272" font-size="10" fill="#94a3b8" font-family="monospace">console.log(x);  // undefined</text>
+  <text x="54" y="288" font-size="10" fill="#94a3b8" font-family="monospace">var x = 5;</text>
+  <text x="54" y="308" font-size="9" fill="#ef4444" fill-opacity="0.8">⬆ 引擎实际执行顺序：</text>
+  <rect x="46" y="314" width="318" height="44" rx="4" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.1" stroke-width="0.5"/>
+  <text x="54" y="328" font-size="9" fill="#ef4444" font-family="monospace">var x;           // ← 提升到顶部</text>
+  <text x="54" y="342" font-size="9" fill="#ef4444" font-family="monospace">console.log(x);  // undefined (不报错!)</text>
+  <text x="54" y="356" font-size="9" fill="#ef4444" font-family="monospace">x = 5;           // ← 赋值留在原位</text>
+  <rect x="46" y="364" width="318" height="12" rx="2" fill="#ef4444" fill-opacity="0.08"/>
+  <text x="54" y="374" font-size="8" fill="#ef4444">⚠️ 声明前访问不报错，值是 undefined — 隐患源头！</text>
+
+  <!-- let/const TDZ -->
+  <rect x="400" y="230" width="350" height="150" rx="8" fill="url(#safeGrad)" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="575" y="248" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">✅ let/const 的 TDZ 保护</text>
+  <rect x="416" y="256" width="318" height="42" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="424" y="272" font-size="10" fill="#94a3b8" font-family="monospace">console.log(y);  // ❌ ReferenceError!</text>
+  <text x="424" y="288" font-size="10" fill="#94a3b8" font-family="monospace">let y = 5;</text>
+  <text x="424" y="308" font-size="9" fill="#3b82f6" fill-opacity="0.8">🛡️ TDZ（暂时性死区）机制：</text>
+  <line x1="430" y1="324" x2="720" y2="324" stroke="#475569" stroke-width="1"/>
+  <rect x="430" y="316" width="145" height="16" rx="3" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-opacity="0.3" stroke-width="0.5"/>
+  <text x="502" y="327" font-size="8" fill="#ef4444" text-anchor="middle">🚫 TDZ 禁区</text>
+  <rect x="575" y="316" width="145" height="16" rx="3" fill="#22c55e" fill-opacity="0.08" stroke="#22c55e" stroke-opacity="0.2" stroke-width="0.5"/>
+  <text x="647" y="327" font-size="8" fill="#22c55e" text-anchor="middle">✅ 可安全访问</text>
+  <line x1="575" y1="314" x2="575" y2="334" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="575" y="346" font-size="7" fill="#3b82f6" text-anchor="middle">let y = 5</text>
+  <text x="430" y="358" font-size="7" fill="#64748b">作用域开始</text>
+  <text x="720" y="358" font-size="7" fill="#64748b" text-anchor="end">作用域结束</text>
+  <rect x="416" y="364" width="318" height="12" rx="2" fill="#22c55e" fill-opacity="0.06"/>
+  <text x="424" y="374" font-size="8" fill="#22c55e">✅ 声明前访问直接报错 — 强制先声明再使用</text>
+
+  <!-- ═══ SECTION 3: 决策树 ═══ -->
+  <text x="30" y="406" font-size="11" font-weight="600" fill="#f97316">③ 实战决策：什么时候用哪个？</text>
+  <rect x="30" y="416" width="720" height="145" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+
+  <!-- 根节点 -->
+  <rect x="290" y="426" width="200" height="28" rx="14" fill="#f97316" fill-opacity="0.12" stroke="#f97316" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="390" y="445" font-size="10" font-weight="600" fill="#f97316" text-anchor="middle">需要声明一个变量？</text>
+
+  <!-- var 分支 -->
+  <line x1="310" y1="454" x2="120" y2="472" stroke="#ef4444" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="36" y="466" width="168" height="24" rx="12" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-opacity="0.25" stroke-width="0.8"/>
+  <text x="120" y="482" font-size="9" fill="#ef4444" text-anchor="middle">var？→ 🚫 永远不要！</text>
+  <text x="120" y="500" font-size="7" fill="#ef4444" fill-opacity="0.6" text-anchor="middle">用 let 或 const 替代</text>
+
+  <!-- 值会变吗 -->
+  <line x1="470" y1="454" x2="560" y2="472" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="476" y="466" width="168" height="24" rx="12" fill="#3b82f6" fill-opacity="0.08" stroke="#3b82f6" stroke-opacity="0.25" stroke-width="0.8"/>
+  <text x="560" y="482" font-size="9" fill="#3b82f6" text-anchor="middle">值需要重新赋值吗？</text>
+
+  <!-- 是: let -->
+  <line x1="510" y1="490" x2="420" y2="510" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="336" y="504" width="168" height="24" rx="12" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="420" y="520" font-size="9" font-weight="600" fill="#3b82f6" text-anchor="middle">✅ let — 计数器/累加</text>
+  <text x="420" y="536" font-size="7" fill="#64748b" text-anchor="middle">let count = 0; count++;</text>
+
+  <!-- 否: const -->
+  <line x1="610" y1="490" x2="640" y2="510" stroke="#a855f7" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="556" y="504" width="168" height="24" rx="12" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="640" y="520" font-size="9" font-weight="600" fill="#a855f7" text-anchor="middle">🏆 const — 默认首选</text>
+  <text x="640" y="536" font-size="7" fill="#64748b" text-anchor="middle">const API_URL = "...";</text>
+
+  <!-- 底部总结 -->
+  <rect x="40" y="548" width="700" height="22" rx="8" fill="#f97316" fill-opacity="0.06" stroke="#f97316" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="390" y="563" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">💡 记忆口诀：const 优先最安全，let 变量才准换，var 是历史留的债</text>
+</svg>

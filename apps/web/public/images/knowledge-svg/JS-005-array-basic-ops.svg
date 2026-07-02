@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">增删改查 · 数组基本操作</text>
+
+  <!-- push/pop/unshift/shift -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#06b6d4">① 栈与队列操作</text>
+
+  <rect x="30" y="74" width="350" height="120" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="50" y="96" font-size="11" font-weight="700" fill="#22c55e">push(...items) → 末尾添加</text>
+  <text x="50" y="116" font-size="10" fill="#94a3b8" font-family="monospace">[1, 2, 3].push(4)  // 长度 4</text>
+  <text x="50" y="138" font-size="11" font-weight="700" fill="#22c55e">pop() → 末尾删除</text>
+  <text x="50" y="158" font-size="10" fill="#94a3b8" font-family="monospace">[1, 2, 3].pop()    // 返回 3</text>
+  <text x="50" y="180" font-size="9" fill="#eab308">💡 返回值：push 返回新长度，pop 返回被删元素</text>
+
+  <rect x="400" y="74" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="420" y="96" font-size="11" font-weight="700" fill="#3b82f6">unshift(...items) → 开头添加</text>
+  <text x="420" y="116" font-size="10" fill="#94a3b8" font-family="monospace">[1, 2, 3].unshift(0)  // 长度 4</text>
+  <text x="420" y="138" font-size="11" font-weight="700" fill="#3b82f6">shift() → 开头删除</text>
+  <text x="420" y="158" font-size="10" fill="#94a3b8" font-family="monospace">[1, 2, 3].shift()    // 返回 1</text>
+  <text x="420" y="180" font-size="9" fill="#eab308">⚠️ unshift/shift 会移动所有元素，性能比 push/pop 差</text>
+
+  <!-- splice -->
+  <text x="40" y="220" font-size="13" font-weight="600" fill="#a855f7">② splice — 万能增删改（修改原数组）</text>
+
+  <rect x="30" y="230" width="720" height="170" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="252" font-size="11" font-weight="700" fill="#a855f7">splice(start, deleteCount, ...items)</text>
+
+  <!-- 删除 -->
+  <rect x="50" y="266" width="220" height="60" rx="4" fill="#0f172a"/>
+  <text x="62" y="284" font-size="9" fill="#ef4444" font-weight="600">删除</text>
+  <text x="62" y="300" font-size="9" fill="#94a3b8" font-family="monospace">[1,2,3,4].splice(1, 2)</text>
+  <text x="62" y="316" font-size="9" fill="#22c55e" font-family="monospace">// [1, 4] 删了 2,3</text>
+
+  <!-- 插入 -->
+  <rect x="280" y="266" width="220" height="60" rx="4" fill="#0f172a"/>
+  <text x="292" y="284" font-size="9" fill="#22c55e" font-weight="600">插入</text>
+  <text x="292" y="300" font-size="9" fill="#94a3b8" font-family="monospace">[1,2,3].splice(1, 0, 9)</text>
+  <text x="292" y="316" font-size="9" fill="#22c55e" font-family="monospace">// [1, 9, 2, 3]</text>
+
+  <!-- 替换 -->
+  <rect x="510" y="266" width="220" height="60" rx="4" fill="#0f172a"/>
+  <text x="522" y="284" font-size="9" fill="#eab308" font-weight="600">替换</text>
+  <text x="522" y="300" font-size="9" fill="#94a3b8" font-family="monospace">[1,2,3].splice(1, 1, 9)</text>
+  <text x="522" y="316" font-size="9" fill="#22c55e" font-family="monospace">// [1, 9, 3]</text>
+
+  <text x="50" y="350" font-size="10" fill="#eab308">⚠️ splice 修改原数组，返回被删除的元素数组</text>
+  <text x="50" y="370" font-size="10" fill="#94a3b8">💡 负数索引：splice(-1) 从末尾开始</text>
+  <text x="50" y="390" font-size="10" fill="#94a3b8">💡 替换：splice(start, deleteCount, ...newItems)</text>
+
+  <!-- 查找 -->
+  <text x="40" y="424" font-size="13" font-weight="600" fill="#f97316">③ 查找操作</text>
+
+  <rect x="30" y="436" width="720" height="120" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+  <text x="50" y="458" font-size="10" fill="#f97316" font-family="monospace">indexOf(item)         // 索引，没有返回 -1</text>
+  <text x="50" y="478" font-size="10" fill="#f97316" font-family="monospace">includes(item)        // true/false（比 indexOf 更语义化）</text>
+  <text x="50" y="498" font-size="10" fill="#f97316" font-family="monospace">find(cb)              // 第一个满足条件的元素</text>
+  <text x="50" y="518" font-size="10" fill="#f97316" font-family="monospace">findIndex(cb)         // 第一个满足条件的索引</text>
+  <text x="50" y="538" font-size="9" fill="#eab308">💡 indexOf/includes 找值，find/findIndex 找满足条件的元素</text>
+</svg>

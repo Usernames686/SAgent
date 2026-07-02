@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" font-family="Segoe UI, PingFang SC, sans-serif">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="880" height="280" fill="#0f172a" rx="16"/>
+  <text x="440" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#f8fafc">用户学习闭环 · 五步流程</text>
+
+  <g font-size="11" fill="#e2e8f0">
+    <circle cx="100" cy="150" r="44" fill="url(#g1)" opacity="0.2" stroke="#f97316"/>
+    <text x="100" y="145" text-anchor="middle" font-weight="700" fill="#fb923c">① 注册</text>
+    <text x="100" y="162" text-anchor="middle" font-size="10" fill="#cbd5e1">选目标</text>
+
+    <circle cx="260" cy="150" r="44" fill="url(#g1)" opacity="0.2" stroke="#f97316"/>
+    <text x="260" y="145" text-anchor="middle" font-weight="700" fill="#fb923c">② 诊断</text>
+    <text x="260" y="162" text-anchor="middle" font-size="10" fill="#cbd5e1">IRT 估能力</text>
+
+    <circle cx="420" cy="150" r="44" fill="url(#g1)" opacity="0.2" stroke="#f97316"/>
+    <text x="420" y="145" text-anchor="middle" font-weight="700" fill="#fb923c">③ 学习</text>
+    <text x="420" y="162" text-anchor="middle" font-size="10" fill="#cbd5e1">Vibe Coding</text>
+
+    <circle cx="580" cy="150" r="44" fill="url(#g1)" opacity="0.2" stroke="#f97316"/>
+    <text x="580" y="145" text-anchor="middle" font-weight="700" fill="#fb923c">④ 评测</text>
+    <text x="580" y="162" text-anchor="middle" font-size="10" fill="#cbd5e1">Agent 评分</text>
+
+    <circle cx="740" cy="150" r="44" fill="url(#g1)" opacity="0.2" stroke="#f97316"/>
+    <text x="740" y="145" text-anchor="middle" font-weight="700" fill="#fb923c">⑤ 进化</text>
+    <text x="740" y="162" text-anchor="middle" font-size="10" fill="#cbd5e1">策略优化</text>
+  </g>
+
+  <line x1="148" y1="150" x2="212" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="308" y1="150" x2="372" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="468" y1="150" x2="532" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="628" y1="150" x2="692" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <path d="M 740 106 Q 740 70 420 70 Q 100 70 100 106" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr)"/>
+  <text x="420" y="62" text-anchor="middle" font-size="10" fill="#34d399">行为数据回流 · 驱动路径动态调整与策略进化</text>
+
+  <text x="440" y="240" text-anchor="middle" font-size="10" fill="#94a3b8">注册 → IRT 自适应诊断 → Vibe Coding 实战 → 多 Agent 评测 → 进化引擎优化策略 → 闭环</text>
+</svg>

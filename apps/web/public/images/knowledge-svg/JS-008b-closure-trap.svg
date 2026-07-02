@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">闭包陷阱 · 循环与React</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">❌ 经典陷阱：循环中的闭包</text>
+<rect x="30" y="76" width="350" height="200" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+<text x="50" y="96" font-size="11" font-weight="600" fill="#ef4444">var + setTimeout</text>
+<text x="50" y="120" font-size="9" fill="#94a3b8" font-family="monospace">for (var i = 0; i &lt; 3; i++) {</text>
+<text x="70" y="138" font-size="9" fill="#94a3b8" font-family="monospace">setTimeout(() =&gt; {</text>
+<text x="90" y="156" font-size="9" fill="#ef4444" font-family="monospace">console.log(i);</text>
+<text x="70" y="174" font-size="9" fill="#94a3b8" font-family="monospace">}, 100);</text>
+<text x="50" y="192" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+<text x="50" y="216" font-size="10" fill="#ef4444" font-weight="600">输出: 3, 3, 3</text>
+<text x="50" y="236" font-size="8" fill="#ef4444">var i 是函数作用域，3个回调共享同一个i</text>
+<text x="50" y="254" font-size="8" fill="#ef4444">循环结束 i=3，3个回调都读到3</text>
+<rect x="400" y="76" width="350" height="200" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="420" y="96" font-size="11" font-weight="600" fill="#22c55e">let + setTimeout</text>
+<text x="420" y="120" font-size="9" fill="#94a3b8" font-family="monospace">for (let i = 0; i &lt; 3; i++) {</text>
+<text x="440" y="138" font-size="9" fill="#94a3b8" font-family="monospace">setTimeout(() =&gt; {</text>
+<text x="460" y="156" font-size="9" fill="#22c55e" font-family="monospace">console.log(i);</text>
+<text x="440" y="174" font-size="9" fill="#94a3b8" font-family="monospace">}, 100);</text>
+<text x="420" y="192" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+<text x="420" y="216" font-size="10" fill="#22c55e" font-weight="600">输出: 0, 1, 2 ✅</text>
+<text x="420" y="236" font-size="8" fill="#22c55e">let i 是块级作用域，每次循环创建新i</text>
+<text x="420" y="254" font-size="8" fill="#22c55e">3个回调各自"记住"自己的i</text>
+<text x="40" y="300" font-size="13" font-weight="600" fill="#f97316">⚠️ React闭包陷阱：stale closure</text>
+<rect x="30" y="312" width="720" height="180" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.2"/>
+<text x="50" y="336" font-size="10" fill="#94a3b8" font-family="monospace">function Counter() {</text>
+<text x="70" y="356" font-size="10" fill="#3b82f6" font-family="monospace">const [count, setCount] = useState(0);</text>
+<text x="70" y="376" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="70" y="396" font-size="10" fill="#ef4444" font-family="monospace">// ❌ 闭包"记住"的是点击时的count（旧值）</text>
+<text x="70" y="416" font-size="10" fill="#94a3b8" font-family="monospace">const handleClick = () =&gt; {</text>
+<text x="90" y="436" font-size="10" fill="#ef4444" font-family="monospace">setTimeout(() =&gt; console.log(count), 1000);</text>
+<text x="70" y="456" font-size="10" fill="#94a3b8" font-family="monospace">};</text>
+<text x="70" y="476" font-size="10" fill="#22c55e" font-family="monospace">// ✅ 解决：函数式更新</text>
+<text x="70" y="496" font-size="10" fill="#94a3b8" font-family="monospace">const handleFix = () =&gt; setCount(c =&gt; c + 1);</text>
+<text x="50" y="516" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+</svg>

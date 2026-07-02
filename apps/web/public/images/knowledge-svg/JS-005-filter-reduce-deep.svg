@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">filter · 条件过滤 · reduce · 归约汇总</text>
+
+  <!-- filter 流程 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#a855f7">① filter 执行流程</text>
+  <rect x="30" y="74" width="350" height="180" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+
+  <text x="50" y="96" font-size="10" fill="#94a3b8">原数组：[1, 2, 3, 4, 5]</text>
+  <text x="50" y="116" font-size="10" fill="#a855f7">条件：n % 2 === 0（偶数）</text>
+
+  <text x="60" y="142" font-size="10" fill="#ef4444">1 → 奇数 ✗ 跳过</text>
+  <text x="60" y="160" font-size="10" fill="#22c55e">2 → 偶数 ✓ 保留</text>
+  <text x="60" y="178" font-size="10" fill="#ef4444">3 → 奇数 ✗ 跳过</text>
+  <text x="60" y="196" font-size="10" fill="#22c55e">4 → 偶数 ✓ 保留</text>
+  <text x="60" y="214" font-size="10" fill="#ef4444">5 → 奇数 ✗ 跳过</text>
+  <text x="50" y="240" font-size="10" fill="#22c55e" font-weight="600">结果：[2, 4]</text>
+
+  <!-- filter 特性 -->
+  <rect x="400" y="74" width="350" height="180" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="420" y="96" font-size="11" font-weight="600" fill="#a855f7">🔑 filter 关键特性</text>
+  <text x="420" y="118" font-size="10" fill="#cbd5e1">• 长度可能变（0 到原长度之间）</text>
+  <text x="420" y="138" font-size="10" fill="#cbd5e1">• 返回新数组，不改原数组</text>
+  <text x="420" y="158" font-size="10" fill="#cbd5e1">• callback 返回 true/false</text>
+  <text x="420" y="178" font-size="10" fill="#cbd5e1">• 空数组 filter 返回空数组</text>
+  <text x="420" y="206" font-size="11" font-weight="600" fill="#a855f7">💡 常见场景</text>
+  <text x="420" y="226" font-size="10" fill="#94a3b8">• 筛选及格学生：filter(s =&gt; s.score &gt;= 60)</text>
+  <text x="420" y="246" font-size="10" fill="#94a3b8">• 去除 null/undefined：filter(Boolean)</text>
+
+  <!-- reduce 流程 -->
+  <text x="40" y="276" font-size="13" font-weight="600" fill="#f97316">② reduce 执行流程 — 求和</text>
+  <rect x="30" y="286" width="720" height="130" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+
+  <text x="50" y="310" font-size="10" fill="#94a3b8">[1, 2, 3, 4].reduce((sum, n) =&gt; sum + n, 0)</text>
+
+  <rect x="50" y="322" width="680" height="80" rx="4" fill="#0f172a"/>
+  <text x="62" y="340" font-size="9" fill="#f97316" font-family="monospace">第1次: sum=0  + n=1  → 1</text>
+  <text x="62" y="356" font-size="9" fill="#f97316" font-family="monospace">第2次: sum=1  + n=2  → 3</text>
+  <text x="62" y="372" font-size="9" fill="#f97316" font-family="monospace">第3次: sum=3  + n=3  → 6</text>
+  <text x="62" y="388" font-size="9" fill="#22c55e" font-family="monospace">第4次: sum=6  + n=4  → 10  ← 最终结果</text>
+
+  <!-- reduce 万能性 -->
+  <text x="40" y="436" font-size="13" font-weight="600" fill="#eab308">③ reduce 是最通用的方法 — 可代替 map 和 filter</text>
+  <rect x="30" y="446" width="350" height="110" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="50" y="466" font-size="10" font-weight="600" fill="#eab308">用 reduce 实现 filter</text>
+  <text x="50" y="486" font-size="9" fill="#94a3b8" font-family="monospace">arr.reduce((acc, n) =&gt; {</text>
+  <text x="50" y="502" font-size="9" fill="#94a3b8" font-family="monospace">  if (n % 2 === 0) acc.push(n);</text>
+  <text x="50" y="518" font-size="9" fill="#94a3b8" font-family="monospace">  return acc;</text>
+  <text x="50" y="534" font-size="9" fill="#94a3b8" font-family="monospace">}, [])</text>
+
+  <rect x="400" y="446" width="350" height="110" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="420" y="466" font-size="10" font-weight="600" fill="#eab308">用 reduce 实现 map</text>
+  <text x="420" y="486" font-size="9" fill="#94a3b8" font-family="monospace">arr.reduce((acc, n) =&gt; {</text>
+  <text x="420" y="502" font-size="9" fill="#94a3b8" font-family="monospace">  acc.push(n * 2);</text>
+  <text x="420" y="518" font-size="9" fill="#94a3b8" font-family="monospace">  return acc;</text>
+  <text x="420" y="534" font-size="9" fill="#94a3b8" font-family="monospace">}, [])</text>
+</svg>

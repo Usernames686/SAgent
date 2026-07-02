@@ -1,0 +1,340 @@
+  // ============================================================
+  // 前端三件套 (FE)
+  // ============================================================
+
+  'FE-001': {
+    nodeId: 'FE-001',
+    motivation: 'HTML5 语义化标签让网页"会说话" — 搜索引擎和屏幕阅读器能理解你的页面结构。用 <header> 而不是 <div class="header">，让你的代码既对人类友好，也对机器友好。',
+    concepts: [
+      { title: 'HTML5 语义化标签', content: '语义化标签让 HTML 自带"含义"：\n\n- <header> — 页头\n- <nav> — 导航\n- <main> — 主内容区（每页只有一个）\n- <article> — 独立内容\n- <section> — 内容分区\n- <aside> — 侧边栏\n- <footer> — 页脚\n\nvs <div>：\n- <div> 是"无意义"的容器\n- 语义标签告诉浏览器"这部分是什么"\n- 对 SEO 和可访问性至关重要' },
+      { title: '文档结构最佳实践', content: '语义化的页面结构：\n\n<header><nav>导航链接</nav></header>\n<main>\n  <article>\n    <section>第一节</section>\n    <section>第二节</section>\n  </article>\n  <aside>侧边栏</aside>\n</main>\n<footer>版权信息</footer>\n\n💡 规则：\n- <main> 只有一个\n- <article> 可以独立存在\n- <section> 有标题，不是通用容器\n- <nav> 只用于主要导航' },
+    ],
+    codeExamples: [
+      {
+        title: '语义化页面结构',
+        code: `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sAgent 学习平台</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">首页</a>
+      <a href="/learn">学习</a>
+    </nav>
+  </header>
+  <main>
+    <article>
+      <h1>React 入门指南</h1>
+      <section><h2>什么是 React</h2><p>React 是一个用于构建用户界面的 JS 库...</p></section>
+    </article>
+    <aside><h3>相关推荐</h3><ul><li><a href="/nodejs">Node.js 入门</a></li></ul></aside>
+  </main>
+  <footer><p>&copy; 2024 sAgent</p></footer>
+</body>
+</html>`,
+        explanation: '完整的语义化标签。header 包含导航，main 包含核心内容，article 是独立文章，section 是内容分区，aside 是侧边栏，footer 是页脚。屏幕阅读器可以快速跳转到各个区域。',
+      },
+    ],
+    summary: '1. 语义化标签让 HTML 自带含义，对 SEO 和可访问性至关重要\n2. <header>/<nav>/<main>/<article>/<section>/<aside>/<footer> 各司其职\n3. <main> 只有一个，<article> 可独立存在',
+    tips: [
+      '✅ 用 <nav> 包裹主要导航 — 屏幕阅读器可快速跳转',
+      '⚠️ <div> 不是禁止使用 — 纯样式容器仍可用 <div>',
+      '💡 <img> 记得加 alt 属性 — 可访问性的基本要求',
+    ],
+    thinkQuestions: [
+      '为什么 <main> 标签每页只能有一个？如果多个会怎样？',
+      '<article> 和 <section> 的区别是什么？什么场景用哪个？',
+    ],
+  },
+
+  'FE-002': {
+    nodeId: 'FE-002',
+    motivation: 'CSS 选择器和盒模型是网页布局的基石 — 不理解盒模型，你永远搞不懂为什么元素比你预期的大/小。不理解选择器，你就无法精确控制样式。',
+    concepts: [
+      { title: 'CSS 选择器与优先级', content: '常用选择器优先级从低到高：\n\n1. 元素选择器：div, p, span\n2. 类选择器：.card, .active\n3. ID 选择器：#header, #main\n4. 属性选择器：[type="text"]\n5. 伪类：:hover, :focus, :first-child\n6. 伪元素：::before, ::after\n\n选择器优先级：\n- !important > 内联 > ID > 类 > 元素\n- 同优先级时，后写的覆盖先写的\n\n💡 规则：优先用类选择器，避免 ID 和 !important' },
+      { title: '盒模型', content: '每个 HTML 元素都是一个"盒子"：\n\ncontent-box（默认）：\n  实际宽度 = content + padding + border + margin\n\nborder-box（推荐）：\n  实际宽度 = width（包含 content + padding + border）\n\n💡 全局设置：\n  *, *::before, *::after { box-sizing: border-box; }\n\nmargin 折叠：\n- 上下相邻的 margin 会"合并"取较大值\n- 左右 margin 不折叠' },
+    ],
+    codeExamples: [
+      {
+        title: '盒模型对比',
+        code: `/* content-box — 宽度不包含 padding 和 border */
+.box-content {
+  box-sizing: content-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid blue;
+  /* 实际占位：200 + 20*2 + 5*2 = 250px */
+}
+
+/* border-box（推荐）— 宽度包含 padding 和 border */
+.box-border {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid green;
+  /* 实际占位：200px（content 自动缩小） */
+}
+
+/* 全局推荐设置 */
+*, *::before, *::after { box-sizing: border-box; }`,
+        explanation: 'content-box 下 padding 和 border 会额外增加元素尺寸。border-box 下 width 就是最终宽度，布局更可控。',
+      },
+    ],
+    summary: '1. 选择器优先级：!important > 内联 > ID > 类 > 元素\n2. 推荐用类选择器，避免 ID 和 !important\n3. 全局设置 border-box\n4. 上下 margin 会折叠，取较大值',
+    tips: [
+      '✅ 全局设置 border-box — 布局更可控',
+      '⚠️ margin 折叠只发生在垂直方向',
+      '💡 优先用类选择器 — 复用性最好',
+    ],
+    thinkQuestions: [
+      '为什么全局设置 border-box 是最佳实践？',
+      '两个相邻元素的 margin 折叠后，实际间距是多少？',
+    ],
+  },
+
+  'FE-003': {
+    nodeId: 'FE-003',
+    motivation: 'Flexbox 是 CSS 最实用的布局方案 — 水平居中、等高列、自适应排列，过去需要各种 hack 的布局，现在几行 Flex 就搞定。',
+    concepts: [
+      { title: 'Flex 容器属性', content: 'display: flex 变成 Flex 容器：\n\n- flex-direction: row | column — 主轴方向\n- justify-content: 主轴对齐\n- align-items: 交叉轴对齐\n- flex-wrap: 是否换行\n- gap: 间距\n\n💡 最常用：display: flex; justify-content: center; align-items: center; → 完美居中！' },
+      { title: 'Flex 项目属性', content: '子元素属性：\n- flex-grow: 放大比例（默认0）\n- flex-shrink: 缩小比例（默认1）\n- flex-basis: 初始大小\n- flex: 简写 → flex: 1 等分 / flex: 0 0 200px 固定\n- align-self: 覆盖 align-items\n- order: 排列顺序' },
+    ],
+    codeExamples: [
+      {
+        title: 'Flex 常见布局',
+        code: `/* 完美居中 */
+.center { display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+/* 导航栏 */
+.navbar { display: flex; justify-content: space-between; align-items: center; }
+
+/* 等分三列 */
+.cols { display: flex; gap: 16px; }
+.cols > div { flex: 1; }
+
+/* 侧边栏 + 主内容 */
+.layout { display: flex; gap: 20px; }
+.sidebar { flex: 0 0 240px; }
+.main { flex: 1; }`,
+        explanation: 'Flex 最常用的四个场景：居中、导航栏、等分列、侧边栏布局。justify-content 控制主轴，align-items 控制交叉轴。',
+      },
+    ],
+    summary: '1. display: flex 开启弹性布局\n2. justify-content 控制主轴，align-items 控制交叉轴\n3. flex: 1 等分空间，flex: 0 0 200px 固定尺寸\n4. gap 设置间距，替代 margin',
+    tips: [
+      '💡 flex: 1 = flex: 1 1 0% — 自动填充剩余空间',
+      '⚠️ 子元素默认不换行 — 需要 flex-wrap: wrap',
+      '✅ gap 比 margin 更好 — 只在项目间添加间距',
+    ],
+    thinkQuestions: [
+      'flex: 1 和 flex: auto 的区别是什么？',
+      '如何用 Flex 实现圣杯布局？',
+    ],
+  },
+
+  'FE-004': {
+    nodeId: 'FE-004',
+    motivation: 'CSS Grid 是二维布局的终极方案 — Flex 是一维，Grid 是二维。复杂的仪表盘、图片墙，Grid 更优雅。',
+    concepts: [
+      { title: 'Grid 核心概念', content: 'display: grid 开启网格布局：\n\n- grid-template-columns/rows: 定义列/行\n- gap: 间距\n- grid-area: 命名区域\n- repeat() / minmax()\n\n常用：\n- repeat(3, 1fr) → 三等分\n- repeat(auto-fill, minmax(250px, 1fr)) → 自适应列数\n- grid-template-areas: "画图"布局' },
+      { title: 'Grid vs Flex', content: '一维布局 → Flex\n二维布局 → Grid\n组件内部 → Flex\n页面整体 → Grid\n\n💡 Grid 做骨架，Flex 做组件内部排列' },
+    ],
+    codeExamples: [
+      {
+        title: 'Grid 布局实战',
+        code: `/* 自适应卡片网格 */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+/* 仪表盘 */
+.dashboard {
+  display: grid;
+  grid-template-columns: 240px 1fr 1fr;
+  grid-template-rows: 60px 1fr 40px;
+  grid-template-areas:
+    "header header  header"
+    "sidebar content content"
+    "footer footer  footer";
+}
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.footer  { grid-area: footer; }`,
+        explanation: 'auto-fill + minmax 实现自适应列数。grid-template-areas 用"画图"的方式定义布局。',
+      },
+    ],
+    summary: '1. Grid 是二维布局，Flex 是一维布局\n2. repeat(auto-fill, minmax()) 实现自适应列数\n3. grid-template-areas 用命名区域"画"布局\n4. 页面用 Grid，组件用 Flex',
+    tips: [
+      '💡 auto-fill 保留空列，auto-fit 折叠空列',
+      '✅ minmax(250px, 1fr) — 最小250px，最大填充',
+      '🎯 Grid + Flex 配合效果最佳',
+    ],
+    thinkQuestions: [
+      'repeat(auto-fill, minmax(250px, 1fr)) 在不同宽度下怎么变化？',
+      '什么场景 Grid 比 Flex 更合适？',
+    ],
+  },
+
+  'FE-005': {
+    nodeId: 'FE-005',
+    motivation: '响应式设计让同一套代码自动适配不同屏幕 — 掌握媒体查询和相对单位，告别"手机上炸了"。',
+    concepts: [
+      { title: '媒体查询', content: '@media 根据屏幕特征应用样式：\n\n/* 移动优先 */\n.card { width: 100%; }\n@media (min-width: 768px) { .card { width: 50%; } }\n@media (min-width: 1024px) { .card { width: 33.33%; } }\n\n常用断点：768px / 1024px' },
+      { title: 'clamp() 流式缩放', content: 'clamp(1rem, 2.5vw, 2rem)\n→ 最小1rem，最大2rem，中间按2.5vw缩放\n\n💡 字号用 clamp() + rem，宽度用 min() + %' },
+    ],
+    codeExamples: [
+      {
+        title: '响应式布局',
+        code: `.container { padding: 1rem; max-width: 1200px; margin: 0 auto; }
+.card-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+@media (min-width: 768px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+h1 { font-size: clamp(1.5rem, 4vw, 3rem); }`,
+        explanation: '移动优先：先写手机样式，min-width 逐步扩展。clamp() 让字号平滑过渡。',
+      },
+    ],
+    summary: '1. 移动优先：先写小屏，@media (min-width) 扩展\n2. 常用断点：768px / 1024px\n3. clamp() 实现流式缩放\n4. 用 rem/vw 代替 px',
+    tips: [
+      '💡 移动优先用 min-width — 代码更简洁',
+      '✅ clamp() 是最好的响应式字号方案',
+      '⚠️ 3-4 个断点就够',
+    ],
+    thinkQuestions: [
+      '移动优先和桌面优先有什么区别？',
+      'clamp(1rem, 2.5vw, 2rem) 在不同屏幕上多大？',
+    ],
+  },
+
+  'FE-006': {
+    nodeId: 'FE-006',
+    motivation: 'DOM 操作和事件处理是 JS 与页面交互的桥梁 — 理解事件冒泡和委托，你的代码会更高效。',
+    concepts: [
+      { title: 'DOM 选择与操作', content: '选择：querySelector / querySelectorAll\n操作：textContent / classList / setAttribute\n创建：createElement / appendChild / removeChild\n\n⚠️ innerHTML 有 XSS 风险，优先用 textContent' },
+      { title: '事件冒泡与委托', content: '事件传播：捕获 → 目标 → 冒泡\n\n事件委托：在父元素监听子元素事件\n- 适合动态列表\n- 减少事件监听器数量\n\n  list.addEventListener("click", (e) => {\n    if (e.target.matches("li")) { /* 处理 */ }\n  });' },
+    ],
+    codeExamples: [
+      {
+        title: '事件委托',
+        code: `const list = document.querySelector("#todo-list");
+const btn = document.querySelector("#add-btn");
+
+// 事件委托
+list.addEventListener("click", (e) => {
+  if (e.target.matches(".delete-btn")) {
+    e.target.closest("li").remove();
+  }
+});
+
+btn.addEventListener("click", () => {
+  const li = document.createElement("li");
+  li.textContent = "新任务";
+  const del = document.createElement("button");
+  del.className = "delete-btn";
+  del.textContent = "删除";
+  li.appendChild(del);
+  list.appendChild(li);
+});`,
+        explanation: '事件委托：在父元素监听，通过 e.target 判断点击的子元素。新增元素无需重新绑定。',
+      },
+    ],
+    summary: '1. querySelector 选择元素，classList 操作类名\n2. 事件三阶段：捕获 → 目标 → 冒泡\n3. 事件委托提升性能\n4. 避免 innerHTML 处理用户输入',
+    tips: [
+      '✅ 用 textContent 而非 innerHTML',
+      '💡 事件委托适合动态列表',
+      '⚠️ e.target 是实际点击的元素',
+    ],
+    thinkQuestions: [
+      '为什么事件委托比给每个子元素绑定事件更高效？',
+      'e.target 和 e.currentTarget 有什么区别？',
+    ],
+  },
+
+  'FE-007': {
+    nodeId: 'FE-007',
+    motivation: '前端数据存储有多个选项 — localStorage 简单但有限，Cookie 能跨域但小，IndexedDB 强大但复杂。选对存储方案很重要。',
+    concepts: [
+      { title: '四种存储方案对比', content: 'localStorage：5-10MB，永久，同步\nsessionStorage：5-10MB，标签页关闭清除\nCookie：4KB，HTTP 请求自动携带\nIndexedDB：数百MB+，异步，支持索引和事务\n\n💡 简单配置用 localStorage，大量数据用 IndexedDB' },
+    ],
+    codeExamples: [
+      {
+        title: 'localStorage 实战',
+        code: `// 存储
+localStorage.setItem("theme", "dark");
+localStorage.setItem("user", JSON.stringify({ name: "小明", level: 5 }));
+
+// 读取
+const theme = localStorage.getItem("theme");
+const user = JSON.parse(localStorage.getItem("user") || "null");
+
+// 删除
+localStorage.removeItem("theme");
+localStorage.clear();
+
+// ⚠️ 只能存字符串！对象需要 JSON.stringify/parse`,
+        explanation: 'localStorage 用于主题设置、用户偏好、简单缓存。只能存字符串，对象需要序列化。',
+      },
+    ],
+    summary: '1. localStorage：5-10MB，永久，同步\n2. sessionStorage：标签页关闭就清除\n3. Cookie：4KB，自动携带，适合认证\n4. IndexedDB：大容量，异步',
+    tips: [
+      '⚠️ localStorage 是同步的 — 大量数据会阻塞',
+      '💡 对象需要 JSON.stringify/parse',
+      '✅ 敏感数据不要存 localStorage',
+    ],
+    thinkQuestions: [
+      '为什么认证 Token 通常存 Cookie 而不是 localStorage？',
+      'IndexedDB 异步 API 有什么优势？',
+    ],
+  },
+
+  'FE-008': {
+    nodeId: 'FE-008',
+    motivation: 'Fetch API 是现代前端发送 HTTP 请求的标准方式 — 理解它，你就能让前端和后端"对话"。',
+    concepts: [
+      { title: 'Fetch API 基础', content: 'fetch() 发送请求：\n\n// GET\nconst res = await fetch("/api/users");\nconst data = await res.json();\n\n// POST\nconst res = await fetch("/api/users", {\n  method: "POST",\n  headers: { "Content-Type": "application/json" },\n  body: JSON.stringify({ name: "小明" }),\n});\n\n⚠️ 两个坑：\n1. HTTP 4xx/5xx 不会 reject！需要 res.ok\n2. 没有超时 → 用 AbortController' },
+      { title: 'CORS 跨域', content: '同源策略：协议+域名+端口 必须一致\n\n跨域方案：\n1. 后端 CORS：Access-Control-Allow-Origin\n2. Vite proxy（开发环境）\n3. NestJS：app.enableCors()\n\n💡 开发用 Vite proxy，生产用后端 CORS' },
+    ],
+    codeExamples: [
+      {
+        title: 'Fetch 封装',
+        code: `async function request(url, options = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  try {
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: { "Content-Type": "application/json", ...options.headers },
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return await res.json();
+  } catch (err) {
+    clearTimeout(timeout);
+    if (err.name === "AbortError") throw new Error("请求超时");
+    throw err;
+  }
+}
+
+const users = await request("/api/users");`,
+        explanation: '封装处理了 Fetch 两个问题：HTTP 错误码不会自动抛错，没有超时机制。',
+      },
+    ],
+    summary: '1. fetch() 是现代 HTTP 请求标准\n2. HTTP 4xx/5xx 不会自动 reject\n3. AbortController 实现请求超时\n4. CORS 需要后端配合',
+    tips: [
+      '⚠️ fetch 不会对 HTTP 错误码 reject',
+      '💡 用 AbortController 实现超时',
+      '✅ 开发环境用 Vite proxy 解决 CORS',
+    ],
+    thinkQuestions: [
+      '为什么 fetch 对 HTTP 404 不 reject？',
+      'CORS 是保护谁的安全？',
+    ],
+  },

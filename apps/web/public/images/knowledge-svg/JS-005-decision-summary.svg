@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">数组方法 · 决策速查表</text>
+
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#06b6d4">① 按需求选方法</text>
+  <rect x="30" y="76" width="720" height="480" rx="8" fill="#0f172a" stroke="#1e293b"/>
+
+  <rect x="30" y="76" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="97" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">需求</text>
+  <rect x="210" y="76" width="270" height="32" fill="#06b6d4" fill-opacity="0.10"/>
+  <text x="345" y="97" font-size="11" font-weight="600" fill="#06b6d4" text-anchor="middle">推荐方法</text>
+  <rect x="480" y="76" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="615" y="97" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">示例</text>
+
+  <text x="120" y="128" font-size="10" fill="#cbd5e1" text-anchor="middle">末尾增删</text>
+  <text x="345" y="128" font-size="10" fill="#06b6d4" text-anchor="middle">push / pop</text>
+  <text x="615" y="128" font-size="9" fill="#94a3b8" text-anchor="middle">arr.push(4); arr.pop()</text>
+
+  <text x="120" y="156" font-size="10" fill="#cbd5e1" text-anchor="middle">开头增删</text>
+  <text x="345" y="156" font-size="10" fill="#06b6d4" text-anchor="middle">unshift / shift</text>
+  <text x="615" y="156" font-size="9" fill="#94a3b8" text-anchor="middle">arr.unshift(0)</text>
+
+  <text x="120" y="184" font-size="10" fill="#cbd5e1" text-anchor="middle">任意位置增删改</text>
+  <text x="345" y="184" font-size="10" fill="#06b6d4" text-anchor="middle">splice</text>
+  <text x="615" y="184" font-size="9" fill="#94a3b8" text-anchor="middle">arr.splice(1, 2, 9)</text>
+
+  <text x="120" y="216" font-size="10" fill="#cbd5e1" text-anchor="middle">转换每个元素</text>
+  <text x="345" y="216" font-size="10" fill="#06b6d4" text-anchor="middle">map</text>
+  <text x="615" y="216" font-size="9" fill="#94a3b8" text-anchor="middle">arr.map(n =&gt; n * 2)</text>
+
+  <text x="120" y="244" font-size="10" fill="#cbd5e1" text-anchor="middle">筛选满足条件的</text>
+  <text x="345" y="244" font-size="10" fill="#06b6d4" text-anchor="middle">filter</text>
+  <text x="615" y="244" font-size="9" fill="#94a3b8" text-anchor="middle">arr.filter(n =&gt; n &gt; 0)</text>
+
+  <text x="120" y="272" font-size="10" fill="#cbd5e1" text-anchor="middle">汇总为单个值</text>
+  <text x="345" y="272" font-size="10" fill="#06b6d4" text-anchor="middle">reduce</text>
+  <text x="615" y="272" font-size="9" fill="#94a3b8" text-anchor="middle">arr.reduce((a,b)=&gt;a+b, 0)</text>
+
+  <text x="120" y="300" font-size="10" fill="#cbd5e1" text-anchor="middle">找第一个满足的</text>
+  <text x="345" y="300" font-size="10" fill="#06b6d4" text-anchor="middle">find / findIndex</text>
+  <text x="615" y="300" font-size="9" fill="#94a3b8" text-anchor="middle">arr.find(x =&gt; x.id===3)</text>
+
+  <text x="120" y="328" font-size="10" fill="#cbd5e1" text-anchor="middle">判断存在一个</text>
+  <text x="345" y="328" font-size="10" fill="#06b6d4" text-anchor="middle">some</text>
+  <text x="615" y="328" font-size="9" fill="#94a3b8" text-anchor="middle">arr.some(n =&gt; n &gt; 90)</text>
+
+  <text x="120" y="356" font-size="10" fill="#cbd5e1" text-anchor="middle">判断全部满足</text>
+  <text x="345" y="356" font-size="10" fill="#06b6d4" text-anchor="middle">every</text>
+  <text x="615" y="356" font-size="9" fill="#94a3b8" text-anchor="middle">arr.every(n =&gt; n &gt; 0)</text>
+
+  <text x="120" y="384" font-size="10" fill="#cbd5e1" text-anchor="middle">数字排序</text>
+  <text x="345" y="384" font-size="10" fill="#ef4444" text-anchor="middle">sort((a,b) =&gt; a-b)</text>
+  <text x="615" y="384" font-size="9" fill="#ef4444" text-anchor="middle">必须传比较函数!</text>
+
+  <text x="120" y="412" font-size="10" fill="#cbd5e1" text-anchor="middle">扁平化嵌套</text>
+  <text x="345" y="412" font-size="10" fill="#06b6d4" text-anchor="middle">flat / flat(Infinity)</text>
+  <text x="615" y="412" font-size="9" fill="#94a3b8" text-anchor="middle">[1,[2,[3]]].flat(Inf)</text>
+
+  <text x="120" y="440" font-size="10" fill="#cbd5e1" text-anchor="middle">去重</text>
+  <text x="345" y="440" font-size="10" fill="#06b6d4" text-anchor="middle">[...new Set(arr)]</text>
+  <text x="615" y="440" font-size="9" fill="#94a3b8" text-anchor="middle">最简洁的去重方式</text>
+
+  <text x="120" y="468" font-size="10" fill="#cbd5e1" text-anchor="middle">遍历做副作用</text>
+  <text x="345" y="468" font-size="10" fill="#06b6d4" text-anchor="middle">forEach</text>
+  <text x="615" y="468" font-size="9" fill="#94a3b8" text-anchor="middle">无返回值，不能链式</text>
+
+  <!-- 口诀 -->
+  <rect x="50" y="496" width="680" height="44" rx="6" fill="#06b6d4" fill-opacity="0.08" stroke="#06b6d4" stroke-opacity="0.2"/>
+  <text x="70" y="516" font-size="11" font-weight="700" fill="#06b6d4">口诀：map转 filter筛 reduce归 find找 some存 every全 sort传参 flat展</text>
+  <text x="70" y="534" font-size="10" fill="#94a3b8">链式调用 filter.map.reduce 是数据处理最佳实践</text>
+</svg>

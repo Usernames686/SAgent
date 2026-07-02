@@ -1,0 +1,183 @@
+[
+  {
+    "id": 0,
+    "title": "从生活出发：什么是迭代器与生成器？",
+    "subtitle": "5 分钟 · 零基础友好",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 暂停与恢复的魔法",
+        "text": "生成器和迭代器是 JavaScript 的高级特性 — 它们让你能\"暂停\"和\"恢复\"函数执行，实现惰性求值和自定义遍历。掌握它们，你就能处理无限序列、流式数据等复杂场景。",
+        "variant": "purple"
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "⏸️",
+            "label": "yield",
+            "desc": "暂停并产出值",
+            "color": "purple"
+          },
+          {
+            "icon": "▶️",
+            "label": "next()",
+            "desc": "恢复执行",
+            "color": "blue"
+          },
+          {
+            "icon": "🔁",
+            "label": "Iterable",
+            "desc": "可遍历协议",
+            "color": "green"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "title": "📝 生成器函数 — function*",
+        "code": "function* counter() {\n  let i = 0;\n  while (true) {\n    yield i;  // 暂停并返回 i\n    i++;\n  }\n}\n\nconst gen = counter();\ngen.next(); // { value: 0, done: false }\ngen.next(); // { value: 1, done: false }",
+        "variant": "purple"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "迭代器协议 — next() / done / value",
+    "subtitle": "10 分钟 · 核心概念",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 迭代器是一个对象",
+        "text": "迭代器是一个对象，它实现了 next() 方法，返回 { value, done }。每次调用 next()，迭代器就推进到下一个值。done 为 true 时表示迭代结束。",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "📝 手写迭代器",
+        "code": "function createIterator(arr) {\n  let i = 0;\n  return {\n    next() {\n      if (i < arr.length) {\n        return { value: arr[i++], done: false };\n      }\n      return { value: undefined, done: true };\n    }\n  };\n}\n\nconst it = createIterator([1, 2, 3]);\nit.next(); // { value: 1, done: false }\nit.next(); // { value: 2, done: false }\nit.next(); // { value: 3, done: false }\nit.next(); // { value: undefined, done: true }",
+        "variant": "blue"
+      },
+      {
+        "type": "tip",
+        "title": "💡 迭代器 vs 数组",
+        "text": "数组一次性加载所有数据到内存；迭代器惰性计算，只在需要时产出下一个值。处理大数据流时，迭代器能大幅节省内存。"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "可迭代协议 — Symbol.iterator",
+    "subtitle": "10 分钟 · for...of 的秘密",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-014-iterable-protocol.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 自定义可迭代对象",
+        "code": "const range = {\n  from: 1, to: 5,\n  [Symbol.iterator]() {\n    let cur = this.from;\n    const last = this.to;\n    return {\n      next() {\n        return cur <= last\n          ? { value: cur++, done: false }\n          : { value: undefined, done: true };\n      }\n    };\n  }\n};\n\nfor (const n of range) console.log(n);  // 1 2 3 4 5\n[...range];  // [1, 2, 3, 4, 5]",
+        "variant": "green"
+      },
+      {
+        "type": "warning",
+        "text": "**普通对象 { } 默认不可迭代**，没有 [Symbol.iterator]，不能用 for...of。要用 Object.keys(obj) / Object.entries(obj) 间接遍历。",
+        "variant": "red"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Generator 生成器函数",
+    "subtitle": "10 分钟 · 暂停与恢复",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-014-generator-basics.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 yield 的三种用法",
+        "code": "// ① yield 产出值\nfunction* gen() { yield 1; yield 2; yield 3; }\n\n// ② yield* 委托给另一个可迭代对象\nfunction* gen2() { yield* [1, 2, 3]; yield* 'abc'; }\n\n// ③ yield 在表达式中\nfunction* gen3() { const x = yield 1; return x + 1; }",
+        "variant": "purple"
+      },
+      {
+        "type": "tip",
+        "title": "💡 生成器的惰性",
+        "text": "生成器是惰性的 — 不调用 .next() 就不会执行。这让你能表示无限序列：\n\nfunction* naturals() { let i=1; while(true) yield i++; }\n// 取前 5 个：[...take(naturals(), 5)] → [1,2,3,4,5]"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "生成器进阶 — yield* 与双向通信",
+    "subtitle": "10 分钟 · 高级用法",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-014-generator-advanced.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 yield* — 委托给另一个生成器",
+        "code": "function* inner() {\n  yield 1;\n  yield 2;\n}\n\nfunction* outer() {\n  yield 0;\n  yield* inner();  // 委托给 inner\n  yield 3;\n}\n\n[...outer()];  // [0, 1, 2, 3]",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "📝 双向通信 — next(value) 传值给 yield",
+        "code": "function* chat() {\n  const x = yield '问题1';\n  console.log('收到:', x);\n  const y = yield `回答${x}`;\n}\n\nconst g = chat();\ng.next();          // 返回 { value: '问题1' }\ng.next('hello');   // 打印 \"收到: hello\"，返回 { value: '回答hello' }",
+        "variant": "green"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "异步生成器与实战",
+    "subtitle": "10 分钟 · 流式数据",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 async function* — 异步生成器",
+        "text": "异步生成器结合 async/await 和生成器，能优雅处理流式异步数据。Node.js 的流（Stream）和 Web 的 ReadableStream 都基于类似概念。",
+        "variant": "orange"
+      },
+      {
+        "type": "code",
+        "title": "📝 异步生成器 — 流式分页",
+        "code": "async function* fetchPages(url) {\n  let page = 1;\n  while (true) {\n    const res = await fetch(`${url}?page=${page}`);\n    const data = await res.json();\n    if (data.length === 0) return;\n    yield data;\n    page++;\n  }\n}\n\n// 消费异步生成器\nfor await (const page of fetchPages('/api/posts')) {\n  render(page);\n}",
+        "variant": "orange"
+      },
+      {
+        "type": "code",
+        "title": "📝 实战：惰性处理大文件",
+        "code": "import { createReadStream } from 'fs';\nimport { createInterface } from 'readline';\n\nasync function* readLines(path) {\n  const rl = createInterface({\n    input: createReadStream(path),\n    crlfDelay: Infinity\n  });\n  for await (const line of rl) yield line;\n}\n\n// 逐行处理，不一次性加载整个文件\nfor await (const line of readLines('big.log')) {\n  if (line.includes('ERROR')) console.log(line);\n}",
+        "variant": "blue"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "总结与决策",
+    "subtitle": "3 分钟 · 记住这些就够了",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "🏆 决策口诀",
+        "text": "**迭代器 next()，生成器 yield。for...of 要 Iterable，大数据流用生成器。**\n\n1. 迭代器协议：next() 返回 {value, done}\n2. 可迭代协议：[Symbol.iterator]() 返回迭代器\n3. 生成器：function* + yield，惰性求值\n4. 异步生成器：async function* + for await...of\n5. 实战场景：无限序列、流式数据、分页加载",
+        "variant": "purple"
+      },
+      {
+        "type": "code",
+        "title": "📝 速查表",
+        "code": "// 迭代器\nconst it = iterable[Symbol.iterator]();\nit.next();  // { value, done }\n\n// 生成器\nfunction* gen() { yield 1; }\nconst g = gen();\ng.next();\n\n// 异步生成器\nasync function* agen() { yield await p; }\nfor await (const x of agen()) { ... }",
+        "variant": "green"
+      },
+      {
+        "type": "success",
+        "text": "恭喜完成生成器与迭代器的深度学习！🎉 现在你掌握了迭代器协议、生成器函数、yield/yield*、异步生成器，能优雅处理无限序列和流式数据。"
+      }
+    ]
+  }
+]

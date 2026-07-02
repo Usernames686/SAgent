@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">函数声明 vs 函数表达式 · 提升机制图解</text>
+
+  <!-- 左：函数声明（有提升） -->
+  <text x="40" y="68" font-size="13" font-weight="600" fill="#22c55e">✅ 函数声明 — 有"提升"</text>
+  <rect x="30" y="78" width="350" height="280" rx="10" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <text x="50" y="102" font-size="10" fill="#94a3b8">你写的代码：</text>
+  <rect x="50" y="108" width="310" height="64" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="62" y="126" font-size="9" fill="#94a3b8" font-family="monospace">console.log(greet());  // ✅ "Hi"</text>
+  <text x="62" y="142" font-size="9" fill="#94a3b8" font-family="monospace"></text>
+  <text x="62" y="158" font-size="9" fill="#3b82f6" font-family="monospace">function greet() {</text>
+  <text x="62" y="172" font-size="9" fill="#3b82f6" font-family="monospace">  return "Hi";</text>
+
+  <text x="50" y="200" font-size="10" fill="#94a3b8">引擎实际执行：</text>
+  <rect x="50" y="206" width="310" height="100" rx="6" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="62" y="224" font-size="9" fill="#22c55e" font-family="monospace">↑ 整个函数被"提升"到作用域顶部</text>
+  <text x="62" y="244" font-size="9" fill="#22c55e" font-family="monospace">function greet() {</text>
+  <text x="62" y="258" font-size="9" fill="#22c55e" font-family="monospace">  return "Hi";</text>
+  <text x="62" y="272" font-size="9" fill="#22c55e" font-family="monospace">}</text>
+  <text x="62" y="292" font-size="9" fill="#94a3b8" font-family="monospace">console.log(greet());  // "Hi"</text>
+
+  <rect x="50" y="320" width="310" height="28" rx="4" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="60" y="338" font-size="10" fill="#22c55e">💡 可以在声明前调用！</text>
+
+  <!-- 右：函数表达式（无提升） -->
+  <text x="400" y="68" font-size="13" font-weight="600" fill="#ef4444">⚠️ 函数表达式 — 无提升（TDZ）</text>
+  <rect x="400" y="78" width="350" height="280" rx="10" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <text x="420" y="102" font-size="10" fill="#94a3b8">你写的代码：</text>
+  <rect x="420" y="108" width="310" height="64" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="432" y="126" font-size="9" fill="#ef4444" font-family="monospace">console.log(greet());  // ❌ ReferenceError</text>
+  <text x="432" y="142" font-size="9" fill="#94a3b8" font-family="monospace"></text>
+  <text x="432" y="158" font-size="9" fill="#a855f7" font-family="monospace">const greet = function() {</text>
+  <text x="432" y="172" font-size="9" fill="#a855f7" font-family="monospace">  return "Hi";</text>
+
+  <text x="420" y="200" font-size="10" fill="#94a3b8">引擎实际执行：</text>
+  <rect x="420" y="206" width="310" height="100" rx="6" fill="#ef4444" fill-opacity="0.06" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="432" y="224" font-size="9" fill="#ef4444" font-family="monospace">↑ const greet 在 TDZ 中，禁止访问</text>
+  <text x="432" y="244" font-size="9" fill="#ef4444" font-family="monospace">console.log(greet());  // ❌ 报错</text>
+  <text x="432" y="262" font-size="9" fill="#94a3b8" font-family="monospace"></text>
+  <text x="432" y="280" font-size="9" fill="#a855f7" font-family="monospace">const greet = function() { ... };</text>
+  <text x="432" y="296" font-size="9" fill="#22c55e" font-family="monospace">→ 此时才能访问</text>
+
+  <rect x="420" y="320" width="310" height="28" rx="4" fill="#ef4444" fill-opacity="0.10"/>
+  <text x="430" y="338" font-size="10" fill="#ef4444">⚠️ 必须先声明后使用！</text>
+
+  <!-- 底部对比 -->
+  <text x="40" y="386" font-size="13" font-weight="600" fill="#a855f7">③ 关键区别速查</text>
+
+  <rect x="30" y="398" width="720" height="160" rx="8" fill="#0f172a" stroke="#1e293b"/>
+
+  <!-- 表头 -->
+  <rect x="30" y="398" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="419" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">特性</text>
+
+  <rect x="210" y="398" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="345" y="419" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">函数声明 function fn()</text>
+
+  <rect x="480" y="398" width="270" height="32" fill="#ef4444" fill-opacity="0.10"/>
+  <text x="615" y="419" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">函数表达式 const fn = ...</text>
+
+  <!-- 行 -->
+  <text x="120" y="450" font-size="10" fill="#cbd5e1" text-anchor="middle">提升行为</text>
+  <text x="345" y="450" font-size="10" fill="#22c55e" text-anchor="middle">整体提升 ✅</text>
+  <text x="615" y="450" font-size="10" fill="#ef4444" text-anchor="middle">不提升（TDZ） ❌</text>
+
+  <text x="120" y="476" font-size="10" fill="#cbd5e1" text-anchor="middle">声明前调用</text>
+  <text x="345" y="476" font-size="10" fill="#22c55e" text-anchor="middle">可以 ✅</text>
+  <text x="615" y="476" font-size="10" fill="#ef4444" text-anchor="middle">报错 ❌</text>
+
+  <text x="120" y="502" font-size="10" fill="#cbd5e1" text-anchor="middle">适用场景</text>
+  <text x="345" y="502" font-size="10" fill="#22c55e" text-anchor="middle">独立具名功能</text>
+  <text x="615" y="502" font-size="10" fill="#ef4444" text-anchor="middle">赋值、回调、闭包</text>
+
+  <text x="120" y="528" font-size="10" fill="#cbd5e1" text-anchor="middle">推荐度</text>
+  <text x="345" y="528" font-size="10" fill="#22c55e" text-anchor="middle">⭐⭐⭐</text>
+  <text x="615" y="528" font-size="10" fill="#ef4444" text-anchor="middle">⭐⭐⭐⭐（更安全）</text>
+
+  <text x="390" y="552" font-size="10" fill="#a855f7" text-anchor="middle" font-weight="600">💡 现代开发优先用 const + 函数表达式/箭头函数 — 避免"提升"导致的不可预测行为</text>
+</svg>

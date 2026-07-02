@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="o" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ea580c"/></linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#059669"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+  </defs>
+  <rect width="960" height="440" fill="#0f172a" rx="16"/>
+  <text x="480" y="36" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="700">传统教学 vs sAgent 价值对比</text>
+
+  <!-- 左侧：传统 -->
+  <text x="240" y="68" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">传统编程教学</text>
+  <rect x="40" y="80" width="400" height="36" rx="6" fill="#ef4444" opacity=".12" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="103" fill="#fca5a5" font-size="12" font-weight="600">作业批改</text>
+  <text x="360" y="103" fill="#f87171" font-size="11">教师手动批改，1-2 周延迟</text>
+
+  <rect x="40" y="124" width="400" height="36" rx="6" fill="#ef4444" opacity=".12" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="147" fill="#fca5a5" font-size="12" font-weight="600">学习路径</text>
+  <text x="360" y="147" fill="#f87171" font-size="11">统一进度，无法个性化</text>
+
+  <rect x="40" y="168" width="400" height="36" rx="6" fill="#ef4444" opacity=".12" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="191" fill="#fca5a5" font-size="12" font-weight="600">错误反馈</text>
+  <text x="360" y="191" fill="#f87171" font-size="11">仅对/错，无原因分析</text>
+
+  <rect x="40" y="212" width="400" height="36" rx="6" fill="#ef4444" opacity=".12" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="235" fill="#fca5a5" font-size="12" font-weight="600">编码实践</text>
+  <text x="360" y="235" fill="#f87171" font-size="11">本地装环境，问题多</text>
+
+  <rect x="40" y="256" width="400" height="36" rx="6" fill="#ef4444" opacity=".12" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="279" fill="#fca5a5" font-size="12" font-weight="600">AI 辅导</text>
+  <text x="360" y="279" fill="#f87171" font-size="11">无或仅简单提示</text>
+
+  <!-- 右侧：sAgent -->
+  <text x="720" y="68" text-anchor="middle" fill="#34d399" font-size="14" font-weight="700">sAgent 智能教学</text>
+  <rect x="520" y="80" width="400" height="36" rx="6" fill="#10b981" opacity=".12" stroke="#10b981" stroke-width="1"/>
+  <text x="540" y="103" fill="#6ee7b7" font-size="12" font-weight="600">自动评测</text>
+  <text x="820" y="103" fill="#34d399" font-size="11">提交即评，≤ 5 秒出结果</text>
+
+  <rect x="520" y="124" width="400" height="36" rx="6" fill="#10b981" opacity=".12" stroke="#10b981" stroke-width="1"/>
+  <text x="540" y="147" fill="#6ee7b7" font-size="12" font-weight="600">个性化路径</text>
+  <text x="820" y="147" fill="#34d399" font-size="11">BKT+RL 动态调整</text>
+
+  <rect x="520" y="168" width="400" height="36" rx="6" fill="#10b981" opacity=".12" stroke="#10b981" stroke-width="1"/>
+  <text x="540" y="191" fill="#6ee7b7" font-size="12" font-weight="600">深度诊断</text>
+  <text x="820" y="191" fill="#34d399" font-size="11">Debug Agent 定位+修复建议</text>
+
+  <rect x="520" y="212" width="400" height="36" rx="6" fill="#10b981" opacity=".12" stroke="#10b981" stroke-width="1"/>
+  <text x="540" y="235" fill="#6ee7b7" font-size="12" font-weight="600">在线编码</text>
+  <text x="820" y="235" fill="#34d399" font-size="11">Monaco+沙箱，零配置</text>
+
+  <rect x="520" y="256" width="400" height="36" rx="6" fill="#10b981" opacity=".12" stroke="#10b981" stroke-width="1"/>
+  <text x="540" y="279" fill="#6ee7b7" font-size="12" font-weight="600">多 Agent 辅导</text>
+  <text x="820" y="279" fill="#34d399" font-size="11">10 个专业 Agent 协同</text>
+
+  <!-- 底部总结 -->
+  <rect x="60" y="310" width="840" height="110" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <text x="480" y="340" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="700">核心价值差异</text>
+
+  <rect x="100" y="356" width="180" height="44" rx="8" fill="url(#o)" opacity=".85"/>
+  <text x="190" y="376" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">反馈延迟</text>
+  <text x="190" y="392" text-anchor="middle" fill="#fed7aa" font-size="12" font-weight="700">1-2 周 → ≤ 5 秒</text>
+
+  <rect x="300" y="356" width="180" height="44" rx="8" fill="url(#o)" opacity=".85"/>
+  <text x="390" y="376" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">路径个性化</text>
+  <text x="390" y="392" text-anchor="middle" fill="#fed7aa" font-size="12" font-weight="700">无 → BKT+RL</text>
+
+  <rect x="500" y="356" width="180" height="44" rx="8" fill="url(#g)" opacity=".85"/>
+  <text x="590" y="376" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">环境配置</text>
+  <text x="590" y="392" text-anchor="middle" fill="#a7f3d0" font-size="12" font-weight="700">本地安装 → 零配置</text>
+
+  <rect x="700" y="356" width="180" height="44" rx="8" fill="url(#g)" opacity=".85"/>
+  <text x="790" y="376" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">自我进化</text>
+  <text x="790" y="392" text-anchor="middle" fill="#a7f3d0" font-size="12" font-weight="700">无 → A/B+灰度</text>
+</svg>

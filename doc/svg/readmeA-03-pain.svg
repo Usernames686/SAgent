@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" font-family="Segoe UI, PingFang SC, sans-serif">
+  <rect width="880" height="360" fill="#0f172a" rx="16"/>
+  <text x="440" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#f8fafc">编程教育行业四大痛点</text>
+
+  <g font-size="11">
+    <rect x="40"  y="60" width="190" height="130" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="135" y="86" text-anchor="middle" font-size="24">😤</text>
+    <text x="135" y="110" text-anchor="middle" font-weight="700" fill="#ef4444">痛点 1</text>
+    <text x="135" y="130" text-anchor="middle" fill="#e2e8f0">学习路径一刀切</text>
+    <text x="135" y="150" text-anchor="middle" font-size="10" fill="#94a3b8">传统平台对所有学生</text>
+    <text x="135" y="166" text-anchor="middle" font-size="10" fill="#94a3b8">使用相同课程顺序</text>
+    <text x="135" y="182" text-anchor="middle" font-size="10" fill="#94a3b8">67% 三月内放弃</text>
+
+    <rect x="245" y="60" width="190" height="130" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="340" y="86" text-anchor="middle" font-size="24">🐛</text>
+    <text x="340" y="110" text-anchor="middle" font-weight="700" fill="#f59e0b">痛点 2</text>
+    <text x="340" y="130" text-anchor="middle" fill="#e2e8f0">遇错无人指导</text>
+    <text x="340" y="150" text-anchor="middle" font-size="10" fill="#94a3b8">报错后卡壳无法</text>
+    <text x="340" y="166" text-anchor="middle" font-size="10" fill="#94a3b8">独立定位，依赖</text>
+    <text x="340" y="182" text-anchor="middle" font-size="10" fill="#94a3b8">搜索引擎效率低</text>
+
+    <rect x="450" y="60" width="190" height="130" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="545" y="86" text-anchor="middle" font-size="24">📉</text>
+    <text x="545" y="110" text-anchor="middle" font-weight="700" fill="#8b5cf6">痛点 3</text>
+    <text x="545" y="130" text-anchor="middle" fill="#e2e8f0">反馈延迟高</text>
+    <text x="545" y="150" text-anchor="middle" font-size="10" fill="#94a3b8">提交代码到获评</text>
+    <text x="545" y="166" text-anchor="middle" font-size="10" fill="#94a3b8">需 5-10 分钟</text>
+    <text x="545" y="182" text-anchor="middle" font-size="10" fill="#94a3b8">打断心流体验</text>
+
+    <rect x="655" y="60" width="185" height="130" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="747" y="86" text-anchor="middle" font-size="24">🎯</text>
+    <text x="747" y="110" text-anchor="middle" font-weight="700" fill="#06b6d4">痛点 4</text>
+    <text x="747" y="130" text-anchor="middle" fill="#e2e8f0">实战与就业脱节</text>
+    <text x="747" y="150" text-anchor="middle" font-size="10" fill="#94a3b8">题库训练 ≠ 项目能力</text>
+    <text x="747" y="166" text-anchor="middle" font-size="10" fill="#94a3b8">缺乏面试模拟</text>
+    <text x="747" y="182" text-anchor="middle" font-size="10" fill="#94a3b8">与求职衔接弱</text>
+  </g>
+
+  <rect x="40" y="215" width="800" height="120" rx="10" fill="#1e1b4b" stroke="#f97316" stroke-width="1.5"/>
+  <text x="60" y="240" font-size="13" font-weight="700" fill="#fb923c">📍 郑州西亚斯学院 · 学生真实痛点（内测访谈 N=50）</text>
+  <text x="60" y="262" font-size="11" fill="#e2e8f0">• 非 CS 专业转行者占比 64%，"不知道学什么、按什么顺序学"是首要困惑</text>
+  <text x="60" y="282" font-size="11" fill="#e2e8f0">• 72% 学生曾因一个 Bug 卡壳超 1 小时而放弃当天学习</text>
+  <text x="60" y="302" font-size="11" fill="#e2e8f0">• 81% 表示传统视频课程"看完就忘"，缺乏动手与即时反馈</text>
+  <text x="60" y="322" font-size="11" fill="#e2e8f0">• 58% 即将面临实习求职，但无面试经验、无项目作品可展示</text>
+</svg>

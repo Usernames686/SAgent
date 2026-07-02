@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" font-family="system-ui,sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="380" fill="url(#bg)" rx="12"/>
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">运算符优先级（从高到低）</text>
+  <rect x="40" y="52" width="60" height="28" rx="6" fill="#22c55e" fill-opacity="0.1" stroke="#22c55e" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="70" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">1</text>
+  <text x="120" y="70" font-size="12" font-weight="600" fill="white">()</text>
+  <text x="250" y="70" font-size="11" fill="#94a3b8">括号 — 最高优先级</text>
+  <rect x="40" y="84" width="60" height="28" rx="6" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="102" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">2</text>
+  <text x="120" y="102" font-size="12" fill="white">!  ++  --</text>
+  <text x="250" y="102" font-size="11" fill="#94a3b8">否定、自增减</text>
+  <rect x="40" y="116" width="60" height="28" rx="6" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="134" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">3</text>
+  <text x="120" y="134" font-size="12" fill="white">**</text>
+  <text x="250" y="134" font-size="11" fill="#94a3b8">幂运算（从右到左）</text>
+  <rect x="40" y="148" width="60" height="28" rx="6" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="166" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">4</text>
+  <text x="120" y="166" font-size="12" fill="white">*  /  %</text>
+  <text x="250" y="166" font-size="11" fill="#94a3b8">乘、除、取余</text>
+  <rect x="40" y="180" width="60" height="28" rx="6" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="198" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">5</text>
+  <text x="120" y="198" font-size="12" fill="white">+  -</text>
+  <text x="250" y="198" font-size="11" fill="#94a3b8">加、减</text>
+  <rect x="40" y="212" width="60" height="28" rx="6" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="230" font-size="11" font-weight="600" fill="#f59e0b" text-anchor="middle">6</text>
+  <text x="120" y="230" font-size="12" fill="white">>  &lt;  >=  &lt;=</text>
+  <text x="250" y="230" font-size="11" fill="#94a3b8">比较</text>
+  <rect x="40" y="244" width="60" height="28" rx="6" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="262" font-size="11" font-weight="600" fill="#f59e0b" text-anchor="middle">7</text>
+  <text x="120" y="262" font-size="12" fill="white">===  !==</text>
+  <text x="250" y="262" font-size="11" fill="#94a3b8">相等</text>
+  <rect x="40" y="276" width="60" height="28" rx="6" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="294" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">8</text>
+  <text x="120" y="294" font-size="12" fill="white">&amp;&amp;</text>
+  <text x="250" y="294" font-size="11" fill="#94a3b8">逻辑与</text>
+  <rect x="40" y="308" width="60" height="28" rx="6" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="326" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">9</text>
+  <text x="120" y="326" font-size="12" fill="white">||</text>
+  <text x="250" y="326" font-size="11" fill="#94a3b8">逻辑或</text>
+  <rect x="40" y="340" width="60" height="28" rx="6" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="70" y="358" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">10</text>
+  <text x="120" y="358" font-size="12" fill="white">=  +=  ? :</text>
+  <text x="250" y="358" font-size="11" fill="#94a3b8">赋值、三元 — 最低</text>
+  <text x="560" y="80" font-size="12" font-weight="600" fill="white">记忆口诀</text>
+  <text x="480" y="108" font-size="11" fill="#22c55e">括号最优先</text>
+  <text x="480" y="130" font-size="11" fill="#3b82f6">幂在乘除前</text>
+  <text x="480" y="152" font-size="11" fill="#f59e0b">比较在逻辑前</text>
+  <text x="480" y="174" font-size="11" fill="#a855f7">赋值排最后</text>
+  <text x="480" y="210" font-size="11" fill="#ef4444" font-weight="600">拿不准 → 加括号！</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">截取分割 · slice / split / trim / padStart</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#f97316">① slice — 截取子串</text>
+  <rect x="30" y="74" width="720" height="90" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+  <text x="50" y="96" font-size="10" fill="#f97316" font-family="monospace">"Hello World".slice(0, 5)  // "Hello"</text>
+  <text x="50" y="114" font-size="10" fill="#f97316" font-family="monospace">"Hello World".slice(6)     // "World"</text>
+  <text x="50" y="132" font-size="10" fill="#f97316" font-family="monospace">"Hello World".slice(-5)    // "World" 负数从末尾</text>
+  <text x="50" y="152" font-size="9" fill="#eab308">slice 不改原字符串，返回新字符串</text>
+  <text x="40" y="178" font-size="13" font-weight="600" fill="#3b82f6">② split — 拆分为数组</text>
+  <rect x="30" y="188" width="350" height="80" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="50" y="210" font-size="10" fill="#3b82f6" font-family="monospace">"a,b,c".split(",")  // ["a","b","c"]</text>
+  <text x="50" y="228" font-size="10" fill="#3b82f6" font-family="monospace">"hello".split("")   // ["h","e","l","l","o"]</text>
+  <text x="50" y="248" font-size="9" fill="#eab308">split + map 常用于解析 CSV/URL</text>
+  <text x="400" y="178" font-size="13" font-weight="600" fill="#22c55e">③ trim — 去除首尾空白</text>
+  <rect x="400" y="188" width="350" height="80" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="420" y="210" font-size="10" fill="#22c55e" font-family="monospace">"  hello  ".trim()  // "hello"</text>
+  <text x="420" y="228" font-size="10" fill="#22c55e" font-family="monospace">.trimStart() / .trimEnd()</text>
+  <text x="420" y="248" font-size="9" fill="#eab308">用户输入、URL 清理必用</text>
+  <text x="40" y="286" font-size="13" font-weight="600" fill="#a855f7">④ padStart / padEnd — 补位</text>
+  <rect x="30" y="296" width="720" height="80" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="318" font-size="10" fill="#a855f7" font-family="monospace">"5".padStart(3, "0")    // "005" — 前补零</text>
+  <text x="50" y="336" font-size="10" fill="#a855f7" font-family="monospace">"abc".padEnd(10, ".")  // "abc......." — 后补位</text>
+  <text x="50" y="356" font-size="9" fill="#eab308">日期格式化、编号补零、表格对齐</text>
+  <text x="40" y="396" font-size="13" font-weight="600" fill="#ef4444">⑤ slice vs substring vs substr</text>
+  <rect x="30" y="406" width="720" height="150" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+  <rect x="30" y="406" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="427" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">方法</text>
+  <rect x="210" y="406" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="345" y="427" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">推荐度</text>
+  <rect x="480" y="406" width="270" height="32" fill="#94a3b8" fill-opacity="0.10"/>
+  <text x="615" y="427" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">说明</text>
+  <text x="120" y="458" font-size="10" fill="#22c55e" text-anchor="middle">slice(start, end)</text>
+  <text x="345" y="458" font-size="10" fill="#22c55e" text-anchor="middle">⭐⭐⭐ 首选</text>
+  <text x="615" y="458" font-size="10" fill="#94a3b8" text-anchor="middle">支持负数索引</text>
+  <text x="120" y="486" font-size="10" fill="#eab308" text-anchor="middle">substring(start, end)</text>
+  <text x="345" y="486" font-size="10" fill="#eab308" text-anchor="middle">⭐⭐ 兼容</text>
+  <text x="615" y="486" font-size="10" fill="#94a3b8" text-anchor="middle">不支持负数，自动交换参数</text>
+  <text x="120" y="514" font-size="10" fill="#ef4444" text-anchor="middle">substr(start, len)</text>
+  <text x="345" y="514" font-size="10" fill="#ef4444" text-anchor="middle">⭐ 已废弃</text>
+  <text x="615" y="514" font-size="10" fill="#ef4444" text-anchor="middle">不要用！用 slice 代替</text>
+</svg>

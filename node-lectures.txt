@@ -1,0 +1,1001 @@
+  // ============================================================
+  // Node.js P0: 核心必学
+  // ============================================================
+
+  'NODE-001': {
+    nodeId: 'NODE-001',
+    motivation: 'Node.js 让 JavaScript 从浏览器走向了服务器 — 你可以用同一种语言写前端和后端。这是成为全栈开发者的第一步。',
+    concepts: [
+      { title: 'Node.js 是什么', content: 'Node.js = Chrome V8 引擎 + 服务器 API\n\n核心特点：\n- 事件驱动 — 不用等一个操作完成才做下一个\n- 非阻塞 I/O — 读写文件、网络请求不阻塞主线程\n- 单线程 — 但通过事件循环实现并发\n\n能做什么：\n- ✅ Web 服务器（Express、NestJS）\n- ✅ API 服务\n- ✅ 命令行工具\n- ✅ 实时应用（WebSocket）\n- ⚠️ 不适合 CPU 密集型任务' },
+      { title: 'REPL 与运行脚本', content: '运行 JS：\n1. node script.js — 运行脚本文件\n2. node — 进入 REPL 交互环境\n3. node -e "console.log(1+1)" — 执行一行\n\nnvm 版本管理：\n- nvm install 20 — 安装 Node 20\n- nvm use 20 — 切换版本\n- nvm ls — 列出已安装版本\n- nvm alias default 20 — 设置默认版本' },
+    ],
+    codeExamples: [
+      {
+        title: '第一个 Node.js 程序',
+        code: `// hello.js
+console.log("Hello, Node.js!");
+
+const os = require("os");
+console.log("系统:", os.type());
+console.log("CPU核心:", os.cpus().length);
+console.log("内存:", Math.round(os.totalmem() / 1024 / 1024 / 1024), "GB");
+
+// 运行：node hello.js`,
+        explanation: 'Node.js 可以直接运行 JS 文件。内置模块如 os 提供了系统信息访问能力，这在浏览器中不可能做到。',
+      },
+    ],
+    summary: '1. Node.js = V8 + 服务器 API，让 JS 运行在服务端\n2. 事件驱动 + 非阻塞 I/O 适合高并发\n3. nvm 管理多版本',
+    tips: [
+      '💡 用 nvm 管理版本 — 避免权限问题和版本冲突',
+      '✅ node -v 确认版本',
+      '⚠️ Node.js 不适合 CPU 密集型 — 会阻塞事件循环',
+    ],
+    thinkQuestions: [
+      '为什么 Node.js 选择单线程 + 事件循环，而不是多线程？',
+      'nvm install 和系统包管理器安装有什么区别？',
+    ],
+  },
+
+  'NODE-002': {
+    nodeId: 'NODE-002',
+    motivation: 'npm 是 Node.js 的包管理器 — 几乎所有项目都依赖第三方包。不理解 npm，你连项目都跑不起来。',
+    concepts: [
+      { title: 'npm 核心命令', content: '常用命令：\n- npm init — 初始化项目\n- npm install <pkg> — 安装依赖\n- npm install -D <pkg> — 安装开发依赖\n- npm run <script> — 运行脚本\n\npnpm 更快更省空间：\n- 硬链接共享依赖\n- 严格的依赖隔离' },
+      { title: 'package.json 与 SemVer', content: '核心字段：name, version, scripts, dependencies, devDependencies\n\n语义化版本：MAJOR.MINOR.PATCH\n- ^1.2.3 — 兼容 1.x.x\n- ~1.2.3 — 兼容 1.2.x\n- 1.2.3 — 精确版本\n\n⚠️ lock 文件必须提交 Git' },
+    ],
+    codeExamples: [
+      {
+        title: 'package.json 配置',
+        code: `{
+  "name": "my-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "test": "vitest"
+  },
+  "dependencies": { "express": "^4.18.2" },
+  "devDependencies": { "typescript": "^5.3.0" }
+}`,
+        explanation: 'scripts 是自动化关键：npm run dev 启动开发服务器。dependencies 是运行时需要的，devDependencies 只在开发时需要。',
+      },
+    ],
+    summary: '1. npm init 创建项目，npm install 安装依赖\n2. pnpm 更快更省空间\n3. 语义化版本：^允许小版本更新\n4. lock 文件必须提交 Git',
+    tips: [
+      '💡 推荐用 pnpm — 比 npm 快且省空间',
+      '⚠️ lock 文件必须提交 Git',
+      '✅ type: "module" 开启 ES Module',
+    ],
+    thinkQuestions: [
+      '^1.2.3 和 ~1.2.3 分别允许哪些版本更新？',
+      'dependencies 和 devDependencies 搞混了会怎样？',
+    ],
+  },
+
+  'NODE-003': {
+    nodeId: 'NODE-003',
+    motivation: '模块化是 Node.js 的组织方式 — require/module.exports 是 Node.js 默认的模块系统。理解它，你才能把代码拆分成可维护的文件。',
+    concepts: [
+      { title: 'CommonJS 语法', content: '导出：\nexports.add = (a, b) => a + b;\nmodule.exports = { add, subtract };\n\n导入：\nconst math = require("./math");\nconst { add } = require("./math");\n\n⚠️ require 是同步的，模块第一次 require 时执行并缓存' },
+      { title: 'CJS vs ESM', content: 'CommonJS：require/module.exports，同步，运行时加载\nES Module：import/export，异步，编译时静态分析\n\n切换：package.json 设置 "type": "module"\n\n💡 新项目推荐 ESM，但很多包仍用 CJS' },
+    ],
+    codeExamples: [
+      {
+        title: '模块化实战',
+        code: `// math.js — CJS
+const add = (a, b) => a + b;
+module.exports = { add };
+
+// app.js
+const { add } = require("./math");
+console.log(add(1, 2)); // 3
+
+// ESM 方式（"type": "module"）
+// math.mjs
+export const multiply = (a, b) => a * b;
+
+// app.mjs
+import { multiply } from "./math.mjs";
+console.log(multiply(3, 4)); // 12`,
+        explanation: 'CJS 用 require/module.exports，ESM 用 import/export。ESM 是 JavaScript 标准模块系统，新项目推荐使用。',
+      },
+    ],
+    summary: '1. CommonJS：require/module.exports，同步加载\n2. ES Module：import/export，异步加载\n3. 模块有缓存，重复 require 返回缓存\n4. type 字段决定默认模块系统',
+    tips: [
+      '💡 新项目用 ESM — 它是 JS 标准',
+      '⚠️ CJS 和 ESM 不能在同一个文件混用',
+      '✅ module.exports = {} 是整体导出',
+    ],
+    thinkQuestions: [
+      '为什么模块第一次 require 后会缓存？',
+      'CJS 和 ESM 的"循环依赖"处理有什么不同？',
+    ],
+  },
+
+  'NODE-004': {
+    nodeId: 'NODE-004',
+    motivation: '几乎每个后端应用都需要读写文件 — Node.js 的 fs 模块提供了完整的文件系统操作能力，path 模块帮你安全地处理路径。',
+    concepts: [
+      { title: 'fs 文件读写', content: 'fs 模块三种风格：\n1. 同步：fs.readFileSync — 会阻塞，只适合启动时\n2. 回调：fs.readFile — 异步，但回调地狱\n3. Promise：fs.promises.readFile — 推荐！异步 + await\n\n💡 优先用 fs.promises，配合 async/await' },
+      { title: 'path 路径处理', content: 'path 模块：\n- path.join(__dirname, "src", "index.js") — 拼接路径\n- path.resolve() — 解析为绝对路径\n- path.dirname / basename / extname\n\n⚠️ 永远不要手动拼接路径！path.join() 自动处理分隔符' },
+    ],
+    codeExamples: [
+      {
+        title: '文件操作实战',
+        code: `const fs = require("fs").promises;
+const path = require("path");
+
+async function loadConfig() {
+  const configPath = path.join(__dirname, "config.json");
+  const data = await fs.readFile(configPath, "utf-8");
+  return JSON.parse(data);
+}
+
+async function writeLog(message) {
+  const logDir = path.join(__dirname, "logs");
+  await fs.mkdir(logDir, { recursive: true });
+  const logFile = path.join(logDir, "app.log");
+  await fs.appendFile(logFile, new Date().toISOString() + " " + message + "\\n");
+}`,
+        explanation: 'fs.promises + async/await 是最现代的文件操作方式。path.join 确保跨平台安全。fs.mkdir({ recursive: true }) 自动创建多层目录。',
+      },
+    ],
+    summary: '1. 优先用 fs.promises + async/await\n2. path.join() 处理路径，不要手动拼接\n3. mkdir({ recursive: true }) 自动创建多层目录',
+    tips: [
+      '✅ 用 fs.promises 而非回调版',
+      '⚠️ 同步 fs 只在启动时使用',
+      '💡 path.join 代替字符串拼接 — 跨平台安全',
+    ],
+    thinkQuestions: [
+      '为什么运行时不能用同步的 fs.readFileSync？',
+      '__dirname 和 process.cwd() 的区别是什么？',
+    ],
+  },
+
+  'NODE-005': {
+    nodeId: 'NODE-005',
+    motivation: '没有 .env 的项目，数据库密码硬编码在代码里 — 代码一推到 GitHub，全世界都知道了。环境变量让你的项目安全又灵活。',
+    concepts: [
+      { title: 'process.env 与 dotenv', content: 'process.env 读取环境变量\ndotenv 从 .env 文件加载：require("dotenv").config()\n\n⚠️ 安全规则：\n- .env 加入 .gitignore，永远不提交\n- 提供 .env.example 作为模板\n- 不要在客户端代码中使用 dotenv' },
+      { title: 'NestJS 配置管理', content: 'ConfigModule.forRoot({ isGlobal: true })\nConfigService.get<string>("PORT")\n\n优势：类型安全、异步加载、验证配置' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 配置管理',
+        code: `// app.module.ts
+import { ConfigModule } from "@nestjs/config";
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: \`.env.\${process.env.NODE_ENV || "development"}\`,
+    }),
+  ],
+})
+class AppModule {}
+
+// 使用
+@Injectable()
+class AppService {
+  constructor(private config: ConfigService) {}
+  getPort() {
+    return this.config.get<number>("PORT", 3000);
+  }
+}`,
+        explanation: 'ConfigModule 加载 .env 文件，ConfigService 类型安全地读取配置。多环境通过 NODE_ENV 切换。',
+      },
+    ],
+    summary: '1. process.env 读取环境变量，dotenv 加载 .env\n2. .env 不提交 Git，提供 .env.example\n3. NestJS ConfigModule + ConfigService 类型安全管理配置',
+    tips: [
+      '⚠️ .env 永远不提交 Git',
+      '✅ 用 ConfigService 而非 process.env — 类型安全',
+      '💡 PORT 等数字需要 parseInt',
+    ],
+    thinkQuestions: [
+      '如果 .env 文件不小心提交到了 GitHub，应该怎么做？',
+      '在 Docker 容器中如何注入环境变量？',
+    ],
+  },
+
+  'NODE-006': {
+    nodeId: 'NODE-006',
+    motivation: 'HTTP 服务器是 Web 后端的核心 — 你的 API 需要通过 HTTP 暴露给前端。理解 HTTP 基础，你才能理解 Express/NestJS 在帮你做什么。',
+    concepts: [
+      { title: 'HTTP 基础', content: '请求：方法(GET/POST/PUT/DELETE) + 路径 + 头 + 体\n响应：状态码(200/400/404/500) + 头 + 体\n\nREST 约定：GET 获取、POST 创建、PUT 更新、DELETE 删除' },
+      { title: '用 http 模块创建服务器', content: 'const http = require("http");\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { "Content-Type": "application/json" });\n  res.end(JSON.stringify({ message: "Hello" }));\n});\nserver.listen(3000);\n\n问题：路由需要手动解析、请求体需要手动收集 → 这就是为什么需要 Express/NestJS' },
+    ],
+    codeExamples: [
+      {
+        title: '原始 HTTP 服务器',
+        code: `const http = require("http");
+const url = require("url");
+
+const server = http.createServer((req, res) => {
+  const parsed = url.parse(req.url, true);
+  if (req.method === "GET" && parsed.pathname === "/api/users") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify([{ id: 1, name: "小明" }]));
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+});
+
+server.listen(3000, () => console.log("Server on :3000"));`,
+        explanation: '用原生 http 模块写路由很繁琐 — 这就是 Express 和 NestJS 存在的意义。',
+      },
+    ],
+    summary: '1. HTTP 请求-响应：方法 + 路径 + 头 + 体\n2. 状态码：2xx 成功、4xx 客户端错误、5xx 服务器错误\n3. 原生 http 模块太底层，实际开发用 Express/NestJS',
+    tips: [
+      '💡 GET 没有 body — 参数用 query string',
+      '✅ REST 约定让 API 可预测',
+      '🎯 理解原生 HTTP 才能理解框架在做什么',
+    ],
+    thinkQuestions: [
+      '为什么 GET 请求不应该有 body？',
+      '404 和 500 的区别是什么？',
+    ],
+  },
+
+  'NODE-007': {
+    nodeId: 'NODE-007',
+    motivation: 'Express 是 Node.js 最流行的 Web 框架 — 路由、中间件、请求处理，它让后端开发变得简单。理解 Express 的中间件模型，你才能真正用好 NestJS。',
+    concepts: [
+      { title: 'Express 路由与中间件', content: '路由：app.get("/users", handler) / app.post("/users", handler)\n\n中间件 (Middleware)：\n  app.use((req, res, next) => {\n    console.log(req.method, req.url);\n    next(); // 交给下一个中间件\n  });\n\n中间件执行顺序 = 代码书写顺序\n💡 Express = 一系列中间件的串联' },
+      { title: '请求处理', content: '获取请求数据：\n- req.params — URL 参数：/users/:id\n- req.query — 查询参数：?page=1\n- req.body — 请求体（需要 express.json()）\n\n发送响应：\n- res.json(data) / res.status(201).json(data)\n\n错误处理：app.use((err, req, res, next) => {...})' },
+    ],
+    codeExamples: [
+      {
+        title: 'Express RESTful API',
+        code: `const express = require("express");
+const app = express();
+app.use(express.json());
+
+let users = [{ id: 1, name: "小明" }];
+
+app.get("/api/users", (req, res) => res.json(users));
+app.post("/api/users", (req, res) => {
+  const user = { id: users.length + 1, ...req.body };
+  users.push(user);
+  res.status(201).json(user);
+});
+app.get("/api/users/:id", (req, res) => {
+  const user = users.find(u => u.id === parseInt(req.params.id));
+  if (!user) return res.status(404).json({ error: "未找到" });
+  res.json(user);
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: "服务器错误" });
+});
+
+app.listen(3000);`,
+        explanation: 'Express 核心就是路由 + 中间件。中间件按顺序执行，每个调用 next() 传给下一个。错误处理中间件有 4 个参数。',
+      },
+    ],
+    summary: '1. Express = 路由 + 中间件的串联\n2. req.params/query/body 获取请求数据\n3. 中间件按书写顺序执行\n4. 错误处理中间件是最后一个',
+    tips: [
+      '💡 app.use(express.json()) 必须在路由之前',
+      '⚠️ 路由中别忘了 return',
+      '✅ 错误处理中间件 4 个参数',
+    ],
+    thinkQuestions: [
+      '如果中间件不调用 next() 会怎样？',
+      'Express 中间件和 NestJS 的 Guard/Interceptor 有什么对应关系？',
+    ],
+  },
+
+  // ============================================================
+  // Node.js P1: 常用进阶
+  // ============================================================
+
+  'NODE-008': {
+    nodeId: 'NODE-008',
+    motivation: 'NestJS 是 Node.js 最流行的企业级框架 — 它用 TypeScript 和装饰器让后端开发变得规范、优雅。理解 NestJS 的架构思想，你就掌握了现代后端开发的核心模式。',
+    concepts: [
+      { title: 'NestJS 核心架构', content: 'NestJS 三层架构：\n1. Controller — 接收请求，返回响应\n2. Service — 业务逻辑\n3. Module — 组织代码\n\n💡 核心原则：Controller 只管转发，Service 处理逻辑，Module 做组织' },
+      { title: '依赖注入 (DI)', content: 'NestJS 依赖注入自动管理对象创建：\n\nproviders: [UsersService] // 注册\nconstructor(private readonly usersService: UsersService) {} // 注入\n\n好处：不需要手动 new、方便测试 mock、单例自动管理\n\n💡 DI 是 NestJS 的灵魂' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 完整模块',
+        code: `// users.controller.ts
+@Controller("users")
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+  @Get() findAll() { return this.usersService.findAll(); }
+  @Post() create(@Body() dto: CreateUserDto) { return this.usersService.create(dto); }
+}
+
+// users.service.ts
+@Injectable()
+export class UsersService {
+  private users = [];
+  findAll() { return this.users; }
+  create(dto: CreateUserDto) {
+    const user = { id: this.users.length + 1, ...dto };
+    this.users.push(user);
+    return user;
+  }
+}
+
+// users.module.ts
+@Module({ controllers: [UsersController], providers: [UsersService] })
+export class UsersModule {}`,
+        explanation: 'Controller 接收请求并调用 Service，Service 处理业务逻辑。Module 把它们组织在一起。依赖注入通过 constructor 自动完成。',
+      },
+    ],
+    summary: '1. NestJS 三层：Controller/Service/Module\n2. 依赖注入自动管理对象创建\n3. Controller 只转发，Service 只逻辑',
+    tips: [
+      '💡 Controller 不要写业务逻辑 — 都放到 Service',
+      '✅ 用 CLI：nest g resource users',
+      '⚠️ Provider 默认是单例',
+    ],
+    thinkQuestions: [
+      '为什么要把 Controller 和 Service 分开？',
+      '依赖注入和直接 new UsersService() 有什么区别？',
+    ],
+  },
+
+  'NODE-009': {
+    nodeId: 'NODE-009',
+    motivation: 'RESTful API 是前后端通信的通用语言 — 一个设计良好的 API 让前端开发事半功倍。',
+    concepts: [
+      { title: 'REST 设计原则', content: '核心原则：\n1. 资源导向 — URL 表示资源，不是动作\n   ✅ GET /users  ❌ GET /getUsers\n2. HTTP 方法语义\n3. 状态码规范：200/201/400/401/403/404/500\n4. 分页/过滤/排序：?page=1&size=20&sort=-createdAt' },
+    ],
+    codeExamples: [
+      {
+        title: 'RESTful API 设计',
+        code: `// ✅ 良好的 RESTful API
+GET    /api/users           // 获取用户列表
+GET    /api/users/123       // 获取单个用户
+POST   /api/users           // 创建用户
+PUT    /api/users/123       // 全量更新
+PATCH  /api/users/123       // 部分更新
+DELETE /api/users/123       // 删除用户
+
+// 嵌套资源
+GET    /api/users/123/posts  // 用户的文章
+
+// ❌ 不好的设计
+POST /api/getUserList       // 动词在URL
+POST /api/deleteUser/123    // 用POST删除`,
+        explanation: 'REST 核心是"资源 + 方法"：URL 表示资源（名词），HTTP 方法表示操作（动词）。',
+      },
+    ],
+    summary: '1. URL 表示资源，HTTP 方法表示操作\n2. GET/POST/PUT/PATCH/DELETE 各司其职\n3. 状态码要准确\n4. 支持分页、过滤、排序',
+    tips: [
+      '💡 URL 用复数名词 — /users 不是 /user',
+      '✅ 状态码要精确',
+      '⚠️ PUT 全量更新，PATCH 部分更新',
+    ],
+    thinkQuestions: [
+      '为什么 DELETE 是幂等的？删除两次应该返回什么？',
+      'REST 和 GraphQL 各有什么优缺点？',
+    ],
+  },
+
+  'NODE-010': {
+    nodeId: 'NODE-010',
+    motivation: '几乎所有应用都需要持久化数据 — TypeORM 让 Node.js + TypeScript 项目操作数据库变得像操作对象一样自然。',
+    concepts: [
+      { title: 'TypeORM Entity', content: 'Entity = 数据库表的 TS 类：\n\n@Entity("users")\nexport class User {\n  @PrimaryGeneratedColumn() id: number;\n  @Column() name: string;\n  @Column({ unique: true }) email: string;\n  @CreateDateColumn() createdAt: Date;\n}' },
+      { title: 'Repository 与 CRUD', content: 'Repository 操作 Entity：\nthis.userRepo.find() // 查全部\nthis.userRepo.findOne({ where: { id } }) // 查一个\nthis.userRepo.create(dto) // 创建（不保存）\nthis.userRepo.save(entity) // 保存\nthis.userRepo.remove(entity) // 删除' },
+    ],
+    codeExamples: [
+      {
+        title: 'TypeORM 完整示例',
+        code: `@Entity("users")
+export class User {
+  @PrimaryGeneratedColumn() id: number;
+  @Column() name: string;
+  @Column({ unique: true }) email: string;
+  @OneToMany(() => Post, post => post.author) posts: Post[];
+}
+
+@Injectable()
+export class UserService {
+  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+
+  async findAll(page = 1, size = 20) {
+    return this.userRepo.find({
+      skip: (page - 1) * size,
+      take: size,
+      relations: ["posts"],
+      order: { id: "DESC" },
+    });
+  }
+
+  async create(dto: CreateUserDto) {
+    const user = this.userRepo.create(dto);
+    return this.userRepo.save(user);
+  }
+}`,
+        explanation: 'Entity 定义表结构，Repository 提供类型安全的 CRUD。relations 加载关联，skip/take 实现分页。',
+      },
+    ],
+    summary: '1. Entity 用装饰器定义表结构\n2. Repository 提供类型安全的 CRUD\n3. find() 支持 where/relations/order/skip/take\n4. 关联：@OneToMany/@ManyToOne/@ManyToMany',
+    tips: [
+      '💡 先定义 Entity，再写 Service',
+      '✅ 用 relations 加载关联 — 避免 N+1',
+      '⚠️ create() 只创建不保存，save() 才写入',
+    ],
+    thinkQuestions: [
+      'TypeORM 的 Active Record 和 Data Mapper 模式有什么区别？',
+      '如何避免 N+1 查询问题？',
+    ],
+  },
+
+  'NODE-011': {
+    nodeId: 'NODE-011',
+    motivation: '安全是后端开发的生命线 — JWT 是 Node.js 生态最流行的认证方案，理解它才能保护你的应用和数据。',
+    concepts: [
+      { title: 'JWT 认证流程', content: 'JWT 三步：\n1. 登录 → 签发 Token\n2. 客户端每次请求携带 Token\n3. 服务器验证 Token\n\n⚠️ 安全原则：\n- Payload 不存敏感信息（只是 Base64）\n- 设置合理过期时间\n- Secret 必须用环境变量' },
+      { title: 'NestJS JWT + Guard', content: '认证三件套：\n1. JwtModule.register() — 配置密钥\n2. JwtStrategy — 提取并验证 Token\n3. @UseGuards(AuthGuard("jwt")) — 保护路由\n\n流程：请求 → Guard 拦截 → JwtStrategy 验证 → Controller' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS JWT 认证',
+        code: `// auth.module.ts
+JwtModule.registerAsync({
+  useFactory: () => ({
+    secret: process.env.JWT_SECRET,
+    signOptions: { expiresIn: "7d" },
+  }),
+})
+
+// jwt.strategy.ts
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET,
+    });
+  }
+  async validate(payload: { sub: string; role: string }) {
+    return { userId: payload.sub, role: payload.role };
+  }
+}`,
+        explanation: 'JwtModule 签发和验证 Token。JwtStrategy 从请求头提取并解析 Token。Guard 保护路由。',
+      },
+    ],
+    summary: '1. JWT：登录签发 → 请求携带 → 服务端验证\n2. Payload 不存敏感信息\n3. JwtStrategy 解析 Token，Guard 保护路由',
+    tips: [
+      '⚠️ JWT Secret 必须用环境变量',
+      '💡 Token 过期后用 Refresh Token 续期',
+      '🚫 不要在 Payload 存密码 — 只是 Base64',
+    ],
+    thinkQuestions: [
+      'JWT 和 Session 认证各有什么优缺点？',
+      '用户角色修改后如何让 Token 立即失效？',
+    ],
+  },
+
+  'NODE-012': {
+    nodeId: 'NODE-012',
+    motivation: '生产级应用必须有完善的错误处理和日志 — 没有日志你就像瞎子摸象。结构化日志让你快速定位问题。',
+    concepts: [
+      { title: 'NestJS 异常过滤器', content: '内置异常：\n- throw new NotFoundException("用户不存在")\n- throw new BadRequestException("参数错误")\n\n自定义过滤器：\n@Catch(HttpException)\nexport class HttpExceptionFilter implements ExceptionFilter { ... }\n\n💡 全局注册：app.useGlobalFilters()' },
+      { title: '结构化日志', content: '为什么不用 console.log：\n- 没有时间戳、日志级别\n- 无法搜索和持久化\n\nwinston/pino：\n- 日志级别：error/warn/info/debug\n- JSON 格式 — 方便收集\n- 文件输出 — 持久化' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 日志与错误处理',
+        code: `// main.ts
+app.useGlobalFilters(new HttpExceptionFilter());
+
+// 自定义异常
+export class BusinessException extends HttpException {
+  constructor(message: string, code: string) {
+    super({ code, message }, HttpStatus.BAD_REQUEST);
+  }
+}
+
+// winston 日志
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports: [new winston.transports.File({ filename: "app.log" })],
+});`,
+        explanation: '异常过滤器统一错误格式。结构化日志方便日志系统收集和搜索。',
+      },
+    ],
+    summary: '1. 异常过滤器统一错误格式\n2. 结构化日志替代 console.log\n3. 日志级别：error > warn > info > debug',
+    tips: [
+      '✅ 全局异常过滤器 — 统一错误格式',
+      '💡 日志用 JSON 格式 — 方便收集',
+      '⚠️ 不要在日志中记录敏感信息',
+    ],
+    thinkQuestions: [
+      '异常过滤器和 try/catch 有什么区别？',
+      '如何设计请求追踪系统？',
+    ],
+  },
+
+  // ============================================================
+  // Node.js P2: 架构与工程化
+  // ============================================================
+
+  'NODE-013': {
+    nodeId: 'NODE-013',
+    motivation: '当 API 需要同时被 Web、移动端、第三方调用时，RESTful API 就不够灵活了。GraphQL 让前端"想要什么就取什么"。',
+    concepts: [
+      { title: 'GraphQL 核心概念', content: '三大核心：\n1. Schema — 定义数据类型\n2. Query — 查询数据\n3. Mutation — 修改数据\n\nvs REST：\n- REST：固定接口，多端需要多次请求\n- GraphQL：前端定义查询，一次获取所有数据' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS + GraphQL',
+        code: `// users.resolver.ts
+@Resolver(() => User)
+export class UsersResolver {
+  constructor(private usersService: UsersService) {}
+
+  @Query(() => [User])
+  users() { return this.usersService.findAll(); }
+
+  @Mutation(() => User)
+  createUser(@Args("name") name: string, @Args("email") email: string) {
+    return this.usersService.create({ name, email });
+  }
+}`,
+        explanation: 'Resolver 等价于 Controller，处理查询和变更。前端可以精确指定需要哪些字段。',
+      },
+    ],
+    summary: '1. GraphQL：Schema 定义类型，Query 查询，Mutation 修改\n2. 前端定义查询结构，避免过度获取\n3. NestJS + @Resolver 集成',
+    tips: [
+      '💡 GraphQL 适合多端场景',
+      '⚠️ 有 N+1 问题 — 用 DataLoader 解决',
+      '✅ Schema-First 和 Code-First 选一个',
+    ],
+    thinkQuestions: [
+      'GraphQL 的 N+1 问题是什么？',
+      '什么场景下 REST 比 GraphQL 更合适？',
+    ],
+  },
+
+  'NODE-014': {
+    nodeId: 'NODE-014',
+    motivation: 'WebSocket 让服务器可以主动推送数据 — 在线聊天、实时通知、协同编辑，这些"实时"场景都依赖它。',
+    concepts: [
+      { title: 'WebSocket 原理', content: 'WebSocket 是全双工通信协议：\n- HTTP：单向请求-响应\n- WebSocket：双向实时通信\n\n握手：HTTP Upgrade → 101 Switching Protocols → 持续通信' },
+      { title: 'NestJS WebSocket Gateway', content: '@WebSocketGateway() 装饰器：\n@SubscribeMessage("message") 监听事件\nclient.emit() 发送给客户端\nthis.server.emit() 广播\n\n💡 Socket.IO 提供房间、命名空间等高级功能' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 实时聊天',
+        code: `@WebSocketGateway({ cors: { origin: "*" } })
+export class ChatGateway {
+  @WebSocketServer() server: Server;
+
+  @SubscribeMessage("joinRoom")
+  handleJoinRoom(client: Socket, room: string) {
+    client.join(room);
+    this.server.to(room).emit("userJoined", client.id);
+  }
+
+  @SubscribeMessage("chatMessage")
+  handleMessage(client: Socket, { room, message }: any) {
+    this.server.to(room).emit("chatMessage", { user: client.id, message });
+  }
+}`,
+        explanation: 'Gateway 处理 WebSocket。client.join() 加入房间，this.server.to(room).emit() 向房间广播。',
+      },
+    ],
+    summary: '1. WebSocket 全双工通信\n2. NestJS @WebSocketGateway 处理\n3. 房间机制实现分组广播',
+    tips: [
+      '💡 用房间分组 — 避免全局广播',
+      '⚠️ 需要处理断线重连',
+      '✅ 生产环境需要心跳检测',
+    ],
+    thinkQuestions: [
+      'WebSocket 和 SSE 有什么区别？',
+      '如何保证 WebSocket 消息不丢失？',
+    ],
+  },
+
+  'NODE-015': {
+    nodeId: 'NODE-015',
+    motivation: '单台服务器扛不住了 — Redis 缓存热点数据，Docker 让部署一致和可重复。理解它们，你才能构建可扩展的系统。',
+    concepts: [
+      { title: 'Redis 缓存', content: 'Redis = 内存数据库，读写极快：\n1. 缓存 — 减少数据库查询\n2. Session 存储 — 多服务器共享\n3. 排行榜 — Sorted Set\n4. 消息队列 — List/Stream\n\nNestJS：CacheModule.forRoot() + @UseInterceptors(CacheInterceptor)' },
+      { title: 'Docker 容器化', content: '核心概念：Dockerfile → Image → Container\ndocker-compose 编排多个容器\n\n💡 docker-compose 同时启动 API + DB + Redis' },
+    ],
+    codeExamples: [
+      {
+        title: 'Docker Compose 全栈部署',
+        code: `# docker-compose.yml
+version: "3.8"
+services:
+  api:
+    build: .
+    ports: ["3001:3001"]
+    environment:
+      - DATABASE_URL=postgresql://postgres:123@db:5432/myapp
+      - REDIS_URL=redis://redis:6379
+    depends_on: [db, redis]
+
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_PASSWORD: "123", POSTGRES_DB: myapp }
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  pgdata:`,
+        explanation: 'docker-compose 一键启动 API + PostgreSQL + Redis。depends_on 确保启动顺序，volumes 持久化数据。',
+      },
+    ],
+    summary: '1. Redis 用于缓存、Session、排行榜、消息队列\n2. Docker 保证环境一致\n3. docker-compose 编排多个服务',
+    tips: [
+      '💡 Cache-Aside 是最常用的缓存策略',
+      '⚠️ Redis 数据在内存中 — 需要持久化配置',
+      '✅ 用 alpine 镜像 — 更小更安全',
+    ],
+    thinkQuestions: [
+      '缓存穿透和缓存雪崩分别是什么？如何预防？',
+      'Docker 容器和虚拟机有什么区别？',
+    ],
+  },
+
+  'NODE-016': {
+    nodeId: 'NODE-016',
+    motivation: '代码写完不等于完成 — 没有测试的代码就像没有安全带的汽车。Jest/Vitest 让你自信地修改代码。',
+    concepts: [
+      { title: 'Jest/Vitest 基础', content: '测试三板斧：describe 分组、it/test 用例、expect 断言\n\n常用断言：\n- expect(value).toBe(expected)\n- expect(value).toEqual(expected)\n- expect(fn).toThrow()\n\n💡 Vitest 兼容 Jest API，但更快' },
+      { title: 'NestJS 测试', content: '单元测试 — 只测 Service\nE2E 测试 — 测完整请求\n\n💡 原则：单元测试测逻辑，E2E 测流程\n覆盖率目标：核心逻辑 > 80%' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 单元测试',
+        code: `describe("UsersService", () => {
+  let service: UsersService;
+  let repo: Repository<User>;
+
+  beforeEach(() => {
+    repo = {
+      find: jest.fn().mockResolvedValue([{ id: 1, name: "小明" }]),
+      save: jest.fn().mockResolvedValue({ id: 1, name: "小明" }),
+    } as any;
+    service = new UsersService(repo);
+  });
+
+  it("should return all users", async () => {
+    const users = await service.findAll();
+    expect(users).toEqual([{ id: 1, name: "小明" }]);
+    expect(repo.find).toHaveBeenCalled();
+  });
+});`,
+        explanation: '用 jest.fn() 创建 mock，模拟 Repository。测试只关注 Service 的逻辑。',
+      },
+    ],
+    summary: '1. Jest/Vitest：describe/it/expect\n2. 单元测试测逻辑，E2E 测流程\n3. mock 隔离外部依赖',
+    tips: [
+      '💡 先写测试再改代码',
+      '✅ mock 外部依赖',
+      '⚠️ 有价值的测试 > 高覆盖率',
+    ],
+    thinkQuestions: [
+      '单元测试和 E2E 测试各有什么优缺点？',
+      '什么情况应该用 mock？',
+    ],
+  },
+
+  'NODE-017': {
+    nodeId: 'NODE-017',
+    motivation: 'Git 让你安全地管理变更，CI/CD 让你自动地验证和部署。没有它们，团队协作就是灾难。',
+    concepts: [
+      { title: 'Git 协作工作流', content: 'GitHub Flow：main → feature/xxx → Pull Request → merge\n\n核心规则：\n- 永远在 feature 分支开发\n- PR 必须有人 Code Review\n- commit 消息要有意义' },
+      { title: 'CI/CD 自动化', content: 'CI：每次推送自动运行测试/检查\nCD：测试通过自动部署\n\nGitHub Actions 最简单的方案' },
+    ],
+    codeExamples: [
+      {
+        title: 'GitHub Actions CI',
+        code: `# .github/workflows/ci.yml
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build`,
+        explanation: 'CI 在每次推送和 PR 时自动运行：lint → test → build。保证了主分支的代码始终经过验证。',
+      },
+    ],
+    summary: '1. GitHub Flow：feature 分支 + PR Review\n2. CI 自动运行测试，CD 自动部署\n3. GitHub Actions 最简单',
+    tips: [
+      '💡 小团队用 GitHub Flow',
+      '✅ PR 必须有人 Review',
+      '⚠️ commit 消息要有意义',
+    ],
+    thinkQuestions: [
+      'Git Flow 和 GitHub Flow 各适合什么规模的团队？',
+      '没有 CI/CD 手动部署会有什么问题？',
+    ],
+  },
+
+  // ============================================================
+  // Node.js P3: 高级专题
+  // ============================================================
+
+  'NODE-018': {
+    nodeId: 'NODE-018',
+    motivation: '当应用需要处理每秒上万次请求时，单进程就不够了 — Cluster 让你利用多核 CPU，PM2 让进程管理自动化。',
+    concepts: [
+      { title: 'Cluster 多进程', content: 'Node.js 单线程只用一个 CPU 核心\nCluster：Master 创建多个 Worker，共享端口\n💡 PM2 封装了 Cluster，更易用' },
+      { title: 'PM2 进程管理', content: 'PM2 功能：自动重启、零停机重载、日志管理\npm2 start app.js -i max — Cluster 模式\npm2 reload — 零停机重启' },
+    ],
+    codeExamples: [
+      {
+        title: 'PM2 集群部署',
+        code: `# ecosystem.config.js
+module.exports = {
+  apps: [{
+    name: "my-api",
+    script: "dist/main.js",
+    instances: "max",
+    exec_mode: "cluster",
+    max_memory_restart: "1G",
+    env: { NODE_ENV: "production", PORT: 3001 },
+  }],
+};
+
+# pm2 start ecosystem.config.js
+# pm2 monit
+# pm2 reload my-api  # 零停机重启`,
+        explanation: 'instances: "max" 自动根据 CPU 核心数创建进程。reload 逐个重启 Worker，零停机。',
+      },
+    ],
+    summary: '1. Cluster 利用多核 CPU\n2. PM2 提供自动重启、零停机重载\n3. 生产必须用 PM2 或 Docker',
+    tips: [
+      '💡 生产环境用 PM2',
+      '✅ instances: max 充分利用多核',
+      '⚠️ 注意数据库连接数',
+    ],
+    thinkQuestions: [
+      'Cluster 模式下如何共享 Session？',
+      'PM2 的 reload 和 restart 有什么区别？',
+    ],
+  },
+
+  'NODE-019': {
+    nodeId: 'NODE-019',
+    motivation: '微服务架构让大型应用拆分成独立的小服务 — 每个服务有自己的数据库和部署周期。',
+    concepts: [
+      { title: '微服务基础', content: '单体 vs 微服务：\n单体：简单但耦合\n微服务：独立部署但复杂\n\n💡 规则：从单体开始，需要时再拆分\n\n通信：HTTP/消息队列/gRPC' },
+      { title: 'NestJS 微服务', content: '@MessagePattern("cmd") — 请求-响应\n@EventPattern("evt") — 事件驱动\n\n传输层：TCP/Redis/RabbitMQ/Kafka/gRPC' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 微服务通信',
+        code: `@Controller()
+export class MathController {
+  @MessagePattern("add")
+  add(data: number[]): number { return data[0] + data[1]; }
+
+  @EventPattern("user_created")
+  handleUserCreated(data: CreateUserEvent) {
+    console.log("New user:", data.name);
+  }
+}
+
+// 客户端
+@Injectable()
+export class AppService {
+  constructor(@Inject("MATH_SERVICE") private client: ClientProxy) {}
+  add(a: number, b: number) { return this.client.send("add", [a, b]); }
+}`,
+        explanation: '微服务用 @MessagePattern 处理请求-响应，@EventPattern 处理异步事件。ClientProxy 通过消息代理与服务通信。',
+      },
+    ],
+    summary: '1. 从单体开始，需要时再拆分\n2. NestJS 支持 TCP/Redis/RabbitMQ/Kafka\n3. @MessagePattern 请求-响应，@EventPattern 事件驱动',
+    tips: [
+      '💡 不要过早微服务化 — 从单体开始',
+      '⚠️ 微服务增加了运维复杂度',
+      '✅ 选择合适的传输层',
+    ],
+    thinkQuestions: [
+      '什么情况下应该从单体拆分为微服务？',
+      '如何保证微服务之间的数据一致性？',
+    ],
+  },
+
+  'NODE-020': {
+    nodeId: 'NODE-020',
+    motivation: '消息队列让服务之间异步通信 — 解耦、削峰、重试，它是分布式系统的关键基础设施。',
+    concepts: [
+      { title: '消息队列原理', content: '核心模式：\n- 点对点：一条消息只被一个消费者处理\n- 发布/订阅：一条消息广播给所有订阅者\n\n常见队列：RabbitMQ / Kafka / Redis Streams\n\n💡 选择：\n- 简单任务 → Redis\n- 企业级 → RabbitMQ\n- 高吞吐 → Kafka' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS + RabbitMQ',
+        code: `// producer
+@Injectable()
+export class NotificationService {
+  constructor(@Inject("NOTIFICATION_QUEUE") private client: ClientProxy) {}
+  sendNotification(userId: string, message: string) {
+    this.client.emit("notification", { userId, message });
+  }
+}
+
+// consumer
+@Controller()
+export class NotificationConsumer {
+  @EventPattern("notification")
+  async handleNotification(data: { userId: string; message: string }) {
+    // 发邮件/推送
+    await this.emailService.send(data.userId, data.message);
+  }
+}`,
+        explanation: '生产者 emit 发送消息，消费者 @EventPattern 接收处理。解耦了发送和处理逻辑。',
+      },
+    ],
+    summary: '1. 消息队列实现异步通信、解耦、削峰\n2. 模式：点对点、发布/订阅\n3. 选择：Redis(简单)/RabbitMQ(企业)/Kafka(高吞吐)',
+    tips: [
+      '💡 用消息队列解耦 — 生产者不需要知道消费者',
+      '⚠️ 消息可能重复 — 消费者需要幂等',
+      '✅ 死信队列处理失败消息',
+    ],
+    thinkQuestions: [
+      '如何保证消息不丢失？',
+      '消息重复消费怎么办？',
+    ],
+  },
+
+  'NODE-021': {
+    nodeId: 'NODE-021',
+    motivation: '系统上线后需要知道它是否健康 — 监控帮你发现问题，APM 帮你定位瓶颈，告警让你第一时间响应。',
+    concepts: [
+      { title: '健康检查与监控', content: 'NestJS 健康检查：\n@nestjs/terminus\n\nHealthCheck: DNS / TypeORM / Redis / Disk / Memory\n\n监控指标：\n- CPU / 内存使用率\n- 请求延迟（P50/P95/P99）\n- 错误率\n- QPS（每秒请求数）' },
+      { title: 'APM 与链路追踪', content: 'APM（应用性能监控）：\n- New Relic / Datadog / 阿里云 ARMS\n- 自动收集性能指标\n- 慢查询、慢接口自动发现\n\n链路追踪：\n- OpenTelemetry\n- 一个请求跨多个服务的完整链路\n- 用 traceId 串联日志' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS 健康检查',
+        code: `// health.controller.ts
+@Controller("health")
+export class HealthController {
+  constructor(
+    private health: HealthCheckService,
+    private db: TypeOrmHealthIndicator,
+    private redis: RedisHealthIndicator,
+  ) {}
+
+  @Get()
+  @HealthCheck()
+  check() {
+    return this.health.check([
+      () => this.db.pingCheck("database"),
+      () => this.redis.pingCheck("redis"),
+    ]);
+  }
+}`,
+        explanation: 'Terminus 提供标准化的健康检查接口。Kubernetes 用它判断 Pod 是否健康，不健康则自动重启。',
+      },
+    ],
+    summary: '1. @nestjs/terminus 健康检查\n2. 监控：CPU/内存/延迟/错误率/QPS\n3. APM 自动发现性能瓶颈\n4. OpenTelemetry 链路追踪',
+    tips: [
+      '💡 健康检查是 Kubernetes 的标配',
+      '✅ 关注 P95/P99 延迟 — 平均值会掩盖问题',
+      '⚠️ 告警不要太多 — 告警疲劳比没有告警更危险',
+    ],
+    thinkQuestions: [
+      'P50/P95/P99 延迟各代表什么？为什么看 P95 比 P50 更重要？',
+      '如何设计告警规则，避免告警疲劳？',
+    ],
+  },
+
+  'NODE-022': {
+    nodeId: 'NODE-022',
+    motivation: 'REST + 数据库不是唯一的方案 — 有时你需要更快的响应（缓存）、更灵活的查询（GraphQL）、或实时推送（WebSocket）。了解技术选型，你才能做出正确的架构决策。',
+    concepts: [
+      { title: '技术选型决策框架', content: '选择后端技术的决策树：\n\n1. 需要实时推送？→ WebSocket\n2. 需要灵活查询？→ GraphQL\n3. 需要高并发读？→ 缓存（Redis）\n4. 需要异步处理？→ 消息队列\n5. 需要全文搜索？→ Elasticsearch\n6. 需要时序数据？→ InfluxDB/TimescaleDB\n7. 其他 → REST + SQL\n\n💡 不要过度设计 — 用最简单的方案解决问题' },
+      { title: '性能优化策略', content: '优化层次：\n1. 代码层 — 算法、缓存、批量操作\n2. 数据库层 — 索引、查询优化、读写分离\n3. 架构层 — CDN、负载均衡、微服务\n4. 基础设施层 — 更好的服务器、自动扩缩容\n\n💡 先量后优 — 用性能分析找瓶颈，不要猜' },
+    ],
+    codeExamples: [
+      {
+        title: '性能优化实战',
+        code: `// ❌ N+1 查询
+for (const user of users) {
+  user.posts = await this.postRepo.find({ where: { authorId: user.id } });
+}
+
+// ✅ 一次查询 + 分组
+const posts = await this.postRepo.find({
+  where: { authorId: In(users.map(u => u.id)) },
+});
+const postsByAuthor = groupBy(posts, "authorId");
+users.forEach(u => u.posts = postsByAuthor[u.id] || []);
+
+// ❌ 无缓存
+async findOne(id: number) {
+  return this.userRepo.findOne({ where: { id } });
+}
+
+// ✅ 缓存热点数据
+@UseInterceptors(CacheInterceptor)
+@CacheTTL(60)
+async findOne(id: number) {
+  return this.userRepo.findOne({ where: { id } });
+}`,
+        explanation: '最常见的两个性能问题：N+1 查询和缺少缓存。解决 N+1 用批量查询 + 分组，解决缓存用 NestJS 内置 CacheInterceptor。',
+      },
+    ],
+    summary: '1. 技术选型：根据需求选择，不要过度设计\n2. 性能优化先量后优\n3. 常见问题：N+1 查询、缺少缓存',
+    tips: [
+      '💡 用最简单的方案解决问题',
+      '✅ 先量后优 — 用数据说话',
+      '⚠️ 过早优化是万恶之源',
+    ],
+    thinkQuestions: [
+      '什么情况下应该选择 GraphQL 而不是 REST？',
+      '如何找出系统的性能瓶颈？',
+    ],
+  },
+
+  'NODE-023': {
+    nodeId: 'NODE-023',
+    motivation: 'AI 是未来的方向 — 大语言模型(LLM)正在改变软件开发。理解 LLM 的原理和应用，你才能把握技术趋势，构建 AI 增强的应用。',
+    concepts: [
+      { title: 'LLM 基础概念', content: '大语言模型 (LLM)：\n- 通过海量文本训练的语言理解和生成模型\n- GPT / Claude / GLM 等\n\n核心概念：\n- Prompt — 给模型的指令\n- Token — 模型处理的最小单位\n- Temperature — 生成随机性（0确定性 ~ 1创造性）\n- Context Window — 一次能处理的最大 Token 数\n\n💡 LLM 不是搜索引擎，它是语言理解和生成引擎' },
+      { title: 'AI Agent 与 RAG', content: 'AI Agent = LLM + 工具 + 记忆 + 规划\n\nRAG（检索增强生成）：\n1. 用户提问 → 检索相关文档\n2. 文档 + 问题 → LLM 生成答案\n3. 答案基于真实文档，减少幻觉\n\n💡 RAG 让 LLM 基于你的私有数据回答问题' },
+    ],
+    codeExamples: [
+      {
+        title: 'NestJS + LLM 集成',
+        code: `// ai.service.ts
+@Injectable()
+export class AiService {
+  private openai: OpenAI;
+
+  constructor(private config: ConfigService) {
+    this.openai = new OpenAI({
+      apiKey: this.config.get("OPENAI_API_KEY"),
+    });
+  }
+
+  async chat(prompt: string, context?: string) {
+    const messages = [
+      { role: "system", content: "你是一个编程教学助手。" },
+    ];
+    if (context) {
+      messages.push({ role: "system", content: "参考资料：" + context });
+    }
+    messages.push({ role: "user", content: prompt });
+
+    const response = await this.openai.chat.completions.create({
+      model: "gpt-4",
+      messages,
+      temperature: 0.7,
+    });
+    return response.choices[0].message.content;
+  }
+}`,
+        explanation: '通过 OpenAI SDK 调用 LLM。system 消息定义角色，user 消息是用户输入。context 参数实现简单的 RAG。',
+      },
+    ],
+    summary: '1. LLM：Prompt + Token + Temperature + Context Window\n2. AI Agent = LLM + 工具 + 记忆 + 规划\n3. RAG 让 LLM 基于私有数据回答问题\n4. NestJS 通过 SDK 集成 LLM',
+    tips: [
+      '💡 Prompt 是关键 — 好的 Prompt 决定输出质量',
+      '⚠️ LLM 会"幻觉" — 关键信息需要验证',
+      '✅ RAG 减少幻觉 — 让 LLM 基于真实文档回答',
+    ],
+    thinkQuestions: [
+      'LLM 的 Temperature 参数如何影响输出？什么场景用高/低 Temperature？',
+      'RAG 和微调(Fine-tuning)各适合什么场景？',
+    ],
+  },

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="420" fill="url(#bg3)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">生成器进阶 — yield* 与双向通信</text>
+  <rect x="30" y="60" width="340" height="160" rx="10" fill="#6ee7b7" fill-opacity="0.06" stroke="#6ee7b7" stroke-opacity="0.3"/>
+  <text x="50" y="85" font-size="11" font-weight="700" fill="#6ee7b7">yield* — 委托给另一个生成器</text>
+  <text x="50" y="110" font-size="10" font-family="monospace" fill="#fbbf24">function* inner() { yield 1; yield 2; }</text>
+  <text x="50" y="130" font-size="10" font-family="monospace" fill="#fbbf24">function* outer() {</text>
+  <text x="70" y="150" font-size="10" font-family="monospace" fill="#fbbf24">yield* inner();  // 委托</text>
+  <text x="70" y="168" font-size="10" font-family="monospace" fill="#fbbf24">yield 3;</text>
+  <text x="50" y="188" font-size="10" font-family="monospace" fill="#fbbf24">}</text>
+  <text x="50" y="210" font-size="9" fill="#64748b">// 输出：1, 2, 3</text>
+  <rect x="390" y="60" width="340" height="160" rx="10" fill="#93c5fd" fill-opacity="0.06" stroke="#93c5fd" stroke-opacity="0.3"/>
+  <text x="410" y="85" font-size="11" font-weight="700" fill="#93c5fd">双向通信 — next(value) 传值给 yield</text>
+  <text x="410" y="110" font-size="10" font-family="monospace" fill="#fbbf24">function* chat() {</text>
+  <text x="430" y="128" font-size="10" font-family="monospace" fill="#fbbf24">const x = yield '问1';  // 接收外部传入</text>
+  <text x="430" y="148" font-size="10" font-family="monospace" fill="#fbbf24">const y = yield \`答\${x}\`;</text>
+  <text x="410" y="168" font-size="10" font-family="monospace" fill="#fbbf24">}</text>
+  <text x="410" y="190" font-size="10" font-family="monospace" fill="#fbbf24">const g = chat();</text>
+  <text x="410" y="210" font-size="10" font-family="monospace" fill="#fbbf24">g.next();           // '问1'</text>
+  <text x="410" y="225" font-size="10" font-family="monospace" fill="#fbbf24">g.next('hello');    // '答hello'</text>
+  <rect x="30" y="240" width="700" height="160" rx="10" fill="#fca5a5" fill-opacity="0.06" stroke="#fca5a5" stroke-opacity="0.3"/>
+  <text x="50" y="265" font-size="11" font-weight="700" fill="#fca5a5">异步生成器 — async function*</text>
+  <text x="50" y="290" font-size="10" font-family="monospace" fill="#fbbf24">async function* fetchPages() {</text>
+  <text x="70" y="310" font-size="10" font-family="monospace" fill="#fbbf24">let page = 1;</text>
+  <text x="70" y="328" font-size="10" font-family="monospace" fill="#fbbf24">while (true) {</text>
+  <text x="90" y="348" font-size="10" font-family="monospace" fill="#fbbf24">const data = await fetch(`/api/p/${page}`).then(r=>r.json());</text>
+  <text x="90" y="365" font-size="10" font-family="monospace" fill="#fbbf24">if (!data.length) return;</text>
+  <text x="90" y="382" font-size="10" font-family="monospace" fill="#fbbf24">yield data; page++;</text>
+</svg>

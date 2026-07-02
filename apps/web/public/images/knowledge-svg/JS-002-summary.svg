@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" font-family="system-ui,sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="380" fill="url(#bg)" rx="12"/>
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">运算符与表达式 — 总结速查</text>
+  <rect x="30" y="52" width="350" height="140" rx="10" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="205" y="76" font-size="13" font-weight="600" fill="#22c55e" text-anchor="middle">✅ 推荐做法</text>
+  <text x="55" y="98" font-size="11" fill="#94a3b8">1. 比较永远用 ===，不用 ==</text>
+  <text x="55" y="116" font-size="11" fill="#94a3b8">2. + 前显式转类型：Number() / +x</text>
+  <text x="55" y="134" font-size="11" fill="#94a3b8">3. 默认值用 ??，不用 ||</text>
+  <text x="55" y="152" font-size="11" fill="#94a3b8">4. 拿不准优先级就加括号</text>
+  <text x="55" y="170" font-size="11" fill="#94a3b8">5. 判断 NaN 用 Number.isNaN()</text>
+  <rect x="400" y="52" width="350" height="140" rx="10" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="575" y="76" font-size="13" font-weight="600" fill="#ef4444" text-anchor="middle">❌ 禁止做法</text>
+  <text x="425" y="98" font-size="11" fill="#94a3b8">1. 永远不用 ==</text>
+  <text x="425" y="116" font-size="11" fill="#94a3b8">2. 不依赖隐式类型转换</text>
+  <text x="425" y="134" font-size="11" fill="#94a3b8">3. 不嵌套三元运算符</text>
+  <text x="425" y="152" font-size="11" fill="#94a3b8">4. 不用 x === NaN 判断</text>
+  <text x="425" y="170" font-size="11" fill="#94a3b8">5. 不用位运算做业务逻辑</text>
+  <text x="390" y="220" font-size="13" font-weight="600" fill="white" text-anchor="middle">核心口诀</text>
+  <rect x="60" y="236" width="660" height="120" rx="10" fill="#f59e0b" fill-opacity="0.04" stroke="#f59e0b" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="390" y="264" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">=== 严格最安全</text>
+  <text x="390" y="286" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">+ 遇字符串变拼接</text>
+  <text x="390" y="308" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">&amp;&amp; / || 会短路</text>
+  <text x="390" y="330" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">?? 比 || 更靠谱</text>
+  <text x="390" y="352" font-size="11" fill="#94a3b8" text-anchor="middle">拿不准优先级 → 加括号！</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">提升陷阱 · 经典Bug场景</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#ef4444">❌ 陷阱1：var覆盖外层变量</text>
+<rect x="30" y="76" width="720" height="150" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="96" font-size="10" fill="#94a3b8" font-family="monospace">var name = "Alice";</text>
+<text x="50" y="116" font-size="10" fill="#94a3b8" font-family="monospace">function greet() {</text>
+<text x="70" y="136" font-size="10" fill="#ef4444" font-family="monospace">// var name 被提升到函数顶部(undefined)</text>
+<text x="70" y="156" font-size="10" fill="#94a3b8" font-family="monospace">if (!name) {           // 检查的是局部undefined!</text>
+<text x="90" y="176" font-size="10" fill="#ef4444" font-family="monospace">var name = "Bob";  // 本意是检查全局name</text>
+<text x="70" y="196" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="70" y="216" font-size="10" fill="#ef4444" font-family="monospace">console.log(name);     // "Bob" 不是"Alice"!</text>
+<text x="50" y="236" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="40" y="248" font-size="13" font-weight="600" fill="#ef4444">❌ 陷阱2：循环中的var</text>
+<rect x="30" y="260" width="350" height="130" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="280" font-size="10" fill="#94a3b8" font-family="monospace">for (var i = 0; i &lt; 3; i++) {</text>
+<text x="70" y="300" font-size="10" fill="#94a3b8" font-family="monospace">setTimeout(() =&gt; {</text>
+<text x="90" y="320" font-size="10" fill="#ef4444" font-family="monospace">console.log(i);</text>
+<text x="70" y="340" font-size="10" fill="#94a3b8" font-family="monospace">}, 100);</text>
+<text x="50" y="360" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="50" y="380" font-size="10" fill="#ef4444" font-weight="600">输出: 3, 3, 3 — 共享同一个i</text>
+<text x="410" y="248" font-size="13" font-weight="600" fill="#22c55e">✅ 用let修复</text>
+<rect x="400" y="260" width="350" height="130" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.15"/>
+<text x="420" y="280" font-size="10" fill="#94a3b8" font-family="monospace">for (let i = 0; i &lt; 3; i++) {</text>
+<text x="440" y="300" font-size="10" fill="#94a3b8" font-family="monospace">setTimeout(() =&gt; {</text>
+<text x="460" y="320" font-size="10" fill="#22c55e" font-family="monospace">console.log(i);</text>
+<text x="440" y="340" font-size="10" fill="#94a3b8" font-family="monospace">}, 100);</text>
+<text x="420" y="360" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<text x="420" y="380" font-size="10" fill="#22c55e" font-weight="600">输出: 0, 1, 2 ✅ 每次循环新i</text>
+<text x="40" y="414" font-size="13" font-weight="600" fill="#f97316">📋 let解决所有提升陷阱</text>
+<rect x="30" y="426" width="720" height="130" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="450" font-size="10" fill="#22c55e" font-weight="600">let不会覆盖外层：</text>
+<text x="50" y="472" font-size="9" fill="#94a3b8">let有TDZ，不会提前为undefined → if检查正确引用外层</text>
+<text x="50" y="498" font-size="10" fill="#22c55e" font-weight="600">let循环每次创建新作用域：</text>
+<text x="50" y="520" font-size="9" fill="#94a3b8">每个回调各自"记住"自己的i → 输出0,1,2</text>
+<text x="50" y="544" font-size="10" fill="#f97316" font-weight="600">口诀：let代替var，一切提升陷阱都消失</text>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">map · 映射转换的精髓</text>
+
+  <!-- 流程图 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#06b6d4">① map 执行流程</text>
+
+  <!-- 输入数组 -->
+  <rect x="30" y="78" width="120" height="100" rx="6" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.4"/>
+  <text x="90" y="98" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">原数组</text>
+  <text x="45" y="118" font-size="11" fill="#94a3b8" font-family="monospace">1</text>
+  <text x="45" y="138" font-size="11" fill="#94a3b8" font-family="monospace">2</text>
+  <text x="45" y="158" font-size="11" fill="#94a3b8" font-family="monospace">3</text>
+
+  <!-- 箭头 -->
+  <line x1="155" y1="128" x2="215" y2="128" stroke="#06b6d4" stroke-width="2"/>
+  <polygon points="215,128 207,124 207,132" fill="#06b6d4"/>
+
+  <!-- 转换函数 -->
+  <rect x="220" y="100" width="140" height="56" rx="6" fill="#06b6d4" fill-opacity="0.12" stroke="#06b6d4" stroke-opacity="0.5"/>
+  <text x="290" y="120" font-size="10" font-weight="700" fill="#06b6d4" text-anchor="middle">n =&gt; n * 2</text>
+  <text x="290" y="140" font-size="9" fill="#94a3b8" text-anchor="middle">对每个元素调用</text>
+
+  <!-- 箭头 -->
+  <line x1="365" y1="128" x2="425" y2="128" stroke="#22c55e" stroke-width="2"/>
+  <polygon points="425,128 417,124 417,132" fill="#22c55e"/>
+
+  <!-- 输出数组 -->
+  <rect x="430" y="78" width="120" height="100" rx="6" fill="#22c55e" fill-opacity="0.10" stroke="#22c55e" stroke-opacity="0.4"/>
+  <text x="490" y="98" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">新数组</text>
+  <text x="445" y="118" font-size="11" fill="#94a3b8" font-family="monospace">2</text>
+  <text x="445" y="138" font-size="11" fill="#94a3b8" font-family="monospace">4</text>
+  <text x="445" y="158" font-size="11" fill="#94a3b8" font-family="monospace">6</text>
+
+  <!-- 关键特性 -->
+  <rect x="570" y="78" width="180" height="100" rx="6" fill="#0f172a" stroke="#1e293b"/>
+  <text x="585" y="98" font-size="10" font-weight="600" fill="#eab308">🔑 关键特性</text>
+  <text x="585" y="116" font-size="9" fill="#94a3b8">• 长度不变（1:1 映射）</text>
+  <text x="585" y="132" font-size="9" fill="#94a3b8">• 返回新数组，不改原数组</text>
+  <text x="585" y="148" font-size="9" fill="#94a3b8">• callback 接收 3 个参数：</text>
+  <text x="585" y="162" font-size="9" fill="#94a3b8">  (item, index, array)</text>
+
+  <!-- 实战示例 -->
+  <text x="40" y="200" font-size="13" font-weight="600" fill="#a855f7">② map 实战场景</text>
+
+  <rect x="30" y="212" width="350" height="160" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="234" font-size="10" font-weight="700" fill="#a855f7">提取字段（最常见）</text>
+  <text x="50" y="254" font-size="9" fill="#94a3b8" font-family="monospace">const users = [{ name: "A" }, { name: "B" }];</text>
+  <text x="50" y="274" font-size="9" fill="#22c55e" font-family="monospace">users.map(u =&gt; u.name)</text>
+  <text x="50" y="294" font-size="9" fill="#22c55e" font-family="monospace">// ["A", "B"]</text>
+  <text x="50" y="320" font-size="10" font-weight="700" fill="#a855f7">格式化</text>
+  <text x="50" y="340" font-size="9" fill="#94a3b8" font-family="monospace">[1, 2, 3].map(n =&gt; \`第 \${n} 项\`)</text>
+  <text x="50" y="360" font-size="9" fill="#22c55e" font-family="monospace">// ["第 1 项", "第 2 项", "第 3 项"]</text>
+
+  <rect x="400" y="212" width="350" height="160" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+  <text x="420" y="234" font-size="10" font-weight="700" fill="#f97316">React 列表渲染（必备）</text>
+  <text x="420" y="254" font-size="9" fill="#94a3b8" font-family="monospace">{items.map(item =&gt; (</text>
+  <text x="420" y="272" font-size="9" fill="#94a3b8" font-family="monospace">  &lt;li key={item.id}&gt;</text>
+  <text x="420" y="290" font-size="9" fill="#94a3b8" font-family="monospace">    {item.name}</text>
+  <text x="420" y="308" font-size="9" fill="#94a3b8" font-family="monospace">  &lt;/li&gt;</text>
+  <text x="420" y="326" font-size="9" fill="#94a3b8" font-family="monospace">))}</text>
+  <text x="420" y="352" font-size="9" fill="#eab308">⚠️ 必须加 key，帮助 React diff</text>
+
+  <!-- 常见陷阱 -->
+  <text x="40" y="396" font-size="13" font-weight="600" fill="#ef4444">③ 常见陷阱</text>
+
+  <rect x="30" y="408" width="720" height="148" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="50" y="432" font-size="10" font-weight="600" fill="#ef4444">🚫 不要用 map 做 forEach</text>
+  <text x="50" y="450" font-size="9" fill="#94a3b8" font-family="monospace">arr.map(item =&gt; console.log(item));  // ❌ 浪费内存创建新数组</text>
+  <text x="50" y="466" font-size="9" fill="#22c55e" font-family="monospace">arr.forEach(item =&gt; console.log(item));  // ✅ 用 forEach</text>
+
+  <text x="50" y="494" font-size="10" font-weight="600" fill="#ef4444">🚫 map 不修改原数组</text>
+  <text x="50" y="512" font-size="9" fill="#94a3b8" font-family="monospace">arr.map(n =&gt; n * 2);  // arr 不变，新数组被丢弃了！</text>
+  <text x="50" y="528" font-size="9" fill="#22c55e" font-family="monospace">const doubled = arr.map(n =&gt; n * 2);  // ✅ 接住返回值</text>
+  <text x="50" y="548" font-size="9" fill="#eab308">💡 map 适合"转换 + 接住新数组"，不适合"遍历做副作用"</text>
+</svg>

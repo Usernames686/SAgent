@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">查找判断 · includes / startsWith / indexOf</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#06b6d4">① 查找判断方法对比</text>
+  <rect x="30" y="74" width="720" height="200" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <rect x="30" y="74" width="180" height="32" fill="#f97316" fill-opacity="0.12"/>
+  <text x="120" y="95" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">方法</text>
+  <rect x="210" y="74" width="270" height="32" fill="#06b6d4" fill-opacity="0.10"/>
+  <text x="345" y="95" font-size="11" font-weight="600" fill="#06b6d4" text-anchor="middle">返回值</text>
+  <rect x="480" y="74" width="270" height="32" fill="#22c55e" fill-opacity="0.10"/>
+  <text x="615" y="95" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">适用场景</text>
+  <text x="120" y="128" font-size="10" fill="#22c55e" text-anchor="middle">includes(str)</text>
+  <text x="345" y="128" font-size="10" fill="#94a3b8" text-anchor="middle">true / false</text>
+  <text x="615" y="128" font-size="10" fill="#94a3b8" text-anchor="middle">是否包含（最常用）</text>
+  <text x="120" y="156" font-size="10" fill="#22c55e" text-anchor="middle">startsWith(str)</text>
+  <text x="345" y="156" font-size="10" fill="#94a3b8" text-anchor="middle">true / false</text>
+  <text x="615" y="156" font-size="10" fill="#94a3b8" text-anchor="middle">前缀判断</text>
+  <text x="120" y="184" font-size="10" fill="#22c55e" text-anchor="middle">endsWith(str)</text>
+  <text x="345" y="184" font-size="10" fill="#94a3b8" text-anchor="middle">true / false</text>
+  <text x="615" y="184" font-size="10" fill="#94a3b8" text-anchor="middle">后缀判断</text>
+  <text x="120" y="212" font-size="10" fill="#eab308" text-anchor="middle">indexOf(str)</text>
+  <text x="345" y="212" font-size="10" fill="#94a3b8" text-anchor="middle">索引 / -1</text>
+  <text x="615" y="212" font-size="10" fill="#94a3b8" text-anchor="middle">找到位置（ES5 兼容）</text>
+  <text x="120" y="240" font-size="10" fill="#eab308" text-anchor="middle">lastIndexOf(str)</text>
+  <text x="345" y="240" font-size="10" fill="#94a3b8" text-anchor="middle">索引 / -1</text>
+  <text x="615" y="240" font-size="10" fill="#94a3b8" text-anchor="middle">从末尾找</text>
+  <text x="120" y="268" font-size="10" fill="#a855f7" text-anchor="middle">match(regex)</text>
+  <text x="345" y="268" font-size="10" fill="#94a3b8" text-anchor="middle">数组 / null</text>
+  <text x="615" y="268" font-size="10" fill="#94a3b8" text-anchor="middle">正则匹配</text>
+  <text x="40" y="300" font-size="13" font-weight="600" fill="#22c55e">② 实战：URL 判断</text>
+  <rect x="30" y="310" width="720" height="100" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="50" y="332" font-size="9" fill="#22c55e" font-family="monospace">const url = "https://example.com/api/users?role=admin";</text>
+  <text x="50" y="350" font-size="9" fill="#94a3b8" font-family="monospace">url.includes("api");       // true</text>
+  <text x="50" y="366" font-size="9" fill="#94a3b8" font-family="monospace">url.startsWith("https");   // true</text>
+  <text x="50" y="382" font-size="9" fill="#94a3b8" font-family="monospace">url.endsWith("admin");     // true</text>
+  <text x="50" y="398" font-size="9" fill="#eab308" font-family="monospace">💡 includes 比 indexOf !== -1 更语义化，优先用 includes</text>
+  <text x="40" y="432" font-size="13" font-weight="600" fill="#ef4444">③ 陷阱</text>
+  <rect x="30" y="442" width="720" height="110" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="50" y="464" font-size="10" font-weight="600" fill="#ef4444">🚫 大小写敏感</text>
+  <text x="50" y="482" font-size="9" fill="#94a3b8" font-family="monospace">"Hello".includes("hello");  // false！</text>
+  <text x="50" y="500" font-size="9" fill="#22c55e" font-family="monospace">"Hello".toLowerCase().includes("hello");  // true ✅</text>
+  <text x="50" y="524" font-size="10" font-weight="600" fill="#ef4444">🚫 空字符串 includes 返回 true</text>
+  <text x="50" y="542" font-size="9" fill="#94a3b8" font-family="monospace">"abc".includes("");  // true（空串是任何串的子串）</text>
+</svg>

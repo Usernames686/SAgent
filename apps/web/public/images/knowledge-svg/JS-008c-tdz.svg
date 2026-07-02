@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">暂时性死区TDZ · let/const安全保护</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#3b82f6">🚫 TDZ — 声明前禁止访问</text>
+<rect x="30" y="76" width="720" height="200" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+<text x="50" y="96" font-size="10" fill="#94a3b8" font-family="monospace">console.log(y);  // ❌ ReferenceError!</text>
+<text x="50" y="116" font-size="10" fill="#22c55e" font-family="monospace">let y = 5;       // ← 声明点，TDZ结束</text>
+<text x="50" y="136" font-size="10" fill="#94a3b8" font-family="monospace">console.log(y);  // 5 ✅ 安全访问</text>
+<text x="50" y="170" font-size="11" font-weight="600" fill="#3b82f6">TDZ时间线</text>
+<line x1="60" y1="190" x2="720" y2="190" stroke="#475569" stroke-width="1"/>
+<rect x="60" y="182" width="250" height="16" rx="3" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-opacity="0.3"/>
+<text x="185" y="193" font-size="8" fill="#ef4444" text-anchor="middle">🚫 TDZ禁区 — 禁止访问</text>
+<rect x="310" y="182" width="410" height="16" rx="3" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="515" y="193" font-size="8" fill="#22c55e" text-anchor="middle">✅ 可安全访问区域</text>
+<line x1="310" y1="178" x2="310" y2="200" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="310" y="214" font-size="7" fill="#3b82f6" text-anchor="middle">let y = 5</text>
+<text x="60" y="214" font-size="7" fill="#64748b">作用域开始</text>
+<text x="720" y="214" font-size="7" fill="#64748b" text-anchor="end">作用域结束</text>
+<text x="40" y="250" font-size="13" font-weight="600" fill="#a855f7">🔍 TDZ细节：块内同名变量遮蔽</text>
+<rect x="30" y="262" width="720" height="160" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.15"/>
+<text x="50" y="286" font-size="10" fill="#94a3b8" font-family="monospace">const x = "outer";</text>
+<text x="50" y="306" font-size="10" fill="#94a3b8" font-family="monospace"></text>
+<text x="50" y="326" font-size="10" fill="#94a3b8" font-family="monospace">if (true) {</text>
+<text x="70" y="346" font-size="10" fill="#ef4444" font-family="monospace">console.log(x);  // ❌ ReferenceError!</text>
+<text x="70" y="366" font-size="10" fill="#a855f7" font-family="monospace">// 不是"outer"！引擎知道块内有let x</text>
+<text x="70" y="386" font-size="10" fill="#a855f7" font-family="monospace">// 所以不会去外层找，而是报TDZ错误</text>
+<text x="70" y="406" font-size="10" fill="#94a3b8" font-family="monospace">let x = "inner";  // TDZ结束</text>
+<text x="50" y="426" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+<rect x="30" y="436" width="720" height="120" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="460" font-size="11" font-weight="600" fill="#3b82f6">💡 TDZ核心价值</text>
+<text x="50" y="484" font-size="10" fill="#94a3b8">• 强制"先声明再使用" — 杜绝var的隐患</text>
+<text x="50" y="504" font-size="10" fill="#94a3b8">• 让代码行为可预测 — 不会出现undefined的意外</text>
+<text x="50" y="524" font-size="10" fill="#22c55e">• ES6最重要的安全改进之一</text>
+<text x="50" y="544" font-size="10" fill="#f97316" font-weight="600">口诀：let/const也提升，但有TDZ保护，声明前禁止访问</text>
+</svg>

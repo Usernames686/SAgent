@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="380" fill="url(#bg5)"/>
+  <text x="380" y="28" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">四种继承方式对比</text>
+  <rect x="40" y="55" width="160" height="130" rx="8" fill="#f87171" fill-opacity="0.06" stroke="#f87171" stroke-opacity="0.3"/>
+  <text x="120" y="78" font-size="10" font-weight="600" fill="#fca5a5" text-anchor="middle">原型链继承</text>
+  <text x="55" y="98" font-size="9" fill="#94a3b8">✅ 方法复用</text>
+  <text x="55" y="115" font-size="9" fill="#f87171">❌ 引用类型共享</text>
+  <text x="55" y="132" font-size="9" fill="#f87171">❌ 无法传参给父</text>
+  <text x="55" y="149" font-size="9" fill="#f87171">❌ 子类new覆盖父</text>
+  <text x="55" y="170" font-size="9" fill="#64748b">Child.prototype = new Parent()</text>
+  <rect x="220" y="55" width="160" height="130" rx="8" fill="#fbbf24" fill-opacity="0.06" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="300" y="78" font-size="10" font-weight="600" fill="#fcd34d" text-anchor="middle">构造函数继承</text>
+  <text x="235" y="98" font-size="9" fill="#94a3b8">✅ 避免引用共享</text>
+  <text x="235" y="115" font-size="9" fill="#94a3b8">✅ 可传参给父</text>
+  <text x="235" y="132" font-size="9" fill="#f87171">❌ 方法无法复用</text>
+  <text x="235" y="149" font-size="9" fill="#f87171">❌ 无法instanceof</text>
+  <text x="235" y="170" font-size="9" fill="#64748b">Parent.call(this, args)</text>
+  <rect x="400" y="55" width="160" height="130" rx="8" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="480" y="78" font-size="10" font-weight="600" fill="#93c5fd" text-anchor="middle">组合继承</text>
+  <text x="415" y="98" font-size="9" fill="#94a3b8">✅ 方法复用</text>
+  <text x="415" y="115" font-size="9" fill="#94a3b8">✅ 避免引用共享</text>
+  <text x="415" y="132" font-size="9" fill="#94a3b8">✅ 可传参</text>
+  <text x="415" y="149" font-size="9" fill="#fbbf24">⚠️ 父构造调用2次</text>
+  <text x="415" y="170" font-size="9" fill="#64748b">原型链+构造函数组合</text>
+  <rect x="580" y="55" width="160" height="130" rx="8" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="660" y="78" font-size="10" font-weight="600" fill="#6ee7b7" text-anchor="middle">ES6 class</text>
+  <text x="595" y="98" font-size="9" fill="#94a3b8">✅ 语法简洁</text>
+  <text x="595" y="115" font-size="9" fill="#94a3b8">✅ 组合继承效果</text>
+  <text x="595" y="132" font-size="9" fill="#94a3b8">✅ 可读性强</text>
+  <text x="595" y="149" font-size="9" fill="#94a3b8">✅ NestJS推荐</text>
+  <text x="595" y="170" font-size="9" fill="#64748b">class C extends P {}</text>
+  <text x="380" y="225" font-size="12" font-weight="600" fill="#fbbf24" text-anchor="middle">🏆 推荐：ES6 class（语法糖，本质是组合继承的优化版）</text>
+  <text x="40" y="260" font-size="10" fill="#94a3b8">ES5 时代的继承写法（了解即可，面试会问）：</text>
+  <text x="40" y="280" font-size="9.5" fill="#94a3b8" font-family="monospace">// 组合继承 = 原型链继承 + 构造函数继承</text>
+  <text x="40" y="296" font-size="9.5" fill="#94a3b8" font-family="monospace">function Child(name) { Parent.call(this, name); }  // 构造函数继承</text>
+  <text x="40" y="312" font-size="9.5" fill="#94a3b8" font-family="monospace">Child.prototype = Object.create(Parent.prototype);  // 原型链继承</text>
+  <text x="40" y="328" font-size="9.5" fill="#94a3b8" font-family="monospace">Child.prototype.constructor = Child;  // 修复 constructor 指向</text>
+  <text x="40" y="355" font-size="10" fill="#34d399">💡 Object.create(Parent.prototype) = 创建空对象，__proto__ 指向 Parent.prototype</text>
+</svg>

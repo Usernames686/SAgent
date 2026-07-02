@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="300" fill="#0f172a" rx="16"/>
+  <text x="450" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#f8fafc">A/B 测试流程</text>
+  
+  <rect x="50" y="70" width="180" height="80" rx="12" fill="#3b82f6"/>
+  <text x="140" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="white">实验设计</text>
+  <text x="140" y="120" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">对照组 vs 实验组</text>
+  <text x="140" y="140" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">流量分配 50/50</text>
+  
+  <line x1="230" y1="110" x2="260" y2="110" stroke="#94a3b8" stroke-width="2"/>
+  <polygon points="260,110 270,105 270,115" fill="#94a3b8"/>
+  
+  <rect x="280" y="70" width="180" height="80" rx="12" fill="#8b5cf6"/>
+  <text x="370" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="white">数据收集</text>
+  <text x="370" y="120" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">每组 5 名学生</text>
+  <text x="370" y="140" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">记录得分/用时</text>
+  
+  <line x1="460" y1="110" x2="490" y2="110" stroke="#94a3b8" stroke-width="2"/>
+  <polygon points="490,110 500,105 500,115" fill="#94a3b8"/>
+  
+  <rect x="510" y="70" width="180" height="80" rx="12" fill="#f97316"/>
+  <text x="600" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="white">统计分析</text>
+  <text x="600" y="120" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">P值小于0.05</text>
+  <text x="600" y="140" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">置信度大于95%</text>
+  
+  <rect x="50" y="190" width="800" height="90" rx="12" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="450" y="220" text-anchor="middle" font-size="14" font-weight="bold" fill="#10b981">实验结果</text>
+  <text x="150" y="250" font-size="11" fill="#f8fafc">对照组(案例对比): 平均分 52, 通过率 40%</text>
+  <text x="150" y="270" font-size="11" fill="#f8fafc">实验组(苏格拉底式): 平均分 85, 通过率 95%</text>
+  <text x="550" y="250" font-size="11" fill="#10b981">效果提升: +63.5%</text>
+  <text x="550" y="270" font-size="11" fill="#94a3b8">渐进放量: 1%→5%→20%→50%→100%</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="420" fill="url(#bg2)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle">错误对象解剖 — Error 与子类</text>
+  <rect x="30" y="60" width="340" height="160" rx="10" fill="#f87171" fill-opacity="0.08" stroke="#f87171" stroke-opacity="0.4"/>
+  <text x="50" y="85" font-size="12" font-weight="700" fill="#fca5a5">Error — 基类</text>
+  <line x1="50" y1="95" x2="350" y2="95" stroke="#f87171" stroke-opacity="0.2"/>
+  <text x="50" y="115" font-size="10" fill="#fbbf24" font-family="monospace">const e = new Error('boom');</text>
+  <text x="50" y="135" font-size="10" fill="#94a3b8" font-family="monospace">e.message    // 'boom'</text>
+  <text x="50" y="155" font-size="10" fill="#94a3b8" font-family="monospace">e.name       // 'Error'</text>
+  <text x="50" y="175" font-size="10" fill="#94a3b8" font-family="monospace">e.stack      // 调用栈</text>
+  <text x="50" y="200" font-size="9" fill="#64748b">内置属性：message / name / stack</text>
+  <rect x="390" y="60" width="340" height="160" rx="10" fill="#fbbf24" fill-opacity="0.08" stroke="#fbbf24" stroke-opacity="0.4"/>
+  <text x="410" y="85" font-size="12" font-weight="700" fill="#fcd34d">子类 — 特定错误类型</text>
+  <line x1="410" y1="95" x2="710" y2="95" stroke="#fbbf24" stroke-opacity="0.2"/>
+  <text x="410" y="115" font-size="10" fill="#94a3b8" font-family="monospace">TypeError    // 类型错误</text>
+  <text x="410" y="135" font-size="10" fill="#94a3b8" font-family="monospace">RangeError   // 范围错误</text>
+  <text x="410" y="155" font-size="10" fill="#94a3b8" font-family="monospace">SyntaxError // 语法错误</text>
+  <text x="410" y="175" font-size="10" fill="#94a3b8" font-family="monospace">ReferenceError</text>
+  <text x="410" y="200" font-size="9" fill="#64748b">✅ 用 instanceof 精确判断错误类型</text>
+  <rect x="30" y="240" width="700" height="160" rx="10" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-opacity="0.3"/>
+  <text x="50" y="265" font-size="12" font-weight="700" fill="#6ee7b7">✅ 自定义错误类</text>
+  <text x="50" y="290" font-size="10" fill="#fbbf24" font-family="monospace">class ValidationError extends Error {</text>
+  <text x="65" y="308" font-size="10" fill="#fbbf24" font-family="monospace">constructor(field, msg) {</text>
+  <text x="80" y="326" font-size="10" fill="#fbbf24" font-family="monospace">super(msg); this.field = field; this.name = 'ValidationError';</text>
+  <text x="65" y="344" font-size="10" fill="#fbbf24" font-family="monospace">}</text>
+  <text x="50" y="368" font-size="10" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="50" y="388" font-size="9" fill="#6ee7b7">💡 业务错误用自定义类，方便统一捕获和处理</text>
+</svg>

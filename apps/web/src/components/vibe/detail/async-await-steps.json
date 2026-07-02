@@ -1,0 +1,213 @@
+[
+  {
+    "id": 0,
+    "title": "从生活出发：async/await 是什么？",
+    "subtitle": "5 分钟 · 零基础友好",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 异步代码的同步写法",
+        "text": "async/await 是 Promise 的语法糖。它让你用同步的写法写异步代码——不用 .then() 链，直接用 await 等待结果。代码更直观，可读性大幅提升。",
+        "variant": "teal"
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🍬",
+            "label": "语法糖",
+            "desc": "底层仍是 Promise",
+            "color": "purple"
+          },
+          {
+            "icon": "⏸️",
+            "label": "await",
+            "desc": "暂停函数等结果",
+            "color": "blue"
+          },
+          {
+            "icon": "🏷️",
+            "label": "async",
+            "desc": "标记函数返回 Promise",
+            "color": "green"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "title": "❌ Promise 链式写法",
+        "code": "function fetchUser(id) {\n  return fetch(`/api/users/${id}`)\n    .then(res => res.json())\n    .then(user => {\n      console.log(user);\n      return user;\n    });\n}",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ async/await 写法",
+        "code": "async function fetchUser(id) {\n  const res  = await fetch(`/api/users/${id}`);\n  const user = await res.json();\n  console.log(user);\n  return user;\n}\n// 同样的逻辑，但像同步代码一样直观",
+        "variant": "green"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "async 函数的本质",
+    "subtitle": "8 分钟 · 核心原理",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 async 做了两件事",
+        "text": "① 自动把返回值包装成 Promise：return 1 变成 Promise.resolve(1)；② 允许函数内使用 await。async 函数永远返回 Promise，这是它的核心契约。",
+        "variant": "blue"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-011-async-flow.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 async 的返回值",
+        "code": "async function f1() { return 1; }\nasync function f2() { throw new Error('boom'); }\nasync function f3() { return Promise.resolve(2); }\n\nf1();  // Promise {<fulfilled>: 1}\nf2();  // Promise {<rejected>: Error}\nf3();  // Promise {<fulfilled>: 2}\n// 无论返回什么，最终都是 Promise",
+        "variant": "teal"
+      },
+      {
+        "type": "tip",
+        "title": "💡 await 的本质",
+        "text": "await 是暂停函数 + 等待 Promise resolve + 取出 value。await 后面的代码相当于放在 .then() 里。await 只能在 async 函数内使用（顶层 await 需要 ES2022）。"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "错误处理三种模式",
+    "subtitle": "10 分钟 · 实战必会",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 try/catch + async/await",
+        "text": "async/await 用 try/catch 处理错误，像同步代码一样自然。await 抛出的异常会被 catch 捕获。这是 async/await 相比 Promise 链最大的优势之一。",
+        "variant": "blue"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-011-error-modes.svg"
+      },
+      {
+        "type": "code",
+        "title": "✅ try/catch 模式",
+        "code": "async function loadUser(id) {\n  try {\n    const res  = await fetch(`/api/users/${id}`);\n    if (!res.ok) throw new Error('用户不存在');\n    return await res.json();\n  } catch (err) {\n    console.error('加载失败:', err.message);\n    return null;  // 兜底返回\n  }\n}",
+        "variant": "green"
+      },
+      {
+        "type": "code",
+        "title": "✅ .catch() 给默认值",
+        "code": "async function loadList() {\n  // 失败时返回空数组，不抛错\n  const data = await fetch('/api/list')\n    .then(r => r.json())\n    .catch(() => []);\n  return data;\n}",
+        "variant": "blue"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "并发 vs 串行 — 性能关键",
+    "subtitle": "10 分钟 · 性能优化",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 await 会阻塞当前函数",
+        "text": "for 循环里 await 是串行执行——每个请求等前一个完成。应该用 Promise.all 并行发出所有请求。这是 async/await 最容易踩的性能坑。",
+        "variant": "orange"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-011-parallel-vs-serial.svg"
+      },
+      {
+        "type": "code",
+        "title": "❌ 串行：3 秒",
+        "code": "const urls = ['/api/a', '/api/b', '/api/c'];\nconst results = [];\nfor (const url of urls) {\n  // 每个请求等 1 秒，3 个 = 3 秒\n  const r = await fetch(url);\n  results.push(r);\n}",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ 并行：1 秒",
+        "code": "const urls = ['/api/a', '/api/b', '/api/c'];\n// 3 个请求同时发出，1 秒全部完成\nconst results = await Promise.all(\n  urls.map(url => fetch(url))\n);",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 何时用串行？",
+        "text": "当后一个请求依赖前一个的结果时，必须串行。例如：先登录拿 token，再用 token 请求数据。这时用 for...of + await 是正确的。"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "常见陷阱与最佳实践",
+    "subtitle": "8 分钟 · 避坑指南",
+    "sections": [
+      {
+        "type": "warning",
+        "text": "**5 个常见陷阱**：\n1. 🚫 循环里 await — 串行执行慢，应该用 Promise.all\n2. 🚫 忘记 await — 拿到的是 Promise 而非结果\n3. 🚫 async 函数没有 await — 虽然能跑，但失去了 async 的意义\n4. 🚫 顶层 await — 只能在 ES Module 中使用，CommonJS 不行\n5. 🚫 在 forEach 里 await — forEach 不会等待，应该用 for...of",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "❌ 陷阱 5：forEach 不等 await",
+        "code": "// ❌ forEach 不会等待 await\nurls.forEach(async url => {\n  await fetch(url);  // 这里会立即返回，不等\n});\nconsole.log('done');  // 在所有请求完成前就打印\n\n// ✅ 用 for...of\nfor (const url of urls) {\n  await fetch(url);\n}",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ 最佳实践",
+        "code": "// 1. 并发用 Promise.all\nawait Promise.all(urls.map(fetch));\n\n// 2. 依赖关系用串行\nconst token = await login();\nconst data  = await fetchWith(token);\n\n// 3. 错误兜底\nconst r = await api().catch(() => null);\n\n// 4. 超时控制\nconst data = await Promise.race([\n  fetch(url),\n  new Promise((_, rej) => setTimeout(() => rej('timeout'), 5000))\n]);",
+        "variant": "green"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "实战：重试与并发池",
+    "subtitle": "10 分钟 · 高级应用",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 网络请求不可靠",
+        "text": "实际开发中，网络请求经常失败。需要自动重试机制。同时，大量请求不能一次性发出，需要并发池控制。这两个模式是 async/await 的高级应用。",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "✅ 指数退避重试",
+        "code": "async function retry(fn, retries = 3, delay = 1000) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fn();\n    } catch (err) {\n      if (i === retries - 1) throw err;\n      await new Promise(r => setTimeout(r, delay * 2 ** i));\n    }\n  }\n}\n\n// 自动重试 3 次，每次延迟翻倍\nconst data = await retry(() => fetch(url).then(r => r.json()));",
+        "variant": "purple"
+      },
+      {
+        "type": "code",
+        "title": "✅ 并发池（同时最多 N 个）",
+        "code": "async function pool(tasks, limit = 5) {\n  const results = [];\n  const running = new Set();\n  for (const task of tasks) {\n    const p = task().then(r => { running.delete(p); return r; });\n    running.add(p);\n    results.push(p);\n    if (running.size >= limit) await Promise.race(running);\n  }\n  return Promise.all(results);\n}",
+        "variant": "blue"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "总结与决策",
+    "subtitle": "3 分钟 · 记住这些就够了",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "🏆 决策口诀",
+        "text": "**async 标记函数，await 等待结果。try/catch 处理错误，Promise.all 并发执行。**\n\n1. async 函数永远返回 Promise\n2. await 暂停函数，等待 Promise resolve\n3. try/catch 捕获 await 抛出的异常\n4. Promise.all 并行，for...of + await 串行\n5. 重试用递归，并发用池",
+        "variant": "teal"
+      },
+      {
+        "type": "code",
+        "title": "📝 速查表",
+        "code": "// 基础\nasync function f() { return await p; }\n\n// 错误处理\ntry { await p; } catch (e) { ... }\nawait p.catch(e => null);\n\n// 并发\nawait Promise.all([p1, p2]);\nawait Promise.race([p1, timeout]);\n\n// 串行\nfor (const url of urls) { await fetch(url); }",
+        "variant": "purple"
+      },
+      {
+        "type": "success",
+        "text": "恭喜完成 async/await 的深度学习！🎉 现在 Promise 和 async/await 你都掌握了，可以应对任何异步场景。"
+      }
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">return 规则 · 返回值与换行陷阱</text>
+
+  <!-- 左：return 基本规则 -->
+  <text x="40" y="68" font-size="13" font-weight="600" fill="#22c55e">✅ return 的三条规则</text>
+  <rect x="30" y="78" width="370" height="220" rx="10" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+
+  <text x="50" y="102" font-size="11" font-weight="600" fill="#22c55e">① 遇到 return 立即结束函数</text>
+  <rect x="50" y="112" width="330" height="36" rx="4" fill="#0f172a"/>
+  <text x="62" y="130" font-size="9" fill="#ef4444" font-family="monospace">console.log("A");   // 执行</text>
+  <text x="62" y="144" font-size="9" fill="#ef4444" font-family="monospace">return;             // 后面不执行</text>
+
+  <text x="50" y="170" font-size="11" font-weight="600" fill="#22c55e">② 没有 return 返回 undefined</text>
+  <rect x="50" y="180" width="330" height="34" rx="4" fill="#0f172a"/>
+  <text x="62" y="198" font-size="9" fill="#94a3b8" font-family="monospace">function f() { }   // f() → undefined</text>
+
+  <text x="50" y="226" font-size="11" font-weight="600" fill="#22c55e">③ return 后无值 → 返回 undefined</text>
+  <rect x="50" y="236" width="330" height="44" rx="4" fill="#0f172a"/>
+  <text x="62" y="254" font-size="9" fill="#94a3b8" font-family="monospace">function f() {</text>
+  <text x="62" y="268" font-size="9" fill="#ef4444" font-family="monospace">  return;   // ❌ 不是返回 null</text>
+  <text x="62" y="282" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+
+  <!-- 右：换行陷阱（重点！） -->
+  <text x="420" y="68" font-size="13" font-weight="600" fill="#ef4444">⚠️ 换行陷阱 — 面试必考</text>
+  <rect x="420" y="78" width="340" height="220" rx="10" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.3"/>
+
+  <text x="440" y="100" font-size="10" fill="#ef4444" font-weight="600">❌ 想返回对象，却返回 undefined</text>
+  <rect x="440" y="110" width="300" height="80" rx="4" fill="#0f172a"/>
+  <text x="452" y="128" font-size="9" fill="#94a3b8" font-family="monospace">function bad() {</text>
+  <text x="452" y="142" font-size="9" fill="#ef4444" font-family="monospace">  return</text>
+  <text x="452" y="156" font-size="9" fill="#ef4444" font-family="monospace">  { value: 42 };  // ⚠️ 不执行</text>
+  <text x="452" y="170" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="452" y="186" font-size="9" fill="#ef4444" font-family="monospace">bad();  // undefined ❌</text>
+
+  <text x="440" y="216" font-size="10" fill="#22c55e" font-weight="600">✅ 正确写法：return 和对象同行</text>
+  <rect x="440" y="226" width="300" height="68" rx="4" fill="#0f172a"/>
+  <text x="452" y="244" font-size="9" fill="#22c55e" font-family="monospace">function good() {</text>
+  <text x="452" y="258" font-size="9" fill="#22c55e" font-family="monospace">  return { value: 42 };  // ✅</text>
+  <text x="452" y="272" font-size="9" fill="#22c55e" font-family="monospace">}</text>
+  <text x="452" y="288" font-size="9" fill="#22c55e" font-family="monospace">good();  // { value: 42 } ✅</text>
+
+  <!-- 底部：为什么会这样？ -->
+  <text x="40" y="320" font-size="13" font-weight="600" fill="#a855f7">🔍 为什么会这样？— ASI 自动分号插入</text>
+
+  <rect x="30" y="332" width="730" height="110" rx="8" fill="#0f172a" stroke="#1e293b"/>
+  <text x="50" y="356" font-size="11" fill="#a855f7" font-weight="600">JavaScript 引擎的 ASI（Automatic Semicolon Insertion）机制：</text>
+  <text x="50" y="378" font-size="10" fill="#cbd5e1">当一行以 return 结尾时，引擎会自动在 return 后插入分号 → 等价于 return;</text>
+  <text x="50" y="400" font-size="10" fill="#cbd5e1">→ 后面的 { value: 42 } 成了"死代码"，永远不会执行</text>
+  <text x="50" y="422" font-size="10" fill="#eab308" font-weight="600">💡 防御方法：return 后永远把 { 写在同一行</text>
+
+  <!-- 总结 -->
+  <rect x="30" y="458" width="730" height="100" rx="8" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="50" y="482" font-size="12" font-weight="700" fill="#22c55e">🎯 return 口诀</text>
+  <text x="50" y="504" font-size="10" fill="#cbd5e1">• return 立即结束函数 · 没有 return 返回 undefined</text>
+  <text x="50" y="522" font-size="10" fill="#cbd5e1">• 返回对象时，return 和 { 必须在同一行（防 ASI 陷阱）</text>
+  <text x="50" y="540" font-size="10" fill="#eab308" font-weight="600">• 提前 return（early return）能让代码更扁平、可读性更好</text>
+</svg>

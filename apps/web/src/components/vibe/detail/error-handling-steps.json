@@ -1,0 +1,217 @@
+[
+  {
+    "id": 0,
+    "title": "从生活出发：为什么需要错误处理？",
+    "subtitle": "5 分钟 · 零基础友好",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 错误处理 = 优雅地失败",
+        "text": "代码总会出错 — 网络断开、用户输入错误、服务器宕机……错误处理不是可选项，而是必备能力。好的错误处理能让你的应用\"优雅地失败\"而不是\"直接崩溃\"。",
+        "variant": "red"
+      },
+      {
+        "type": "grid",
+        "items": [
+          {
+            "icon": "🛡️",
+            "label": "防御",
+            "desc": "输入验证+边界检查",
+            "color": "green"
+          },
+          {
+            "icon": "🔄",
+            "label": "恢复",
+            "desc": "重试+降级+兜底",
+            "color": "blue"
+          },
+          {
+            "icon": "📋",
+            "label": "记录",
+            "desc": "日志+监控+告警",
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "title": "❌ 没有错误处理",
+        "code": "function getUser(id) {\n  return fetch(`/api/users/${id}`).json();\n  // 网络失败 → Uncaught TypeError → 页面白屏\n  // 用户看到：\"Something went wrong\"\n}",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ 优雅地失败",
+        "code": "async function getUser(id) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    return await res.json();\n  } catch (err) {\n    console.error('加载用户失败:', err);\n    return null;  // 兜底，调用方判断 null\n  }\n}",
+        "variant": "green"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "try / catch / finally",
+    "subtitle": "10 分钟 · 核心语法",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 同步错误的捕获机制",
+        "text": "try/catch/finally 是 JavaScript 处理同步错误的标准机制。try 块抛错 → 跳到 catch；无错则跳过 catch；finally 无论成功失败都执行。",
+        "variant": "blue"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-013-try-catch-flow.svg"
+      },
+      {
+        "type": "code",
+        "title": "📝 三段式错误处理",
+        "code": "try {\n  // ① 尝试执行可能出错的操作\n  const data = JSON.parse(input);\n  processData(data);\n} catch (err) {\n  // ② 捕获错误（仅同步错误）\n  console.error(err.message);\n  rollbackChanges();\n} finally {\n  // ③ 无论成功失败都执行（清理资源）\n  closeConnection();\n  hideLoading();\n}",
+        "variant": "blue"
+      },
+      {
+        "type": "tip",
+        "title": "💡 finally 的妙用",
+        "text": "finally 常用于清理资源（关闭文件、数据库连接、隐藏 loading），无论是否出错都会执行。即使 try 里 return，finally 也会在 return 之前执行。"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Error 对象与子类",
+    "subtitle": "10 分钟 · 错误类型",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 错误也是对象",
+        "text": "JavaScript 内置 Error 类及其子类（TypeError、RangeError、SyntaxError、ReferenceError）。每个错误对象都有 message（错误信息）、name（错误名）、stack（调用栈）。",
+        "variant": "purple"
+      },
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-013-error-anatomy.svg"
+      },
+      {
+        "type": "code",
+        "title": "✅ 用 instanceof 精确判断错误类型",
+        "code": "try {\n  riskyOperation();\n} catch (err) {\n  if (err instanceof TypeError) {\n    console.log('类型错误，检查参数');\n  } else if (err instanceof RangeError) {\n    console.log('范围错误，检查边界');\n  } else {\n    console.log('未知错误:', err.message);\n  }\n}",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 自定义错误类",
+        "text": "业务错误用自定义类继承 Error，方便统一捕获和处理：\n\nclass ValidationError extends Error {\n  constructor(field, msg) {\n    super(msg);\n    this.name = 'ValidationError';\n    this.field = field;\n  }\n}"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "异步错误处理",
+    "subtitle": "10 分钟 · Promise 与 async/await",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 异步错误的特殊性",
+        "text": "try/catch 只能捕获同步错误。Promise 错误用 .catch() 捕获；async/await 用 try/catch 包裹 await。这是 async/await 相比 Promise 链最大的优势之一。",
+        "variant": "orange"
+      },
+      {
+        "type": "code",
+        "title": "❌ try/catch 捕获不了 Promise 异常",
+        "code": "try {\n  fetch('/api/data');  // 返回 Promise，未 await\n  // Promise reject 时，try/catch 捕获不到\n} catch (err) {\n  console.log('永远进不来这里');\n}\n\n// 正确做法：用 .catch() 或 await + try/catch",
+        "variant": "red"
+      },
+      {
+        "type": "code",
+        "title": "✅ async/await 的 try/catch",
+        "code": "async function loadData() {\n  try {\n    const res = await fetch('/api/data');\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    return await res.json();\n  } catch (err) {\n    console.error('加载失败:', err.message);\n    return null;  // 兜底返回\n  }\n}",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 .catch() vs try/catch",
+        "text": ".catch() 适合\"失败给默认值\"的简洁写法：\n\nconst data = await fetch(url).then(r => r.json()).catch(() => []);\n\ntry/catch 适合复杂错误处理逻辑，可读性更好。"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "错误传播与全局兜底",
+    "subtitle": "10 分钟 · 分层防御",
+    "sections": [
+      {
+        "type": "svg",
+        "svgSrc": "/images/knowledge-svg/JS-013-error-strategy.svg"
+      },
+      {
+        "type": "code",
+        "title": "✅ 主动抛错，让上层处理",
+        "code": "function validateEmail(email) {\n  if (!email.includes('@')) {\n    throw new ValidationError('email', '邮箱格式错误');\n  }\n  return email;\n}\n\n// 调用方捕获\ntry { validateEmail(input); }\ncatch (err) { showFieldError(err.field, err.message); }",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "✅ 全局未捕获异常兜底",
+        "code": "// Node.js\nprocess.on('uncaughtException', (err) => {\n  logger.error('未捕获异常:', err);\n  process.exit(1);\n});\nprocess.on('unhandledRejection', (reason) => {\n  logger.error('未处理的 Promise 拒绝:', reason);\n});\n\n// 浏览器\nwindow.addEventListener('unhandledrejection', (e) => {\n  console.error('未处理的 Promise:', e.reason);\n});",
+        "variant": "purple"
+      },
+      {
+        "type": "tip",
+        "title": "💡 NestJS 的 ExceptionFilter",
+        "text": "NestJS 用 ExceptionFilter 做全局异常兜底：\n\n@Catch()\nexport class AllExceptionsFilter implements ExceptionFilter {\n  catch(exc: unknown, host: ArgumentsHost) { ... }\n}"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "调试技巧与 DevTools",
+    "subtitle": "10 分钟 · 实战调试",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "📖 调试是开发者的核心技能",
+        "text": "90% 的开发时间在调试，不是写代码。掌握 DevTools 和调试技巧，Bug 在你面前无处藏身。调试核心思路：复现 → 定位 → 修复 → 验证。",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "📝 console 的进阶用法",
+        "code": "// 基础\nconsole.log('普通日志');\nconsole.error('错误');\nconsole.warn('警告');\n\n// 进阶\nconsole.table(users);           // 表格形式\nconsole.group('用户操作');       // 分组\nconsole.groupEnd();\nconsole.time('耗时');            // 计时\nconsole.timeEnd('耗时');\nconsole.trace();                 // 调用栈",
+        "variant": "blue"
+      },
+      {
+        "type": "code",
+        "title": "📝 debugger 断点",
+        "code": "function complexCalc(data) {\n  debugger;  // 代码执行到这里会暂停\n  // 打开 DevTools → Sources → 找到这行\n  // 可以查看变量、调用栈、作用域\n  return process(data);\n}",
+        "variant": "green"
+      },
+      {
+        "type": "tip",
+        "title": "💡 DevTools 三大杀器",
+        "text": "① Sources 面板：断点调试、Watch 变量、Call Stack\n② Network 面板：请求/响应、Status、Timing\n③ Performance 面板：火焰图、CPU/Memory 分析"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "总结与决策",
+    "subtitle": "3 分钟 · 记住这些就够了",
+    "sections": [
+      {
+        "type": "intro",
+        "title": "🏆 决策口诀",
+        "text": "**同步用 try/catch，异步用 .catch()。自定义错误类，全局兜底要兜住。**\n\n1. try/catch/finally — 同步错误三段式处理\n2. Error 子类 — TypeError/RangeError/SyntaxError\n3. async/await — try/catch 包裹 await\n4. 全局兜底 — uncaughtException/unhandledRejection\n5. 调试三件套 — console + debugger + DevTools",
+        "variant": "orange"
+      },
+      {
+        "type": "code",
+        "title": "📝 速查表",
+        "code": "// 同步错误\ntry { riskyOp(); } catch (e) { ... } finally { cleanup(); }\n\n// 异步错误\ntry { await p; } catch (e) { ... }\nawait p.catch(e => null);\n\n// 自定义错误\nclass BizError extends Error { code: string; }\n\n// 全局兜底\nprocess.on('uncaughtException', handler);",
+        "variant": "purple"
+      },
+      {
+        "type": "success",
+        "text": "恭喜完成错误处理与调试的深度学习！🎉 现在 try/catch、Error 子类、异步错误处理、全局兜底、DevTools 调试你都掌握了。"
+      }
+    ]
+  }
+]

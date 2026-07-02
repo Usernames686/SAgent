@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">箭头函数 · this 绑定 · 何时不能用</text>
+
+  <!-- 左：箭头函数语法 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#a855f7">① 箭头函数语法（ES6）</text>
+  <rect x="30" y="74" width="370" height="220" rx="10" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+
+  <rect x="50" y="92" width="330" height="40" rx="4" fill="#0f172a"/>
+  <text x="62" y="108" font-size="9" fill="#a855f7" font-family="monospace">// 单参数 → 省略 ()</text>
+  <text x="62" y="124" font-size="9" fill="#94a3b8" font-family="monospace">const square = n =&gt; n * n;</text>
+
+  <rect x="50" y="140" width="330" height="40" rx="4" fill="#0f172a"/>
+  <text x="62" y="156" font-size="9" fill="#a855f7" font-family="monospace">// 多参数 → 用 ()</text>
+  <text x="62" y="172" font-size="9" fill="#94a3b8" font-family="monospace">const add = (a, b) =&gt; a + b;</text>
+
+  <rect x="50" y="188" width="330" height="40" rx="4" fill="#0f172a"/>
+  <text x="62" y="204" font-size="9" fill="#a855f7" font-family="monospace">// 多语句 → 用 {} + return</text>
+  <text x="62" y="220" font-size="9" fill="#94a3b8" font-family="monospace">const f = (x) =&gt; { ...; return y; };</text>
+
+  <rect x="50" y="236" width="330" height="40" rx="4" fill="#0f172a"/>
+  <text x="62" y="252" font-size="9" fill="#a855f7" font-family="monospace">// 返回对象字面量 → 用 () 包裹</text>
+  <text x="62" y="268" font-size="9" fill="#94a3b8" font-family="monospace">const make = () =&gt; ({ x: 1 });</text>
+
+  <!-- 右：this 绑定（核心差异） -->
+  <text x="420" y="64" font-size="13" font-weight="600" fill="#ef4444">② this 绑定 — 箭头函数没有自己的 this</text>
+  <rect x="420" y="74" width="340" height="220" rx="10" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.25"/>
+
+  <text x="440" y="96" font-size="10" fill="#ef4444" font-weight="600">❌ 普通函数 — this 指向调用者</text>
+  <rect x="440" y="106" width="300" height="64" rx="4" fill="#0f172a"/>
+  <text x="452" y="122" font-size="9" fill="#94a3b8" font-family="monospace">const obj = {</text>
+  <text x="452" y="136" font-size="9" fill="#ef4444" font-family="monospace">  name: "A", sayHi() {</text>
+  <text x="452" y="150" font-size="9" fill="#ef4444" font-family="monospace">    console.log(this.name);  // "A"</text>
+  <text x="452" y="164" font-size="9" fill="#94a3b8" font-family="monospace">  }</text>
+
+  <text x="440" y="194" font-size="10" fill="#22c55e" font-weight="600">✅ 箭头函数 — 继承外层 this</text>
+  <rect x="440" y="204" width="300" height="80" rx="4" fill="#0f172a"/>
+  <text x="452" y="220" font-size="9" fill="#94a3b8" font-family="monospace">const obj = {</text>
+  <text x="452" y="234" font-size="9" fill="#22c55e" font-family="monospace">  name: "A",</text>
+  <text x="452" y="248" font-size="9" fill="#22c55e" font-family="monospace">  sayHi: () =&gt; {</text>
+  <text x="452" y="262" font-size="9" fill="#ef4444" font-family="monospace">    console.log(this.name);  // ❌ undefined</text>
+  <text x="452" y="276" font-size="9" fill="#94a3b8" font-family="monospace">  }</text>
+
+  <!-- 底部：何时不能用箭头函数 -->
+  <text x="40" y="316" font-size="13" font-weight="600" fill="#eab308">③ 何时【不能】用箭头函数？</text>
+
+  <rect x="30" y="328" width="240" height="100" rx="8" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="50" y="350" font-size="11" font-weight="600" fill="#ef4444">🚫 对象方法</text>
+  <text x="50" y="368" font-size="9" fill="#94a3b8" font-family="monospace">const obj = {</text>
+  <text x="50" y="382" font-size="9" fill="#ef4444" font-family="monospace">  fn: () =&gt; this  // ❌</text>
+  <text x="50" y="396" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="50" y="416" font-size="9" fill="#94a3b8">this 不指向 obj</text>
+
+  <rect x="280" y="328" width="240" height="100" rx="8" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="300" y="350" font-size="11" font-weight="600" fill="#ef4444">🚫 需要动态 this</text>
+  <text x="300" y="368" font-size="9" fill="#94a3b8" font-family="monospace">button.addEventListener(</text>
+  <text x="300" y="382" font-size="9" fill="#ef4444" font-family="monospace">  "click", () =&gt; this  // ❌</text>
+  <text x="300" y="396" font-size="9" fill="#94a3b8" font-family="monospace">);</text>
+  <text x="300" y="416" font-size="9" fill="#94a3b8">需要 this 指向 button 时</text>
+
+  <rect x="530" y="328" width="220" height="100" rx="8" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.2"/>
+  <text x="550" y="350" font-size="11" font-weight="600" fill="#ef4444">🚫 构造函数</text>
+  <text x="550" y="368" font-size="9" fill="#94a3b8" font-family="monospace">const F = () =&gt; {};</text>
+  <text x="550" y="382" font-size="9" fill="#ef4444" font-family="monospace">new F();  // ❌ TypeError</text>
+  <text x="550" y="416" font-size="9" fill="#94a3b8">箭头函数不能用 new</text>
+
+  <!-- 总结 -->
+  <rect x="30" y="448" width="720" height="110" rx="8" fill="#22c55e" fill-opacity="0.05" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="50" y="472" font-size="12" font-weight="700" fill="#22c55e">🎯 箭头函数决策口诀</text>
+  <text x="50" y="494" font-size="10" fill="#cbd5e1">✅ <tspan fill="#22c55e" font-weight="600">回调函数</tspan>（map、filter、setTimeout）→ 用箭头函数，简洁且 this 不丢</text>
+  <text x="50" y="514" font-size="10" fill="#cbd5e1">✅ <tspan fill="#22c55e" font-weight="600">React 事件处理</tspan> → 用箭头函数，避免 this 绑定问题</text>
+  <text x="50" y="534" font-size="10" fill="#cbd5e1">❌ <tspan fill="#ef4444" font-weight="600">对象方法、构造函数、需要 arguments 时</tspan> → 用普通 function</text>
+</svg>

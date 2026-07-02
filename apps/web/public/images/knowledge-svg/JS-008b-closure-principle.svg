@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+<rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">闭包原理 · 词法环境与引用计数</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#a855f7">🔍 引擎视角：闭包如何工作</text>
+<rect x="30" y="76" width="720" height="160" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.2"/>
+<text x="50" y="100" font-size="10" fill="#3b82f6" font-family="monospace">function createCounter() {</text>
+<text x="70" y="120" font-size="10" fill="#ec4899" font-family="monospace">let count = 0;  // ① 创建词法环境: {count:0}</text>
+<text x="70" y="140" font-size="10" fill="#a855f7" font-family="monospace">// ② 返回的函数绑定到当前词法环境</text>
+<text x="70" y="160" font-size="10" fill="#22c55e" font-family="monospace">return () => {</text>
+<text x="90" y="180" font-size="10" fill="#22c55e" font-family="monospace">count++;       // ③ 通过闭包引用访问count</text>
+<text x="90" y="200" font-size="10" fill="#22c55e" font-family="monospace">return count;</text>
+<text x="70" y="220" font-size="10" fill="#22c55e" font-family="monospace">};</text>
+<text x="50" y="238" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<text x="40" y="260" font-size="13" font-weight="600" fill="#ec4899">⚙️ 垃圾回收 vs 闭包</text>
+<rect x="30" y="272" width="350" height="130" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="296" font-size="11" font-weight="600" fill="#ef4444">❌ 无闭包：正常GC回收</text>
+<text x="50" y="320" font-size="9" fill="#94a3b8" font-family="monospace">function noClosure() {</text>
+<text x="70" y="338" font-size="9" fill="#94a3b8" font-family="monospace">let x = 1;</text>
+<text x="70" y="356" font-size="9" fill="#94a3b8" font-family="monospace">// 没有返回引用x的函数</text>
+<text x="50" y="374" font-size="9" fill="#ef4444" font-family="monospace">} // x引用计数=0 → GC回收!</text>
+<text x="50" y="392" font-size="8" fill="#ef4444">函数执行完 → 局部变量被销毁</text>
+<rect x="400" y="272" width="350" height="130" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.15"/>
+<text x="420" y="296" font-size="11" font-weight="600" fill="#22c55e">✅ 有闭包：变量存活</text>
+<text x="420" y="320" font-size="9" fill="#94a3b8" font-family="monospace">function hasClosure() {</text>
+<text x="440" y="338" font-size="9" fill="#94a3b8" font-family="monospace">let x = 1;</text>
+<text x="440" y="356" font-size="9" fill="#22c55e" font-family="monospace">return () => x++; // 引用x</text>
+<text x="420" y="374" font-size="9" fill="#22c55e" font-family="monospace">} // x引用计数>0 → GC不回收!</text>
+<text x="420" y="392" font-size="8" fill="#22c55e">返回的函数持有引用 → 变量存活</text>
+<text x="40" y="426" font-size="13" font-weight="600" fill="#f97316">⚠️ 内存泄漏风险</text>
+<rect x="30" y="438" width="720" height="120" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.15"/>
+<text x="50" y="462" font-size="10" fill="#ef4444">闭包长期持有大对象的引用 → 这些对象无法被GC回收</text>
+<text x="50" y="486" font-size="10" fill="#94a3b8">function leak() {</text>
+<text x="70" y="506" font-size="10" fill="#ef4444" font-family="monospace">const hugeData = new Array(1000000);  // 大数组</text>
+<text x="70" y="526" font-size="10" fill="#94a3b8" font-family="monospace">return () => hugeData.length;  // 闭包持有引用</text>
+<text x="50" y="546" font-size="10" fill="#22c55e" font-family="monospace">// 解决：不用时 hugeData = null; 释放引用</text>
+</svg>

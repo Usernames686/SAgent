@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg4)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#fb923c" text-anchor="middle">export 的三种方式</text>
+
+  <!-- named export -->
+  <rect x="30" y="60" width="220" height="200" rx="10" fill="#34d399" fill-opacity="0.08" stroke="#34d399" stroke-opacity="0.4"/>
+  <text x="140" y="85" font-size="12" font-weight="700" fill="#6ee7b7" text-anchor="middle">① 命名导出</text>
+  <line x1="50" y1="95" x2="230" y2="95" stroke="#34d399" stroke-opacity="0.2"/>
+  <text x="50" y="115" font-size="10" fill="#fbbf24" font-family="monospace">// 方式 A</text>
+  <text x="50" y="133" font-size="10" fill="#fbbf24" font-family="monospace">export const PI = 3.14;</text>
+  <text x="50" y="151" font-size="10" fill="#fbbf24" font-family="monospace">export function add(a,b){}</text>
+  <text x="50" y="175" font-size="10" fill="#fbbf24" font-family="monospace">// 方式 B</text>
+  <text x="50" y="193" font-size="10" fill="#fbbf24" font-family="monospace">export { PI, add };</text>
+  <text x="50" y="225" font-size="9" fill="#64748b">✅ 可导出多个</text>
+  <text x="50" y="240" font-size="9" fill="#64748b">✅ 名字必须匹配</text>
+
+  <!-- default export -->
+  <rect x="270" y="60" width="220" height="200" rx="10" fill="#a78bfa" fill-opacity="0.08" stroke="#a78bfa" stroke-opacity="0.4"/>
+  <text x="380" y="85" font-size="12" font-weight="700" fill="#c4b5fd" text-anchor="middle">② 默认导出</text>
+  <line x1="290" y1="95" x2="470" y2="95" stroke="#a78bfa" stroke-opacity="0.2"/>
+  <text x="290" y="115" font-size="10" fill="#fbbf24" font-family="monospace">// 方式 A</text>
+  <text x="290" y="133" font-size="10" fill="#fbbf24" font-family="monospace">export default function() {</text>
+  <text x="305" y="151" font-size="10" fill="#94a3b8" font-family="monospace">// ...</text>
+  <text x="290" y="169" font-size="10" fill="#fbbf24" font-family="monospace">}</text>
+  <text x="290" y="195" font-size="10" fill="#fbbf24" font-family="monospace">// 方式 B</text>
+  <text x="290" y="213" font-size="10" fill="#fbbf24" font-family="monospace">export default {</text>
+  <text x="305" y="231" font-size="10" fill="#94a3b8" font-family="monospace">name: 'math'</text>
+  <text x="290" y="249" font-size="10" fill="#fbbf24" font-family="monospace">};</text>
+
+  <!-- re-export -->
+  <rect x="510" y="60" width="220" height="200" rx="10" fill="#fbbf24" fill-opacity="0.08" stroke="#fbbf24" stroke-opacity="0.4"/>
+  <text x="620" y="85" font-size="12" font-weight="700" fill="#fcd34d" text-anchor="middle">③ 转发导出</text>
+  <line x1="530" y1="95" x2="710" y2="95" stroke="#fbbf24" stroke-opacity="0.2"/>
+  <text x="530" y="115" font-size="10" fill="#fbbf24" font-family="monospace">// index.js</text>
+  <text x="530" y="133" font-size="10" fill="#fbbf24" font-family="monospace">export { PI } from</text>
+  <text x="545" y="151" font-size="10" fill="#fbbf24" font-family="monospace">'./math.js';</text>
+  <text x="530" y="175" font-size="10" fill="#fbbf24" font-family="monospace">export * from</text>
+  <text x="545" y="193" font-size="10" fill="#fbbf24" font-family="monospace">'./utils.js';</text>
+  <text x="530" y="225" font-size="9" fill="#64748b">✅ 聚合多个模块</text>
+  <text x="530" y="240" font-size="9" fill="#64748b">✅ 常用于 index.js</text>
+
+  <!-- key rules -->
+  <rect x="30" y="290" width="700" height="110" rx="10" fill="#60a5fa" fill-opacity="0.06" stroke="#60a5fa" stroke-opacity="0.3"/>
+  <text x="50" y="315" font-size="12" font-weight="700" fill="#93c5fd">🔑 export 关键规则</text>
+  <text x="50" y="340" font-size="10" fill="#94a3b8">✅ 每个模块最多一个 default，可有多个命名导出</text>
+  <text x="50" y="360" font-size="10" fill="#94a3b8">✅ export 必须在顶层，不能在 if/函数内</text>
+  <text x="50" y="380" font-size="10" fill="#94a3b8">✅ 导出的值是 Live Binding（实时绑定）</text>
+</svg>

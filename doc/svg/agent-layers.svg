@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="l0" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="l1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
+    <linearGradient id="l2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="l3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+  </defs>
+  <rect width="960" height="640" fill="#0f172a" rx="16"/>
+  <text x="480" y="36" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="700">多智能体分层架构</text>
+
+  <!-- L0 元认知层 -->
+  <rect x="40" y="52" width="880" height="80" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="60" y="62" width="60" height="20" rx="4" fill="url(#l0)" opacity=".9"/><text x="90" y="77" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">L0</text>
+  <text x="130" y="77" fill="#fca5a5" font-size="11" font-weight="600">元认知层 Meta Layer</text>
+  <rect x="240" y="62" width="660" height="56" rx="8" fill="#ef4444" opacity=".2" stroke="#ef4444" stroke-width="1"/>
+  <text x="570" y="86" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="700">Evolution Agent — 进化引擎</text>
+  <text x="570" y="106" text-anchor="middle" fill="#f87171" font-size="11">系统自我进化 │ 策略优化 │ 效果评估 │ A/B 测试管理</text>
+
+  <!-- L1 编排调度层 -->
+  <rect x="40" y="144" width="880" height="80" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="60" y="154" width="60" height="20" rx="4" fill="url(#l1)" opacity=".9"/><text x="90" y="169" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">L1</text>
+  <text x="130" y="169" fill="#fde68a" font-size="11" font-weight="600">编排调度层 Orchestration Layer</text>
+  <rect x="240" y="154" width="660" height="56" rx="8" fill="#f59e0b" opacity=".15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="570" y="178" text-anchor="middle" fill="#fde68a" font-size="14" font-weight="700">Orchestrator Agent — 编排引擎</text>
+  <text x="570" y="198" text-anchor="middle" fill="#fbbf24" font-size="11">意图识别 │ 任务分解 │ Agent 调度 │ 上下文管理 │ 冲突解决</text>
+
+  <!-- L2 核心业务层 -->
+  <rect x="40" y="236" width="880" height="150" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="60" y="246" width="60" height="20" rx="4" fill="url(#l2)" opacity=".9"/><text x="90" y="261" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">L2</text>
+  <text x="130" y="261" fill="#93c5fd" font-size="11" font-weight="600">核心业务层 Core Business Layer</text>
+  <!-- Row 1 -->
+  <rect x="60" y="276" width="130" height="46" rx="8" fill="#3b82f6" opacity=".25" stroke="#3b82f6" stroke-width="1"/>
+  <text x="125" y="296" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Tutor</text>
+  <text x="125" y="312" text-anchor="middle" fill="#60a5fa" font-size="9">智能辅导</text>
+  <rect x="200" y="276" width="130" height="46" rx="8" fill="#3b82f6" opacity=".25" stroke="#3b82f6" stroke-width="1"/>
+  <text x="265" y="296" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Evaluator</text>
+  <text x="265" y="312" text-anchor="middle" fill="#60a5fa" font-size="9">代码评估</text>
+  <rect x="340" y="276" width="130" height="46" rx="8" fill="#3b82f6" opacity=".25" stroke="#3b82f6" stroke-width="1"/>
+  <text x="405" y="296" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Path Planner</text>
+  <text x="405" y="312" text-anchor="middle" fill="#60a5fa" font-size="9">路径规划</text>
+  <rect x="480" y="276" width="130" height="46" rx="8" fill="#3b82f6" opacity=".25" stroke="#3b82f6" stroke-width="1"/>
+  <text x="545" y="296" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Debug</text>
+  <text x="545" y="312" text-anchor="middle" fill="#60a5fa" font-size="9">调试辅助</text>
+  <!-- Row 2 -->
+  <rect x="60" y="330" width="130" height="46" rx="8" fill="#3b82f6" opacity=".2" stroke="#3b82f6" stroke-width="1"/>
+  <text x="125" y="350" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Code Review</text>
+  <text x="125" y="366" text-anchor="middle" fill="#60a5fa" font-size="9">代码审查</text>
+  <rect x="200" y="330" width="130" height="46" rx="8" fill="#3b82f6" opacity=".2" stroke="#3b82f6" stroke-width="1"/>
+  <text x="265" y="350" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Knowledge</text>
+  <text x="265" y="366" text-anchor="middle" fill="#60a5fa" font-size="9">知识图谱</text>
+  <rect x="340" y="330" width="130" height="46" rx="8" fill="#3b82f6" opacity=".2" stroke="#3b82f6" stroke-width="1"/>
+  <text x="405" y="350" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Interview</text>
+  <text x="405" y="366" text-anchor="middle" fill="#60a5fa" font-size="9">面试模拟</text>
+  <rect x="480" y="330" width="130" height="46" rx="8" fill="#3b82f6" opacity=".2" stroke="#3b82f6" stroke-width="1"/>
+  <text x="545" y="350" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="600">Mentor</text>
+  <text x="545" y="366" text-anchor="middle" fill="#60a5fa" font-size="9">学习导师</text>
+
+  <!-- L3 基础能力层 -->
+  <rect x="40" y="398" width="880" height="90" rx="10" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="60" y="408" width="60" height="20" rx="4" fill="url(#l3)" opacity=".9"/><text x="90" y="423" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">L3</text>
+  <text x="130" y="423" fill="#6ee7b7" font-size="11" font-weight="600">基礎能力层 Foundation Layer</text>
+  <rect x="120" y="436" width="170" height="38" rx="8" fill="#10b981" opacity=".2" stroke="#10b981" stroke-width="1"/>
+  <text x="205" y="460" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="600">LLM Gateway</text>
+  <rect x="310" y="436" width="170" height="38" rx="8" fill="#10b981" opacity=".2" stroke="#10b981" stroke-width="1"/>
+  <text x="395" y="460" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="600">RAG Engine</text>
+  <rect x="500" y="436" width="170" height="38" rx="8" fill="#10b981" opacity=".2" stroke="#10b981" stroke-width="1"/>
+  <text x="585" y="460" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="600">Tool Executor</text>
+  <rect x="690" y="436" width="170" height="38" rx="8" fill="#10b981" opacity=".2" stroke="#10b981" stroke-width="1"/>
+  <text x="775" y="460" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="600">Memory Store</text>
+
+  <!-- 连接线 -->
+  <line x1="570" y1="118" x2="570" y2="144" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <line x1="570" y1="210" x2="570" y2="236" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <line x1="570" y1="376" x2="570" y2="398" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 2"/>
+
+  <text x="480" y="530" text-anchor="middle" fill="#475569" font-size="11">智能体协作模式：串行 │ 并行 │ 条件 │ 递归</text>
+  <text x="480" y="550" text-anchor="middle" fill="#334155" font-size="10">通信协议 ACP/1.0 — 同步 RPC │ 异步消息 │ 事件广播 │ 共享状态</text>
+</svg>

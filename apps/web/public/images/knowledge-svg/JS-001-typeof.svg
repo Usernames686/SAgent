@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="780" height="360" fill="url(#bg)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">typeof 运算符 — 检测值类型</text>
+
+  <!-- 语法说明 -->
+  <rect x="40" y="50" width="700" height="32" rx="8" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+  <text x="60" y="71" font-size="12" fill="#94a3b8">语法：<tspan fill="#eab308" font-family="monospace">typeof &lt;值&gt;</tspan>  →  返回一个表示类型的<tspan fill="#22c55e">字符串</tspan></text>
+
+  <!-- 表格 -->
+  <!-- 表头 -->
+  <rect x="40" y="96" width="200" height="32" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="140" y="117" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">表达式</text>
+
+  <rect x="250" y="96" width="170" height="32" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="335" y="117" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">返回值</text>
+
+  <rect x="430" y="96" width="310" height="32" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="585" y="117" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">说明</text>
+
+  <!-- 行1: Number -->
+  <rect x="40" y="134" width="200" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="140" y="154" font-size="12" fill="#3b82f6" font-family="monospace" text-anchor="middle">typeof 42</text>
+  <rect x="250" y="134" width="170" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="335" y="154" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">"number"</text>
+  <rect x="430" y="134" width="310" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="450" y="154" font-size="11" fill="#64748b">数字（整数和小数都是 number）</text>
+
+  <!-- 行2: String -->
+  <rect x="40" y="168" width="200" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="140" y="188" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">typeof "hello"</text>
+  <rect x="250" y="168" width="170" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="335" y="188" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">"string"</text>
+  <rect x="430" y="168" width="310" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="450" y="188" font-size="11" fill="#64748b">三种引号结果相同</text>
+
+  <!-- 行3: Boolean -->
+  <rect x="40" y="202" width="200" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="140" y="222" font-size="12" fill="#eab308" font-family="monospace" text-anchor="middle">typeof true</text>
+  <rect x="250" y="202" width="170" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="335" y="222" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">"boolean"</text>
+  <rect x="430" y="202" width="310" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="450" y="222" font-size="11" fill="#64748b">布尔值只有 true 和 false</text>
+
+  <!-- 行4: undefined -->
+  <rect x="40" y="236" width="200" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="140" y="256" font-size="12" fill="#94a3b8" font-family="monospace" text-anchor="middle">typeof undefined</text>
+  <rect x="250" y="236" width="170" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="335" y="256" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">"undefined"</text>
+  <rect x="430" y="236" width="310" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="450" y="256" font-size="11" fill="#64748b">未赋值的变量默认 undefined</text>
+
+  <!-- 行5: null（红色） -->
+  <rect x="40" y="270" width="200" height="30" rx="4" fill="#0f172a" stroke="#ef4444" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="140" y="290" font-size="12" fill="#ef4444" font-family="monospace" text-anchor="middle">typeof null</text>
+  <rect x="250" y="270" width="170" height="30" rx="4" fill="#0f172a" stroke="#ef4444" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="335" y="290" font-size="12" fill="#ef4444" font-family="monospace" text-anchor="middle">"object" ⚠️</text>
+  <rect x="430" y="270" width="310" height="30" rx="4" fill="#0f172a" stroke="#ef4444" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="450" y="290" font-size="11" fill="#ef4444">⚠️ 历史 bug！null 不是对象</text>
+
+  <!-- 行6: Symbol -->
+  <rect x="40" y="304" width="200" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="140" y="324" font-size="12" fill="#a855f7" font-family="monospace" text-anchor="middle">typeof Symbol()</text>
+  <rect x="250" y="304" width="170" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="335" y="324" font-size="12" fill="#22c55e" font-family="monospace" text-anchor="middle">"symbol"</text>
+  <rect x="430" y="304" width="310" height="30" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="450" y="324" font-size="11" fill="#64748b">ES6 新增，创建唯一标识符</text>
+
+  <!-- 底部提示 -->
+  <rect x="40" y="332" width="700" height="18" rx="4" fill="transparent"/>
+  <text x="390" y="348" font-size="10" fill="#64748b" text-anchor="middle">💡 typeof 返回的是字符串，可以用来安全地检查未声明的变量（不报错）</text>
+</svg>

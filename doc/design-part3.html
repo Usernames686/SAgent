@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sAgent 详细设计文档 - 数据结构与部署设计</title>
+<style>
+  :root { --primary: #0F172A; --accent: #F97316; --success: #10B981; --warning: #F59E0B; --danger: #EF4444; --bg: #F8FAFC; --card: #FFFFFF; --border: #E2E8F0; --text: #1E293B; --text-secondary: #64748B; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .main { padding: 40px 48px; max-width: 1200px; margin: 0 auto; }
+  h2 { font-size: 24px; font-weight: 600; margin: 40px 0 16px; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--primary); }
+  h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text); }
+  p { margin-bottom: 12px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .card-header { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .badge-orange { background: #FFF7ED; color: var(--accent); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
+  .badge-blue { background: #EFF6FF; color: #3B82F6; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 12px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #F8FAFC; }
+  pre { background: #1E293B; color: #E2E8F0; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 12px 0; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .svg-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; }
+  .svg-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 12px; text-align: center; }
+  .info-box { border-left: 4px solid var(--accent); background: #FFF7ED; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .main { padding: 20px; } .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="main">
+
+<!-- ============================================================ -->
+<h2 id="data-design">10. 数据结构设计</h2>
+
+<h3>10.1 数据库选型与分布</h3>
+
+<table>
+  <tr><th>数据类型</th><th>数据库</th><th>说明</th></tr>
+  <tr><td>用户、课程、练习、提交记录</td><td>PostgreSQL 16</td><td>核心业务数据，强一致性</td></tr>
+  <tr><td>会话缓存、用户上下文、限流计数</td><td>Redis 7 (Cluster)</td><td>高性能缓存，会话管理</td></tr>
+  <tr><td>行为日志、对话记录、Agent 执行日志</td><td>MongoDB 7</td><td>灵活 Schema，大量日志</td></tr>
+  <tr><td>分析指标、报表数据、聚合统计</td><td>ClickHouse</td><td>列存储，高性能分析</td></tr>
+  <tr><td>知识图谱向量、语义检索</td><td>Milvus</td><td>专业向量检索</td></tr>
+  <tr><td>代码文件、用户上传</td><td>MinIO</td><td>S3 兼容对象存储</td></tr>
+</table>
+
+<h3>10.2 PostgreSQL 核心表设计</h3>
+
+<h4>10.2.1 users 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>用户 ID</td></tr>
+  <tr><td>email</td><td>VARCHAR(255)</td><td>UNIQUE, NOT NULL</td><td>邮箱</td></tr>
+  <tr><td>phone</td><td>VARCHAR(20)</td><td>UNIQUE</td><td>手机号</td></tr>
+  <tr><td>password_hash</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>密码哈希 (bcrypt)</td></tr>
+  <tr><td>nickname</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>昵称</td></tr>
+  <tr><td>avatar_url</td><td>VARCHAR(500)</td><td>-</td><td>头像 URL</td></tr>
+  <tr><td>role</td><td>ENUM</td><td>NOT NULL, DEFAULT 'student'</td><td>角色: student/teacher/admin</td></tr>
+  <tr><td>subscription</td><td>ENUM</td><td>NOT NULL, DEFAULT 'free'</td><td>订阅: free/pro/enterprise</td></tr>
+  <tr><td>preferences</td><td>JSONB</td><td>DEFAULT '{}'</td><td>用户偏好设置</td></tr>
+  <tr><td>stats</td><td>JSONB</td><td>DEFAULT '{}'</td><td>学习统计</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL, DEFAULT NOW()</td><td>创建时间</td></tr>
+  <tr><td>last_active_at</td><td>TIMESTAMPTZ</td><td>-</td><td>最后活跃时间</td></tr>
+  <tr><td>deleted_at</td><td>TIMESTAMPTZ</td><td>-</td><td>软删除时间</td></tr>
+</table>
+
+<h4>10.2.2 user_profiles 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>画像 ID</td></tr>
+  <tr><td>user_id</td><td>UUID</td><td>FK → users.id, UNIQUE</td><td>用户 ID</td></tr>
+  <tr><td>version</td><td>INT</td><td>NOT NULL, DEFAULT 1</td><td>画像版本</td></tr>
+  <tr><td>basics</td><td>JSONB</td><td>NOT NULL</td><td>基础属性 (age, occupation, education)</td></tr>
+  <tr><td>goals</td><td>JSONB</td><td>NOT NULL</td><td>学习目标 (targetRole, targetLanguages, timeline)</td></tr>
+  <tr><td>abilities</td><td>JSONB</td><td>NOT NULL</td><td>能力评估 (overall, dimensions, confidence)</td></tr>
+  <tr><td>learning_style</td><td>JSONB</td><td>NOT NULL</td><td>学习风格 (preferredMode, pace, tolerance)</td></tr>
+  <tr><td>behavior</td><td>JSONB</td><td>DEFAULT '{}'</td><td>行为特征 (avgSession, preferredTimeSlots)</td></tr>
+  <tr><td>emotional</td><td>JSONB</td><td>DEFAULT '{}'</td><td>情绪状态 (frustration, confidence, engagement)</td></tr>
+  <tr><td>updated_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>更新时间</td></tr>
+</table>
+
+<h4>10.2.3 knowledge_points 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>VARCHAR(50)</td><td>PK</td><td>知识点 ID (如 vc-prompt-001)</td></tr>
+  <tr><td>name</td><td>VARCHAR(200)</td><td>NOT NULL</td><td>知识点名称</td></tr>
+  <tr><td>domain</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>领域 (vibe_coding, python, javascript)</td></tr>
+  <tr><td>module</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>所属模块 (cognition, tools, prompt, ...)</td></tr>
+  <tr><td>category</td><td>VARCHAR(100)</td><td>-</td><td>分类</td></tr>
+  <tr><td>difficulty</td><td>SMALLINT</td><td>NOT NULL, CHECK(1-5)</td><td>难度等级</td></tr>
+  <tr><td>estimated_minutes</td><td>INT</td><td>NOT NULL</td><td>预计学习时长(分钟)</td></tr>
+  <tr><td>description</td><td>TEXT</td><td>NOT NULL</td><td>知识点描述</td></tr>
+  <tr><td>prerequisites</td><td>TEXT[]</td><td>DEFAULT '{}'</td><td>前置知识点 ID 数组</td></tr>
+  <tr><td>dependents</td><td>TEXT[]</td><td>DEFAULT '{}'</td><td>后续知识点 ID 数组</td></tr>
+  <tr><td>skills</td><td>TEXT[]</td><td>DEFAULT '{}'</td><td>技能标签</td></tr>
+  <tr><td>assessment_criteria</td><td>JSONB</td><td>NOT NULL</td><td>评估标准 (basic/intermediate/advanced)</td></tr>
+  <tr><td>resources</td><td>JSONB</td><td>DEFAULT '{}'</td><td>关联资源 (docId, exerciseIds, projectId)</td></tr>
+  <tr><td>version</td><td>VARCHAR(20)</td><td>NOT NULL</td><td>语义化版本</td></tr>
+  <tr><td>status</td><td>ENUM</td><td>NOT NULL, DEFAULT 'draft'</td><td>状态: draft/published/archived</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>创建时间</td></tr>
+  <tr><td>updated_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>更新时间</td></tr>
+</table>
+
+<h4>10.2.4 exercises 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>练习 ID</td></tr>
+  <tr><td>title</td><td>VARCHAR(200)</td><td>NOT NULL</td><td>题目名称</td></tr>
+  <tr><td>description</td><td>TEXT</td><td>NOT NULL</td><td>题目描述 (Markdown)</td></tr>
+  <tr><td>type</td><td>ENUM</td><td>NOT NULL</td><td>类型: concept/fill_blank/code_complete/free_code/bug_fix/code_review/vibe_describe/prompt_write</td></tr>
+  <tr><td>difficulty</td><td>SMALLINT</td><td>NOT NULL, CHECK(1-5)</td><td>难度等级</td></tr>
+  <tr><td>knowledge_point_ids</td><td>TEXT[]</td><td>NOT NULL</td><td>关联知识点 ID</td></tr>
+  <tr><td>language</td><td>VARCHAR(30)</td><td>-</td><td>编程语言</td></tr>
+  <tr><td>template</td><td>TEXT</td><td>-</td><td>模板代码</td></tr>
+  <tr><td>test_cases</td><td>JSONB</td><td>NOT NULL</td><td>测试用例 [{input, expectedOutput, isHidden}]</td></tr>
+  <tr><td>hints</td><td>TEXT[]</td><td>DEFAULT '{}'</td><td>渐进式提示 (3 级)</td></tr>
+  <tr><td>reference_solution</td><td>TEXT</td><td>-</td><td>参考答案</td></tr>
+  <tr><td>vibe_prompt</td><td>JSONB</td><td>-</td><td>氛围编程专属 (expectedStyle, keywords, criteria)</td></tr>
+  <tr><td>stats</td><td>JSONB</td><td>DEFAULT '{}'</td><td>统计 (submissionCount, passRate, avgAttempts)</td></tr>
+  <tr><td>version</td><td>VARCHAR(20)</td><td>NOT NULL</td><td>语义化版本</td></tr>
+  <tr><td>status</td><td>ENUM</td><td>NOT NULL, DEFAULT 'draft'</td><td>状态</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>创建时间</td></tr>
+  <tr><td>updated_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>更新时间</td></tr>
+</table>
+
+<h4>10.2.5 submissions 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>提交 ID</td></tr>
+  <tr><td>user_id</td><td>UUID</td><td>FK → users.id, NOT NULL</td><td>用户 ID</td></tr>
+  <tr><td>exercise_id</td><td>UUID</td><td>FK → exercises.id, NOT NULL</td><td>练习 ID</td></tr>
+  <tr><td>code</td><td>TEXT</td><td>NOT NULL</td><td>提交代码</td></tr>
+  <tr><td>language</td><td>VARCHAR(30)</td><td>NOT NULL</td><td>编程语言</td></tr>
+  <tr><td>test_results</td><td>JSONB</td><td>-</td><td>测试结果 [{testCase, passed, output}]</td></tr>
+  <tr><td>pass_rate</td><td>DECIMAL(5,4)</td><td>-</td><td>通过率 (0-1)</td></tr>
+  <tr><td>is_passed</td><td>BOOLEAN</td><td>NOT NULL, DEFAULT FALSE</td><td>是否全部通过</td></tr>
+  <tr><td>ai_evaluation</td><td>JSONB</td><td>-</td><td>AI 评估报告</td></tr>
+  <tr><td>code_review</td><td>JSONB</td><td>-</td><td>代码审查报告</td></tr>
+  <tr><td>attempt_number</td><td>INT</td><td>NOT NULL, DEFAULT 1</td><td>第几次尝试</td></tr>
+  <tr><td>duration_seconds</td><td>INT</td><td>-</td><td>耗时(秒)</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>提交时间</td></tr>
+</table>
+
+<h4>10.2.6 learning_paths 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>路径 ID</td></tr>
+  <tr><td>user_id</td><td>UUID</td><td>FK → users.id, NOT NULL</td><td>用户 ID</td></tr>
+  <tr><td>name</td><td>VARCHAR(200)</td><td>NOT NULL</td><td>路径名称</td></tr>
+  <tr><td>goal</td><td>VARCHAR(200)</td><td>NOT NULL</td><td>学习目标</td></tr>
+  <tr><td>stages</td><td>JSONB</td><td>NOT NULL</td><td>阶段列表 [{name, knowledgePointIds, estimatedHours}]</td></tr>
+  <tr><td>current_stage_index</td><td>INT</td><td>NOT NULL, DEFAULT 0</td><td>当前阶段索引</td></tr>
+  <tr><td>progress</td><td>DECIMAL(5,4)</td><td>NOT NULL, DEFAULT 0</td><td>总体进度 (0-1)</td></tr>
+  <tr><td>knowledge_state</td><td>JSONB</td><td>DEFAULT '{}'</td><td>各知识点掌握状态 {kpId: probability}</td></tr>
+  <tr><td>status</td><td>ENUM</td><td>NOT NULL, DEFAULT 'active'</td><td>状态: active/paused/completed/abandoned</td></tr>
+  <tr><td>generated_by</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>生成方式: ai/manual/template</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>创建时间</td></tr>
+  <tr><td>updated_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>更新时间</td></tr>
+</table>
+
+<h4>10.2.7 ai_sessions 表</h4>
+<table>
+  <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+  <tr><td>id</td><td>UUID</td><td>PK</td><td>会话 ID</td></tr>
+  <tr><td>user_id</td><td>UUID</td><td>FK → users.id, NOT NULL</td><td>用户 ID</td></tr>
+  <tr><td>type</td><td>ENUM</td><td>NOT NULL</td><td>类型: chat/evaluate/debug/review/vibe</td></tr>
+  <tr><td>agents_used</td><td>TEXT[]</td><td>NOT NULL</td><td>使用的 Agent 列表</td></tr>
+  <tr><td>context</td><td>JSONB</td><td>DEFAULT '{}'</td><td>会话上下文</td></tr>
+  <tr><td>token_count</td><td>INT</td><td>DEFAULT 0</td><td>Token 消耗量</td></tr>
+  <tr><td>user_rating</td><td>SMALLINT</td><td>CHECK(1-5)</td><td>用户评分</td></tr>
+  <tr><td>user_feedback</td><td>TEXT</td><td>-</td><td>用户反馈</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMPTZ</td><td>NOT NULL</td><td>创建时间</td></tr>
+  <tr><td>ended_at</td><td>TIMESTAMPTZ</td><td>-</td><td>结束时间</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h3 id="er-diagram">10.3 ER 图</h3>
+
+<div class="svg-container">
+  <div class="svg-title">sAgent 核心数据实体关系图 (ER Diagram)</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" font-family="Inter, sans-serif">
+    <defs>
+      <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/></filter>
+    </defs>
+    
+    <!-- User Entity -->
+    <rect x="30" y="60" width="220" height="260" rx="10" fill="#3B82F6" filter="url(#shadow)"/>
+    <rect x="30" y="60" width="220" height="40" rx="10" fill="#1D4ED8"/>
+    <text x="140" y="86" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">users</text>
+    <text x="45" y="118" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="45" y="136" fill="rgba(255,255,255,0.9)" font-size="11">    email: VARCHAR(255)</text>
+    <text x="45" y="154" fill="rgba(255,255,255,0.9)" font-size="11">    phone: VARCHAR(20)</text>
+    <text x="45" y="172" fill="rgba(255,255,255,0.9)" font-size="11">    password_hash: VARCHAR</text>
+    <text x="45" y="190" fill="rgba(255,255,255,0.9)" font-size="11">    nickname: VARCHAR(50)</text>
+    <text x="45" y="208" fill="rgba(255,255,255,0.9)" font-size="11">    role: ENUM</text>
+    <text x="45" y="226" fill="rgba(255,255,255,0.9)" font-size="11">    subscription: ENUM</text>
+    <text x="45" y="244" fill="rgba(255,255,255,0.9)" font-size="11">    preferences: JSONB</text>
+    <text x="45" y="262" fill="rgba(255,255,255,0.9)" font-size="11">    stats: JSONB</text>
+    <text x="45" y="280" fill="rgba(255,255,255,0.9)" font-size="11">    created_at: TIMESTAMPTZ</text>
+    <text x="45" y="298" fill="rgba(255,255,255,0.9)" font-size="11">    last_active_at: TIMESTAMPTZ</text>
+    
+    <!-- UserProfile Entity -->
+    <rect x="30" y="380" width="220" height="220" rx="10" fill="#6366F1" filter="url(#shadow)"/>
+    <rect x="30" y="380" width="220" height="40" rx="10" fill="#4338CA"/>
+    <text x="140" y="406" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">user_profiles</text>
+    <text x="45" y="438" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="45" y="456" fill="rgba(255,255,255,0.9)" font-size="11">FK  user_id: UUID</text>
+    <text x="45" y="474" fill="rgba(255,255,255,0.9)" font-size="11">    version: INT</text>
+    <text x="45" y="492" fill="rgba(255,255,255,0.9)" font-size="11">    basics: JSONB</text>
+    <text x="45" y="510" fill="rgba(255,255,255,0.9)" font-size="11">    goals: JSONB</text>
+    <text x="45" y="528" fill="rgba(255,255,255,0.9)" font-size="11">    abilities: JSONB</text>
+    <text x="45" y="546" fill="rgba(255,255,255,0.9)" font-size="11">    learning_style: JSONB</text>
+    <text x="45" y="564" fill="rgba(255,255,255,0.9)" font-size="11">    behavior: JSONB</text>
+    <text x="45" y="582" fill="rgba(255,255,255,0.9)" font-size="11">    emotional: JSONB</text>
+    
+    <!-- User → Profile relationship -->
+    <line x1="140" y1="320" x2="140" y2="380" stroke="#4338CA" stroke-width="2.5"/>
+    <text x="165" y="355" fill="#4338CA" font-size="12" font-weight="600">1 : 1</text>
+    
+    <!-- KnowledgePoint Entity -->
+    <rect x="340" y="60" width="240" height="300" rx="10" fill="#10B981" filter="url(#shadow)"/>
+    <rect x="340" y="60" width="240" height="40" rx="10" fill="#059669"/>
+    <text x="460" y="86" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">knowledge_points</text>
+    <text x="355" y="118" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: VARCHAR(50)</text>
+    <text x="355" y="136" fill="rgba(255,255,255,0.9)" font-size="11">    name: VARCHAR(200)</text>
+    <text x="355" y="154" fill="rgba(255,255,255,0.9)" font-size="11">    domain: VARCHAR(50)</text>
+    <text x="355" y="172" fill="rgba(255,255,255,0.9)" font-size="11">    module: VARCHAR(50)</text>
+    <text x="355" y="190" fill="rgba(255,255,255,0.9)" font-size="11">    difficulty: SMALLINT(1-5)</text>
+    <text x="355" y="208" fill="rgba(255,255,255,0.9)" font-size="11">    estimated_minutes: INT</text>
+    <text x="355" y="226" fill="rgba(255,255,255,0.9)" font-size="11">    description: TEXT</text>
+    <text x="355" y="244" fill="rgba(255,255,255,0.9)" font-size="11">    prerequisites: TEXT[]</text>
+    <text x="355" y="262" fill="rgba(255,255,255,0.9)" font-size="11">    dependents: TEXT[]</text>
+    <text x="355" y="280" fill="rgba(255,255,255,0.9)" font-size="11">    skills: TEXT[]</text>
+    <text x="355" y="298" fill="rgba(255,255,255,0.9)" font-size="11">    assessment_criteria: JSONB</text>
+    <text x="355" y="316" fill="rgba(255,255,255,0.9)" font-size="11">    version: VARCHAR(20)</text>
+    <text x="355" y="334" fill="rgba(255,255,255,0.9)" font-size="11">    status: ENUM</text>
+    
+    <!-- Exercise Entity -->
+    <rect x="670" y="60" width="220" height="300" rx="10" fill="#F97316" filter="url(#shadow)"/>
+    <rect x="670" y="60" width="220" height="40" rx="10" fill="#EA580C"/>
+    <text x="780" y="86" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">exercises</text>
+    <text x="685" y="118" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="685" y="136" fill="rgba(255,255,255,0.9)" font-size="11">    title: VARCHAR(200)</text>
+    <text x="685" y="154" fill="rgba(255,255,255,0.9)" font-size="11">    description: TEXT</text>
+    <text x="685" y="172" fill="rgba(255,255,255,0.9)" font-size="11">    type: ENUM</text>
+    <text x="685" y="190" fill="rgba(255,255,255,0.9)" font-size="11">    difficulty: SMALLINT(1-5)</text>
+    <text x="685" y="208" fill="rgba(255,255,255,0.9)" font-size="11">    knowledge_point_ids: TEXT[]</text>
+    <text x="685" y="226" fill="rgba(255,255,255,0.9)" font-size="11">    language: VARCHAR(30)</text>
+    <text x="685" y="244" fill="rgba(255,255,255,0.9)" font-size="11">    template: TEXT</text>
+    <text x="685" y="262" fill="rgba(255,255,255,0.9)" font-size="11">    test_cases: JSONB</text>
+    <text x="685" y="280" fill="rgba(255,255,255,0.9)" font-size="11">    hints: TEXT[]</text>
+    <text x="685" y="298" fill="rgba(255,255,255,0.9)" font-size="11">    vibe_prompt: JSONB</text>
+    <text x="685" y="316" fill="rgba(255,255,255,0.9)" font-size="11">    stats: JSONB</text>
+    <text x="685" y="334" fill="rgba(255,255,255,0.9)" font-size="11">    version: VARCHAR(20)</text>
+    
+    <!-- KP → Exercise relationship -->
+    <line x1="580" y1="180" x2="670" y2="180" stroke="#059669" stroke-width="2.5"/>
+    <text x="625" y="172" fill="#059669" font-size="12" font-weight="600">1 : N</text>
+    
+    <!-- Submission Entity -->
+    <rect x="670" y="430" width="220" height="240" rx="10" fill="#EF4444" filter="url(#shadow)"/>
+    <rect x="670" y="430" width="220" height="40" rx="10" fill="#DC2626"/>
+    <text x="780" y="456" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">submissions</text>
+    <text x="685" y="488" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="685" y="506" fill="rgba(255,255,255,0.9)" font-size="11">FK  user_id: UUID</text>
+    <text x="685" y="524" fill="rgba(255,255,255,0.9)" font-size="11">FK  exercise_id: UUID</text>
+    <text x="685" y="542" fill="rgba(255,255,255,0.9)" font-size="11">    code: TEXT</text>
+    <text x="685" y="560" fill="rgba(255,255,255,0.9)" font-size="11">    language: VARCHAR(30)</text>
+    <text x="685" y="578" fill="rgba(255,255,255,0.9)" font-size="11">    test_results: JSONB</text>
+    <text x="685" y="596" fill="rgba(255,255,255,0.9)" font-size="11">    pass_rate: DECIMAL(5,4)</text>
+    <text x="685" y="614" fill="rgba(255,255,255,0.9)" font-size="11">    ai_evaluation: JSONB</text>
+    <text x="685" y="632" fill="rgba(255,255,255,0.9)" font-size="11">    code_review: JSONB</text>
+    <text x="685" y="650" fill="rgba(255,255,255,0.9)" font-size="11">    attempt_number: INT</text>
+    
+    <!-- User → Submission -->
+    <line x1="250" y1="200" x2="340" y2="430" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <line x1="340" y1="430" x2="670" y2="530" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="440" y="420" fill="#3B82F6" font-size="12" font-weight="600">1 : N</text>
+    
+    <!-- Exercise → Submission -->
+    <line x1="780" y1="360" x2="780" y2="430" stroke="#EA580C" stroke-width="2.5"/>
+    <text x="800" y="400" fill="#EA580C" font-size="12" font-weight="600">1 : N</text>
+    
+    <!-- LearningPath Entity -->
+    <rect x="30" y="660" width="260" height="120" rx="10" fill="#8B5CF6" filter="url(#shadow)"/>
+    <rect x="30" y="660" width="260" height="40" rx="10" fill="#6D28D9"/>
+    <text x="160" y="686" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">learning_paths</text>
+    <text x="45" y="718" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="45" y="736" fill="rgba(255,255,255,0.9)" font-size="11">FK  user_id: UUID</text>
+    <text x="45" y="754" fill="rgba(255,255,255,0.9)" font-size="11">    name, goal, stages: JSONB</text>
+    <text x="45" y="772" fill="rgba(255,255,255,0.9)" font-size="11">    progress, knowledge_state, status</text>
+    
+    <!-- User → LearningPath -->
+    <line x1="140" y1="320" x2="140" y2="660" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="155" y="640" fill="#3B82F6" font-size="12" font-weight="600">1 : N</text>
+    
+    <!-- AISession Entity -->
+    <rect x="380" y="430" width="220" height="200" rx="10" fill="#0F172A" filter="url(#shadow)"/>
+    <rect x="380" y="430" width="220" height="40" rx="10" fill="#1E293B"/>
+    <text x="490" y="456" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">ai_sessions</text>
+    <text x="395" y="488" fill="rgba(255,255,255,0.9)" font-size="11">PK  id: UUID</text>
+    <text x="395" y="506" fill="rgba(255,255,255,0.9)" font-size="11">FK  user_id: UUID</text>
+    <text x="395" y="524" fill="rgba(255,255,255,0.9)" font-size="11">    type: ENUM</text>
+    <text x="395" y="542" fill="rgba(255,255,255,0.9)" font-size="11">    agents_used: TEXT[]</text>
+    <text x="395" y="560" fill="rgba(255,255,255,0.9)" font-size="11">    context: JSONB</text>
+    <text x="395" y="578" fill="rgba(255,255,255,0.9)" font-size="11">    token_count: INT</text>
+    <text x="395" y="596" fill="rgba(255,255,255,0.9)" font-size="11">    user_rating: SMALLINT</text>
+    <text x="395" y="614" fill="rgba(255,255,255,0.9)" font-size="11">    user_feedback: TEXT</text>
+    
+    <!-- User → AISession -->
+    <line x1="250" y1="260" x2="380" y2="500" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="300" y="380" fill="#3B82F6" font-size="12" font-weight="600">1 : N</text>
+    
+    <!-- Legend -->
+    <rect x="830" y="60" width="240" height="200" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+    <text x="950" y="88" text-anchor="middle" fill="#0F172A" font-size="14" font-weight="700">图例</text>
+    <rect x="850" y="100" width="20" height="14" rx="3" fill="#3B82F6"/>
+    <text x="880" y="112" fill="#1E293B" font-size="11">用户相关</text>
+    <rect x="850" y="124" width="20" height="14" rx="3" fill="#10B981"/>
+    <text x="880" y="136" fill="#1E293B" font-size="11">知识内容</text>
+    <rect x="850" y="148" width="20" height="14" rx="3" fill="#F97316"/>
+    <text x="880" y="160" fill="#1E293B" font-size="11">练习相关</text>
+    <rect x="850" y="172" width="20" height="14" rx="3" fill="#EF4444"/>
+    <text x="880" y="184" fill="#1E293B" font-size="11">提交记录</text>
+    <rect x="850" y="196" width="20" height="14" rx="3" fill="#8B5CF6"/>
+    <text x="880" y="208" fill="#1E293B" font-size="11">学习路径</text>
+    <rect x="850" y="220" width="20" height="14" rx="3" fill="#0F172A"/>
+    <text x="880" y="232" fill="#1E293B" font-size="11">AI 会话</text>
+    
+    <line x1="850" y1="248" x2="870" y2="248" stroke="#64748B" stroke-width="2.5"/>
+    <text x="880" y="252" fill="#1E293B" font-size="11">强关联 (FK)</text>
+    <line x1="850" y1="268" x2="870" y2="268" stroke="#64748B" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="880" y="272" fill="#1E293B" font-size="11">弱关联 (逻辑)</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="state-design">11. 状态设计</h2>
+
+<h3>11.1 学习路径状态机</h3>
+
+<div class="svg-container">
+  <div class="svg-title">学习路径状态转换图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" font-family="Inter, sans-serif">
+    <defs><marker id="arrowG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748B"/></marker></defs>
+    
+    <!-- States -->
+    <circle cx="100" cy="80" r="40" fill="#3B82F6"/>
+    <text x="100" y="76" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">active</text>
+    <text x="100" y="92" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">学习中</text>
+    
+    <circle cx="350" cy="80" r="40" fill="#F59E0B"/>
+    <text x="350" y="76" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">paused</text>
+    <text x="350" y="92" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">暂停</text>
+    
+    <circle cx="600" cy="80" r="40" fill="#10B981"/>
+    <text x="600" y="76" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">completed</text>
+    <text x="600" y="92" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">已完成</text>
+    
+    <circle cx="350" cy="260" r="40" fill="#EF4444"/>
+    <text x="350" y="256" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">abandoned</text>
+    <text x="350" y="272" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">已放弃</text>
+    
+    <!-- Transitions -->
+    <line x1="140" y1="80" x2="310" y2="80" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="225" y="72" text-anchor="middle" fill="#64748B" font-size="11">用户暂停</text>
+    
+    <line x1="310" y1="95" x2="140" y2="95" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="225" y="112" text-anchor="middle" fill="#64748B" font-size="11">用户恢复</text>
+    
+    <line x1="140" y1="60" x2="560" y2="60" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="350" y="52" text-anchor="middle" fill="#64748B" font-size="11">全部知识点掌握</text>
+    
+    <line x1="100" y1="120" x2="320" y2="230" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="170" y="190" text-anchor="middle" fill="#64748B" font-size="11">用户放弃</text>
+    
+    <line x1="350" y1="120" x2="350" y2="220" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="380" y="175" text-anchor="middle" fill="#64748B" font-size="11">用户放弃</text>
+  </svg>
+</div>
+
+<h3>11.2 练习提交状态机</h3>
+
+<div class="svg-container">
+  <div class="svg-title">练习提交状态转换图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" font-family="Inter, sans-serif">
+    <circle cx="80" cy="140" r="40" fill="#64748B"/>
+    <text x="80" y="136" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">draft</text>
+    <text x="80" y="152" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">编写中</text>
+    
+    <circle cx="280" cy="140" r="40" fill="#8B5CF6"/>
+    <text x="280" y="136" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">running</text>
+    <text x="280" y="152" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">执行中</text>
+    
+    <circle cx="480" cy="80" r="40" fill="#10B981"/>
+    <text x="480" y="76" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">passed</text>
+    <text x="480" y="92" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">通过</text>
+    
+    <circle cx="480" cy="200" r="40" fill="#EF4444"/>
+    <text x="480" y="196" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">failed</text>
+    <text x="480" y="212" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">未通过</text>
+    
+    <circle cx="680" cy="140" r="40" fill="#F97316"/>
+    <text x="680" y="136" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">evaluated</text>
+    <text x="680" y="152" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">已评估</text>
+    
+    <!-- Transitions -->
+    <line x1="120" y1="140" x2="240" y2="140" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="11">提交/运行</text>
+    
+    <line x1="316" y1="116" x2="440" y2="90" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="370" y="90" text-anchor="middle" fill="#64748B" font-size="11">全部通过</text>
+    
+    <line x1="316" y1="164" x2="440" y2="190" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="370" y="195" text-anchor="middle" fill="#64748B" font-size="11">部分/全部失败</text>
+    
+    <line x1="520" y1="80" x2="640" y2="130" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="590" y="95" text-anchor="middle" fill="#64748B" font-size="11">AI 评估</text>
+    
+    <line x1="520" y1="200" x2="640" y2="155" stroke="#64748B" stroke-width="2" marker-end="url(#arrowG)"/>
+    <text x="590" y="195" text-anchor="middle" fill="#64748B" font-size="11">AI 评估</text>
+    
+    <line x1="480" y1="240" x2="120" y2="170" stroke="#64748B" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowG)"/>
+    <text x="280" y="230" text-anchor="middle" fill="#64748B" font-size="11">重新编写</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="deploy-design">12. 部署架构设计</h2>
+
+<div class="svg-container">
+  <div class="svg-title">Kubernetes 部署架构图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" font-family="Inter, sans-serif">
+    <!-- Cloud boundary -->
+    <rect x="20" y="20" width="960" height="610" rx="16" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="8,4"/>
+    <text x="500" y="50" text-anchor="middle" fill="#94A3B8" font-size="14" font-weight="600">Kubernetes Cluster</text>
+    
+    <!-- Ingress -->
+    <rect x="350" y="65" width="300" height="40" rx="8" fill="#8B5CF6"/>
+    <text x="500" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">Nginx Ingress Controller</text>
+    
+    <!-- Kong Gateway -->
+    <rect x="350" y="120" width="300" height="40" rx="8" fill="#6366F1"/>
+    <text x="500" y="145" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">Kong API Gateway</text>
+    
+    <!-- Namespace: business -->
+    <rect x="40" y="185" width="920" height="180" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="80" y="210" fill="#F97316" font-size="13" font-weight="600">Namespace: business</text>
+    
+    <rect x="60" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="125" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">user-svc</text>
+    <text x="125" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×2 Pods</text>
+    
+    <rect x="210" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="275" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">course-svc</text>
+    <text x="275" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×2 Pods</text>
+    
+    <rect x="360" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="425" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">exercise-svc</text>
+    <text x="425" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×3 Pods</text>
+    
+    <rect x="510" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="575" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">evaluate-svc</text>
+    <text x="575" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×2 Pods</text>
+    
+    <rect x="660" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="725" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">agent-svc</text>
+    <text x="725" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×3 Pods</text>
+    
+    <rect x="810" y="225" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="875" y="250" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">exec-svc</text>
+    <text x="875" y="268" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×3 Pods</text>
+    
+    <rect x="60" y="300" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="125" y="325" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">analytics-svc</text>
+    <text x="125" y="343" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×2 Pods</text>
+    
+    <rect x="210" y="300" width="130" height="55" rx="6" fill="#F97316"/>
+    <text x="275" y="325" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">content-svc</text>
+    <text x="275" y="343" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">×2 Pods</text>
+    
+    <!-- Namespace: data -->
+    <rect x="40" y="390" width="920" height="120" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <text x="80" y="415" fill="#10B981" font-size="13" font-weight="600">Namespace: data (StatefulSet)</text>
+    
+    <rect x="60" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="120" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">PostgreSQL</text>
+    <text x="120" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">主+2从</text>
+    
+    <rect x="200" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="260" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Redis</text>
+    <text x="260" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">6节点 Cluster</text>
+    
+    <rect x="340" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="400" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">MongoDB</text>
+    <text x="400" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">3节点副本</text>
+    
+    <rect x="480" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="540" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">ClickHouse</text>
+    <text x="540" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">2节点</text>
+    
+    <rect x="620" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="680" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">RabbitMQ</text>
+    <text x="680" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">3节点集群</text>
+    
+    <rect x="760" y="430" width="120" height="55" rx="6" fill="#10B981"/>
+    <text x="820" y="455" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Elasticsearch</text>
+    <text x="820" y="473" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">3节点</text>
+    
+    <!-- Namespace: monitoring -->
+    <rect x="40" y="530" width="920" height="85" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="80" y="555" fill="#3B82F6" font-size="13" font-weight="600">Namespace: monitoring</text>
+    
+    <rect x="60" y="565" width="140" height="40" rx="6" fill="#3B82F6"/>
+    <text x="130" y="590" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Prometheus</text>
+    
+    <rect x="220" y="565" width="140" height="40" rx="6" fill="#3B82F6"/>
+    <text x="290" y="590" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Grafana</text>
+    
+    <rect x="380" y="565" width="140" height="40" rx="6" fill="#3B82F6"/>
+    <text x="450" y="590" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Jaeger</text>
+    
+    <rect x="540" y="565" width="140" height="40" rx="6" fill="#3B82F6"/>
+    <text x="610" y="590" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">ELK Stack</text>
+    
+    <rect x="700" y="565" width="140" height="40" rx="6" fill="#3B82F6"/>
+    <text x="770" y="590" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">AlertManager</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="security-design">13. 安全设计</h2>
+
+<h3>13.1 代码沙箱安全架构</h3>
+
+<div class="card">
+  <div class="card-header">多层沙箱隔离 <span class="badge badge-red">关键安全</span></div>
+  <table>
+    <tr><th>隔离层</th><th>技术</th><th>防护范围</th></tr>
+    <tr><td>L1 容器隔离</td><td>Docker + gVisor (runsc)</td><td>系统调用过滤、内核隔离</td></tr>
+    <tr><td>L2 资源限制</td><td>cgroups + ulimit</td><td>CPU/内存/磁盘/网络限制</td></tr>
+    <tr><td>L3 网络隔离</td><td>NetworkPolicy + 无外网</td><td>禁止外联、仅内部通信</td></tr>
+    <tr><td>L4 文件系统</td><td>只读根文件系统 + tmpfs</td><td>禁止持久化写入</td></tr>
+    <tr><td>L5 进程限制</td><td>seccomp + AppArmor</td><td>限制系统调用、禁止 fork bomb</td></tr>
+  </table>
+</div>
+
+<h3>13.2 安全防护体系</h3>
+
+<table>
+  <tr><th>安全域</th><th>威胁</th><th>防护措施</th></tr>
+  <tr><td>认证授权</td><td>未授权访问、Token 泄露</td><td>JWT + Refresh Token、RBAC、OAuth 2.0、IP 白名单</td></tr>
+  <tr><td>数据传输</td><td>中间人攻击、窃听</td><td>全站 HTTPS/TLS 1.3、HSTS、CSP</td></tr>
+  <tr><td>数据存储</td><td>数据泄露、拖库</td><td>bcrypt 密码哈希、AES-256 加密敏感字段、数据库加密</td></tr>
+  <tr><td>代码执行</td><td>沙箱逃逸、恶意代码</td><td>gVisor 多层隔离、资源限制、网络隔离、代码静态分析</td></tr>
+  <tr><td>AI 安全</td><td>Prompt 注入、幻觉代码</td><td>输入过滤、输出审查、幻觉检测、人工审核</td></tr>
+  <tr><td>API 安全</td><td>DDoS、暴力破解</td><td>限流（令牌桶）、WAF、验证码、IP 黑名单</td></tr>
+  <tr><td>隐私合规</td><td>隐私泄露、违规采集</td><td>数据脱敏、K-匿名化、差分隐私、GDPR/个保法合规</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="quality-design">14. 质量属性设计</h2>
+
+<h3>14.1 性能指标与优化策略</h3>
+
+<table>
+  <tr><th>指标</th><th>目标值</th><th>优化策略</th></tr>
+  <tr><td>首屏加载 FCP</td><td>≤ 1.5s</td><td>SSR、代码分割、图片懒加载、CDN</td></tr>
+  <tr><td>最大内容绘制 LCP</td><td>≤ 2.5s</td><td>预加载关键资源、字体优化</td></tr>
+  <tr><td>API 平均响应</td><td>≤ 200ms</td><td>Redis 缓存、DB 索引优化、连接池</td></tr>
+  <tr><td>AI 响应 TTFT</td><td>≤ 2s</td><td>流式输出、Prompt 优化、模型预热</td></tr>
+  <tr><td>代码执行</td><td>≤ 3s</td><td>沙箱预热池、并行评测</td></tr>
+  <tr><td>并发用户</td><td>≥ 5,000</td><td>K8s HPA、读写分离、异步处理</td></tr>
+  <tr><td>系统可用性</td><td>≥ 99.9%</td><td>多 AZ、自动故障转移、健康检查</td></tr>
+</table>
+
+<h3>14.2 可扩展性设计</h3>
+
+<table>
+  <tr><th>扩展维度</th><th>扩展方式</th><th>扩展能力</th></tr>
+  <tr><td>业务服务</td><td>K8s HPA (CPU/自定义指标)</td><td>2 → 20 Pod 自动伸缩</td></tr>
+  <tr><td>代码沙箱</td><td>预热池 + 按需创建</td><td>50 → 500 并发执行</td></tr>
+  <tr><td>数据库</td><td>只读副本 + 分区</td><td>读 QPS 10x 提升</td></tr>
+  <tr><td>AI Agent</td><td>无状态水平扩展</td><td>按请求量弹性伸缩</td></tr>
+  <tr><td>缓存</td><td>Redis Cluster 分片</td><td>内存与 QPS 线性扩展</td></tr>
+</table>
+
+<h3>14.3 可观测性设计</h3>
+
+<table>
+  <tr><th>可观测维度</th><th>工具</th><th>关键指标</th></tr>
+  <tr><td>指标监控</td><td>Prometheus + Grafana</td><td>CPU/内存/QPS/延迟/P99/错误率</td></tr>
+  <tr><td>日志聚合</td><td>ELK Stack</td><td>应用日志/访问日志/错误日志</td></tr>
+  <tr><td>链路追踪</td><td>OpenTelemetry + Jaeger</td><td>请求全链路耗时/Agent 调用链</td></tr>
+  <tr><td>告警</td><td>AlertManager</td><td>服务不可用/延迟飙升/错误率上升</td></tr>
+  <tr><td>AI 效果</td><td>自研仪表盘</td><td>Agent 满意度/Token 消耗/幻觉率</td></tr>
+</table>
+
+</main>
+</body>
+</html>

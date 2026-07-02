@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sAgent 详细设计文档 - Agent 进化设计</title>
+<style>
+  :root { --primary: #0F172A; --accent: #F97316; --success: #10B981; --warning: #F59E0B; --danger: #EF4444; --bg: #F8FAFC; --card: #FFFFFF; --border: #E2E8F0; --text: #1E293B; --text-secondary: #64748B; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .main { padding: 40px 48px; max-width: 1200px; margin: 0 auto; }
+  h2 { font-size: 24px; font-weight: 600; margin: 40px 0 16px; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--primary); }
+  h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text); }
+  h5 { font-size: 13px; font-weight: 600; margin: 16px 0 6px; color: var(--text-secondary); }
+  p { margin-bottom: 12px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .card-header { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .badge-orange { background: #FFF7ED; color: var(--accent); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
+  .badge-blue { background: #EFF6FF; color: #3B82F6; }
+  .badge-red { background: #FEF2F2; color: var(--danger); }
+  .badge-purple { background: #F5F3FF; color: #7C3AED; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 12px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #F8FAFC; }
+  pre { background: #1E293B; color: #E2E8F0; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 12px 0; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .svg-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; }
+  .svg-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 12px; text-align: center; }
+  .info-box { border-left: 4px solid var(--accent); background: #FFF7ED; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .info-box.danger { border-color: var(--danger); background: #FEF2F2; }
+  .info-box.success { border-color: var(--success); background: #ECFDF5; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .metric-highlight { display: inline-block; background: #FFF7ED; color: var(--accent); padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 14px; }
+  .metric-green { display: inline-block; background: #ECFDF5; color: var(--success); padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 14px; }
+  @media (max-width: 768px) { .main { padding: 20px; } .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="main">
+
+<h2 id="agent-evolution">15. Agent 进化详细设计</h2>
+
+<div class="info-box danger">
+  <strong>设计原则</strong>：每个 Agent 必须具备明确的进化机制、进化方向和教育价值评估。进化过程必须可观测、可度量、可回滚。所有 Agent 实现统一使用 Node.js (TypeScript)。
+</div>
+
+<h3>15.1 进化机制总览</h3>
+
+<div class="svg-container">
+  <div class="svg-title">Agent 进化闭环流程</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Inter, sans-serif">
+    <defs>
+      <marker id="arrowE" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#7C3AED"/></marker>
+      <marker id="arrowO" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#F97316"/></marker>
+    </defs>
+    
+    <!-- Cycle -->
+    <rect x="60" y="40" width="180" height="60" rx="10" fill="#7C3AED"/>
+    <text x="150" y="75" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">① 数据采集</text>
+    
+    <rect x="310" y="40" width="180" height="60" rx="10" fill="#7C3AED"/>
+    <text x="400" y="75" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">② 策略变体生成</text>
+    
+    <rect x="560" y="40" width="180" height="60" rx="10" fill="#7C3AED"/>
+    <text x="650" y="75" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">③ A/B 实验执行</text>
+    
+    <rect x="560" y="160" width="180" height="60" rx="10" fill="#3B82F6"/>
+    <text x="650" y="195" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">④ 效果统计分析</text>
+    
+    <rect x="310" y="160" width="180" height="60" rx="10" fill="#3B82F6"/>
+    <text x="400" y="195" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">⑤ 渐进放量/回滚</text>
+    
+    <rect x="60" y="160" width="180" height="60" rx="10" fill="#10B981"/>
+    <text x="150" y="195" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">⑥ 策略生效</text>
+    
+    <!-- Arrows -->
+    <line x1="240" y1="70" x2="310" y2="70" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrowE)"/>
+    <line x1="490" y1="70" x2="560" y2="70" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrowE)"/>
+    <line x1="650" y1="100" x2="650" y2="160" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowO)"/>
+    <line x1="560" y1="190" x2="490" y2="190" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowO)"/>
+    <line x1="310" y1="190" x2="240" y2="190" stroke="#10B981" stroke-width="2" marker-end="url(#arrowE)"/>
+    
+    <!-- Feedback loop -->
+    <path d="M 60 190 Q 20 190 20 130 Q 20 70 60 70" fill="none" stroke="#F97316" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowO)"/>
+    <text x="10" y="135" fill="#F97316" font-size="11" font-weight="500">持续反馈</text>
+    
+    <!-- Education value -->
+    <rect x="150" y="280" width="600" height="80" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+    <text x="450" y="310" text-anchor="middle" fill="#F97316" font-size="15" font-weight="700">教育价值评估（贯穿全流程）</text>
+    <text x="450" y="335" text-anchor="middle" fill="#92400E" font-size="12">学习效率提升 | 学习兴趣增强 | 知识掌握深度改善 | 个性化体验满意度</text>
+    <text x="450" y="352" text-anchor="middle" fill="#92400E" font-size="11">量化指标：完成率 ↑ | 停留时长 ↑ | 辅导满意度 ↑ | 放弃率 ↓ | 知识保持率 ↑</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.2 Orchestrator Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Orchestrator Agent <span class="badge badge-purple">L1 编排层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>规则路由 → 意图分类模型微调 → 上下文感知路由 → 自适应动态路由</td></tr>
+  <tr><td>触发条件</td><td>意图识别准确率 &lt; 92% 持续 3 天；用户修正率 &gt; 8%；新意图类型出现</td></tr>
+  <tr><td>迭代周期</td><td>Prompt 优化：每周；路由模型微调：每月；架构升级：每季度</td></tr>
+  <tr><td>技术实现</td><td>1. Prompt 变体 A/B 测试（TypeScript 实现实验框架）<br>2. 意图分类日志采集 → 训练数据构建 → Qwen3.6 Few-shot 优化<br>3. 路由决策树参数通过 Evolution Agent 自动调优<br>4. 降级策略库动态扩充</td></tr>
+  <tr><td>进化验证</td><td>离线评估：标注数据集准确率；在线评估：A/B 实验用户修正率</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>意图识别准确率</td><td>85%</td><td>92%</td><td>95%</td><td>97%</td></tr>
+  <tr><td>路由决策延迟</td><td>200ms</td><td>150ms</td><td>100ms</td><td>80ms</td></tr>
+  <tr><td>多 Agent 并行调度能力</td><td>2 Agent</td><td>3 Agent</td><td>4 Agent</td><td>5 Agent</td></tr>
+  <tr><td>降级触发率</td><td>5%</td><td>3%</td><td>2%</td><td>1%</td></tr>
+  <tr><td>新意图自适应</td><td>需人工配置</td><td>半自动发现</td><td>自动发现+人工确认</td><td>全自动发现</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>意图理解满意度</td><td>用户无需重复描述意图的比例</td><td>80%</td><td>≥ 95%</td><td>对话日志分析</td></tr>
+  <tr><td>辅导响应匹配度</td><td>路由到正确 Agent 的比例</td><td>85%</td><td>≥ 95%</td><td>人工标注 + 用户反馈</td></tr>
+  <tr><td>学习流畅度</td><td>用户无需等待重路由的连续学习比例</td><td>88%</td><td>≥ 96%</td><td>会话连续性分析</td></tr>
+  <tr><td>学习效率提升</td><td>正确路由 vs 错误路由的学习时间差</td><td>-</td><td>≥ 15%</td><td>A/B 对照实验</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.3 Tutor Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Tutor Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>固定模板讲解 → 上下文适配讲解 → 个性化风格讲解 → 苏格拉底式引导 → 自主教学策略</td></tr>
+  <tr><td>触发条件</td><td>辅导满意度 &lt; 4.0/5 持续 1 周；同一概念重复提问率 &gt; 20%；用户反馈"没听懂" &gt; 10%</td></tr>
+  <tr><td>迭代周期</td><td>Prompt 优化：每周；讲解风格适配：每两周；教学策略升级：每月</td></tr>
+  <tr><td>技术实现</td><td>1. Prompt 模板库动态扩充（TypeScript 管理模板版本）<br>2. 讲解风格变体测试（简洁型/详细型/类比型/代码优先型）<br>3. 用户学习风格匹配度自动评估<br>4. 苏格拉底式引导 Prompt 链优化（多轮对话策略）</td></tr>
+  <tr><td>进化验证</td><td>离线：专家评审讲解质量；在线：A/B 测试满意度和理解率</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>辅导满意度</td><td>3.8/5</td><td>4.2/5</td><td>4.5/5</td><td>4.7/5</td></tr>
+  <tr><td>概念理解率</td><td>70%</td><td>80%</td><td>88%</td><td>92%</td></tr>
+  <tr><td>风格适配准确率</td><td>60%</td><td>75%</td><td>85%</td><td>90%</td></tr>
+  <tr><td>重复提问率</td><td>25%</td><td>18%</td><td>12%</td><td>8%</td></tr>
+  <tr><td>氛围编程辅导能力</td><td>基础</td><td>支持视觉氛围描述</td><td>支持全维度氛围</td><td>主动氛围建议</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>学习效率提升</td><td>有 AI 辅导 vs 无辅导的知识点掌握时间比</td><td>-</td><td>≥ 30%</td><td>对照实验</td></tr>
+  <tr><td>学习兴趣增强</td><td>有辅导后继续学习意愿提升</td><td>-</td><td>≥ 25%</td><td>学习时长/频率变化</td></tr>
+  <tr><td>知识掌握深度</td><td>辅导后通过进阶题的比例</td><td>40%</td><td>≥ 65%</td><td>进阶题通过率</td></tr>
+  <tr><td>自主学习能力</td><td>辅导后能独立解决类似问题的比例</td><td>50%</td><td>≥ 75%</td><td>同类题首次通过率</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.4 Evaluator Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Evaluator Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>规则匹配评估 → LLM 语义评估 → 多维度综合评估 → 专家级深度评估</td></tr>
+  <tr><td>触发条件</td><td>评估准确率 &lt; 90%；误判率 &gt; 5%；用户对评估结果申诉率 &gt; 8%</td></tr>
+  <tr><td>迭代周期</td><td>评估 Prompt 优化：每周；评估维度扩充：每月；评估模型升级：每季度</td></tr>
+  <tr><td>技术实现</td><td>1. 评估 Prompt 变体测试（严格型/温和型/详细型）<br>2. 评估维度逐步扩充：正确性 → 风格 → 安全 → 性能 → 氛围匹配度<br>3. 专家标注数据积累 → Few-shot 示例库扩充<br>4. 氛围编程专属评估指标（Vibe Match Score）开发</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>评估准确率</td><td>85%</td><td>92%</td><td>95%</td><td>97%</td></tr>
+  <tr><td>评估维度数</td><td>2 (正确性+风格)</td><td>4 (+安全+性能)</td><td>6 (+氛围+可维护)</td><td>8 (全维度)</td></tr>
+  <tr><td>氛围匹配度评估</td><td>不支持</td><td>基础关键词匹配</td><td>语义级匹配</td><td>多模态匹配</td></tr>
+  <tr><td>评估延迟</td><td>5s</td><td>3s</td><td>2s</td><td>1.5s</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>代码质量提升</td><td>用户根据评估修改后代码质量提升幅度</td><td>15%</td><td>≥ 35%</td><td>修改前后质量评分对比</td></tr>
+  <tr><td>学习效率提升</td><td>精准评估减少的无效尝试次数</td><td>-</td><td>≥ 20%</td><td>平均尝试次数变化</td></tr>
+  <tr><td>知识掌握深度</td><td>理解评估建议后通过同类题比例</td><td>55%</td><td>≥ 75%</td><td>同类题通过率</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.5 Path Planner Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Path Planner Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>静态模板路径 → BKT 概率路径 → RL 优化路径 → 自适应动态路径</td></tr>
+  <tr><td>触发条件</td><td>路径完成率 &lt; 40%；路径调整率 &gt; 30%；用户跳过率 &gt; 20%</td></tr>
+  <tr><td>迭代周期</td><td>路径参数调优：每周；路径算法升级：每月；知识图谱扩展：每季度</td></tr>
+  <tr><td>技术实现</td><td>1. BKT 参数（P(L0), P(T), P(G), P(S)）通过 EM 算法自动拟合<br>2. RL 奖励函数优化（完成率权重、挫折惩罚权重调整）<br>3. 路径模板库扩充（Vibe Coding 八大模块路径）<br>4. 知识图谱边权重动态调整</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>路径完成率</td><td>35%</td><td>50%</td><td>65%</td><td>75%</td></tr>
+  <tr><td>路径满意度</td><td>3.5/5</td><td>4.0/5</td><td>4.3/5</td><td>4.5/5</td></tr>
+  <tr><td>动态调整准确率</td><td>60%</td><td>75%</td><td>85%</td><td>90%</td></tr>
+  <tr><td>推荐接受率</td><td>55%</td><td>70%</td><td>80%</td><td>85%</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>学习效率提升</td><td>个性化路径 vs 固定路径的掌握时间比</td><td>-</td><td>≥ 40%</td><td>对照实验</td></tr>
+  <tr><td>学习兴趣增强</td><td>路径匹配度提升后的持续学习率</td><td>45%</td><td>≥ 65%</td><td>30 日留存率</td></tr>
+  <tr><td>知识掌握深度</td><td>路径完成后知识保持率</td><td>60%</td><td>≥ 80%</td><td>间隔复习测试通过率</td></tr>
+  <tr><td>放弃率降低</td><td>路径优化后的学习放弃率下降</td><td>55%</td><td>≤ 30%</td><td>路径放弃率统计</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.6 Debug Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Debug Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>错误信息翻译 → 常见错误模式匹配 → 上下文感知诊断 → 预防性调试教学</td></tr>
+  <tr><td>触发条件</td><td>调试满意度 &lt; 3.8/5；同一错误反复出现率 &gt; 15%；修复建议采纳率 &lt; 70%</td></tr>
+  <tr><td>迭代周期</td><td>错误模式库更新：每周；调试 Prompt 优化：每两周；预防性教学策略：每月</td></tr>
+  <tr><td>技术实现</td><td>1. 错误模式库自动扩充（从提交日志中提取错误-修复对）<br>2. 调试 Prompt 从"直接给答案"→"引导式排查"渐进优化<br>3. Vibe Coding 幻觉代码检测模式库建设<br>4. 预防性提示：在用户编码时预判潜在错误</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>错误定位准确率</td><td>75%</td><td>85%</td><td>90%</td><td>95%</td></tr>
+  <tr><td>修复建议采纳率</td><td>65%</td><td>78%</td><td>85%</td><td>90%</td></tr>
+  <tr><td>幻觉代码识别率</td><td>50%</td><td>70%</td><td>85%</td><td>92%</td></tr>
+  <tr><td>调试教学效果</td><td>直接给答案</td><td>半引导式</td><td>全引导式</td><td>预防性教学</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>自主学习能力</td><td>调试后能独立修复类似错误的比例</td><td>40%</td><td>≥ 70%</td><td>同类错误独立修复率</td></tr>
+  <tr><td>学习效率提升</td><td>AI 辅助调试 vs 自行调试的时间比</td><td>-</td><td>≥ 50%</td><td>调试耗时对比</td></tr>
+  <tr><td>学习兴趣增强</td><td>调试体验改善后的继续编码率</td><td>60%</td><td>≥ 80%</td><td>调试后继续学习比例</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.7 Code Review Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Code Review Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>基础规范检查 → 代码异味检测 → 最佳实践推荐 → 架构级审查</td></tr>
+  <tr><td>触发条件</td><td>审查建议采纳率 &lt; 60%；用户反馈"建议无用" &gt; 15%；安全漏洞漏检率 &gt; 5%</td></tr>
+  <tr><td>迭代周期</td><td>审查清单更新：每周；审查 Prompt 优化：每两周；审查维度扩充：每月</td></tr>
+  <tr><td>技术实现</td><td>1. 审查清单从 5 项 → 15 项 → 30 项渐进扩充<br>2. Vibe Coding 专属审查项：幻觉函数检测、氛围一致性检查<br>3. 审查严重度分级（建议/警告/必须修改）<br>4. Tree-sitter AST 分析集成（TypeScript 调用）</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>审查建议采纳率</td><td>55%</td><td>70%</td><td>80%</td><td>88%</td></tr>
+  <tr><td>安全漏洞检出率</td><td>70%</td><td>85%</td><td>92%</td><td>97%</td></tr>
+  <tr><td>幻觉代码检出率</td><td>45%</td><td>70%</td><td>85%</td><td>93%</td></tr>
+  <tr><td>审查维度数</td><td>5</td><td>10</td><td>15</td><td>20+</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>代码质量提升</td><td>审查修改后代码质量评分提升</td><td>20%</td><td>≥ 40%</td><td>修改前后质量评分</td></tr>
+  <tr><td>知识掌握深度</td><td>理解审查建议后避免同类问题</td><td>45%</td><td>≥ 75%</td><td>同类问题再犯率</td></tr>
+  <tr><td>安全意识提升</td><td>审查后用户主动做安全检查的比例</td><td>20%</td><td>≥ 50%</td><td>安全检查行为统计</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.8 Knowledge Graph Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Knowledge Graph Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>静态知识图谱 → 动态边权重 → 自动关系发现 → 跨领域知识迁移</td></tr>
+  <tr><td>触发条件</td><td>知识点覆盖率 &lt; 90%；关联推荐准确率 &lt; 80%；新知识点入库延迟 &gt; 7 天</td></tr>
+  <tr><td>迭代周期</td><td>边权重更新：每周；新知识点入库：实时；关系发现：每月</td></tr>
+  <tr><td>技术实现</td><td>1. 知识点掌握概率动态调整边权重（学得好的弱化、学得差的强化）<br>2. Vibe Coding 八大模块知识点持续扩充<br>3. 基于用户学习路径数据自动发现隐含关联<br>4. Milvus 向量检索实现语义级知识关联</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>知识点覆盖数</td><td>200</td><td>500</td><td>800</td><td>1200+</td></tr>
+  <tr><td>关联准确率</td><td>70%</td><td>82%</td><td>90%</td><td>95%</td></tr>
+  <tr><td>隐含关系发现</td><td>手动标注</td><td>半自动</td><td>自动发现+人工确认</td><td>全自动</td></tr>
+  <tr><td>跨领域迁移</td><td>不支持</td><td>基础映射</td><td>语义级迁移</td><td>自适应迁移</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>学习效率提升</td><td>精准关联推荐减少的无效学习时间</td><td>-</td><td>≥ 20%</td><td>学习路径缩短比例</td></tr>
+  <tr><td>知识掌握深度</td><td>关联学习后的知识网络密度提升</td><td>-</td><td>≥ 30%</td><td>知识点关联掌握率</td></tr>
+  <tr><td>学习兴趣增强</td><td>关联推荐带来的探索性学习行为</td><td>10%</td><td>≥ 30%</td><td>主动探索知识点比例</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.9 Interview Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Interview Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>固定题库 → 难度自适应 → 岗位定制 → 模拟真实面试 → 面试教练</td></tr>
+  <tr><td>触发条件</td><td>面试模拟完成率 &lt; 50%；用户反馈"题目不匹配" &gt; 20%</td></tr>
+  <tr><td>迭代周期</td><td>题库更新：每周；面试策略优化：每月；岗位模型扩充：每季度</td></tr>
+  <tr><td>技术实现</td><td>1. 面试题库按岗位/难度/知识点自动标签化<br>2. 基于用户画像动态生成面试题<br>3. 面试回答评估 Prompt 优化<br>4. Vibe Coding 岗位面试场景开发</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>岗位覆盖数</td><td>3</td><td>8</td><td>15</td><td>25+</td></tr>
+  <tr><td>题目匹配准确率</td><td>65%</td><td>80%</td><td>88%</td><td>93%</td></tr>
+  <tr><td>评估准确率</td><td>70%</td><td>82%</td><td>90%</td><td>95%</td></tr>
+  <tr><td>面试体验真实度</td><td>3.0/5</td><td>3.8/5</td><td>4.2/5</td><td>4.5/5</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>就业竞争力</td><td>模拟面试后实际面试通过率提升</td><td>-</td><td>≥ 25%</td><td>用户跟踪调查</td></tr>
+  <tr><td>学习方向明确度</td><td>面试后用户调整学习重点的比例</td><td>30%</td><td>≥ 60%</td><td>路径调整行为分析</td></tr>
+  <tr><td>学习兴趣增强</td><td>面试准备模式的使用频率</td><td>-</td><td>周活 30%+</td><td>功能使用率</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.10 Mentor Agent 进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Mentor Agent <span class="badge badge-orange">L2 业务层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>定时提醒 → 行为模式识别 → 情绪感知 → 个性化激励 → 学习教练</td></tr>
+  <tr><td>触发条件</td><td>用户学习停滞率 &gt; 20%；激励措施响应率 &lt; 40%</td></tr>
+  <tr><td>迭代周期</td><td>激励策略优化：每两周；情绪模型升级：每月</td></tr>
+  <tr><td>技术实现</td><td>1. 学习行为模式识别（时间序列分析）<br>2. 情绪推断模型优化（基于行为信号）<br>3. 激励策略库 A/B 测试（成就型/竞争型/社交型/探索型）<br>4. 个性化学习计划建议生成</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>停滞用户挽回率</td><td>20%</td><td>35%</td><td>50%</td><td>60%</td></tr>
+  <tr><td>激励响应率</td><td>35%</td><td>50%</td><td>65%</td><td>75%</td></tr>
+  <tr><td>情绪识别准确率</td><td>55%</td><td>70%</td><td>80%</td><td>88%</td></tr>
+  <tr><td>个性化程度</td><td>通用激励</td><td>分类型激励</td><td>个体化激励</td><td>自适应激励</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>学习兴趣增强</td><td>Mentor 介入后学习活跃度提升</td><td>-</td><td>≥ 35%</td><td>介入前后活跃度对比</td></tr>
+  <tr><td>学习坚持度</td><td>有 Mentor vs 无 Mentor 的 30 日留存率差</td><td>-</td><td>≥ 15%</td><td>留存率 A/B 对比</td></tr>
+  <tr><td>学习效率提升</td><td>策略建议后的学习效率变化</td><td>-</td><td>≥ 15%</td><td>建议采纳前后效率对比</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.11 Evolution Agent 自身进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Evolution Agent <span class="badge badge-purple">L0 元认知层</span></div>
+
+<h4>a) 进化机制</h4>
+<table>
+  <tr><th style="width:160px">机制项</th><th>详细设计</th></tr>
+  <tr><td>进化路径</td><td>人工配置实验 → 半自动实验管理 → 全自动进化 → 元进化（优化进化策略本身）</td></tr>
+  <tr><td>触发条件</td><td>全局学习效果指标下降 &gt; 5%；新 Agent 上线；系统运行满 2 周</td></tr>
+  <tr><td>迭代周期</td><td>实验创建：按需；效果评估：每周；策略升级：每月</td></tr>
+  <tr><td>技术实现</td><td>1. 实验框架自动化（TypeScript 实现流量分配、指标采集、统计分析）<br>2. 多臂老虎机（MAB）算法优化实验流量分配<br>3. 进化策略本身作为可进化对象（元进化）<br>4. 进化效果仪表盘自动生成</td></tr>
+</table>
+
+<h4>b) 进化方向</h4>
+<table>
+  <tr><th>维度</th><th>当前基线</th><th>3 个月目标</th><th>6 个月目标</th><th>12 个月目标</th></tr>
+  <tr><td>可管理 Agent 数</td><td>3</td><td>6</td><td>8</td><td>10+</td></tr>
+  <tr><td>实验自动化程度</td><td>手动创建</td><td>半自动</td><td>全自动实验</td><td>元进化</td></tr>
+  <tr><td>进化提升率</td><td>3%/月</td><td>5%/月</td><td>8%/月</td><td>10%/月</td></tr>
+  <tr><td>误优化率</td><td>15%</td><td>10%</td><td>5%</td><td>3%</td></tr>
+</table>
+
+<h4>c) 教育价值评估</h4>
+<table>
+  <tr><th>评估指标</th><th>定义</th><th>当前基线</th><th>进化目标</th><th>测量方法</th></tr>
+  <tr><td>全局学习效率提升</td><td>系统进化带来的整体学习效率增益</td><td>-</td><td>≥ 5%/月</td><td>月度学习效果趋势</td></tr>
+  <tr><td>个性化体验满意度</td><td>进化后用户 NPS 提升</td><td>-</td><td>≥ 3 分/季度</td><td>NPS 调查</td></tr>
+  <tr><td>系统教育价值增长</td><td>各 Agent 教育价值指标的综合提升</td><td>-</td><td>≥ 10%/季度</td><td>综合教育价值指数</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h3>15.12 Agent 进化教育价值综合评估矩阵</h3>
+
+<div class="svg-container">
+  <div class="svg-title">各 Agent 进化对教育价值的综合影响矩阵</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Inter, sans-serif">
+    <!-- Grid -->
+    <line x1="150" y1="50" x2="150" y2="420" stroke="#E2E8F0" stroke-width="1"/>
+    <line x1="150" y1="420" x2="850" y2="420" stroke="#E2E8F0" stroke-width="1"/>
+    
+    <!-- Y axis label -->
+    <text x="20" y="240" text-anchor="middle" fill="#64748B" font-size="13" font-weight="500" transform="rotate(-90, 20, 240)">教育价值提升幅度</text>
+    
+    <!-- X axis label -->
+    <text x="500" y="470" text-anchor="middle" fill="#64748B" font-size="13" font-weight="500">Agent 类型</text>
+    
+    <!-- Y axis ticks -->
+    <text x="140" y="424" text-anchor="end" fill="#94A3B8" font-size="11">0%</text>
+    <line x1="148" y1="420" x2="850" y2="420" stroke="#F1F5F9" stroke-width="1"/>
+    <text x="140" y="350" text-anchor="end" fill="#94A3B8" font-size="11">10%</text>
+    <line x1="148" y1="346" x2="850" y2="346" stroke="#F1F5F9" stroke-width="1"/>
+    <text x="140" y="276" text-anchor="end" fill="#94A3B8" font-size="11">20%</text>
+    <line x1="148" y1="272" x2="850" y2="272" stroke="#F1F5F9" stroke-width="1"/>
+    <text x="140" y="202" text-anchor="end" fill="#94A3B8" font-size="11">30%</text>
+    <line x1="148" y1="198" x2="850" y2="198" stroke="#F1F5F9" stroke-width="1"/>
+    <text x="140" y="128" text-anchor="end" fill="#94A3B8" font-size="11">40%</text>
+    <line x1="148" y1="124" x2="850" y2="124" stroke="#F1F5F9" stroke-width="1"/>
+    <text x="140" y="54" text-anchor="end" fill="#94A3B8" font-size="11">50%</text>
+    
+    <!-- Bars: Learning Efficiency (orange) -->
+    <rect x="180" y="198" width="25" height="222" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="192" y="192" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">30%</text>
+    
+    <rect x="270" y="124" width="25" height="296" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="282" y="118" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">40%</text>
+    
+    <rect x="360" y="198" width="25" height="222" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="372" y="192" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">30%</text>
+    
+    <rect x="450" y="161" width="25" height="259" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="462" y="155" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">35%</text>
+    
+    <rect x="540" y="235" width="25" height="185" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="552" y="229" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">25%</text>
+    
+    <rect x="630" y="272" width="25" height="148" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="642" y="266" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">20%</text>
+    
+    <rect x="720" y="235" width="25" height="185" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="732" y="229" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">25%</text>
+    
+    <rect x="810" y="309" width="25" height="111" rx="3" fill="#F97316" opacity="0.85"/>
+    <text x="822" y="303" text-anchor="middle" fill="#F97316" font-size="10" font-weight="600">15%</text>
+    
+    <!-- Bars: Learning Interest (green) -->
+    <rect x="207" y="235" width="25" height="185" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="219" y="229" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">25%</text>
+    
+    <rect x="297" y="161" width="25" height="259" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="309" y="155" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">35%</text>
+    
+    <rect x="387" y="272" width="25" height="148" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="399" y="266" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">20%</text>
+    
+    <rect x="477" y="198" width="25" height="222" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="489" y="192" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">30%</text>
+    
+    <rect x="567" y="272" width="25" height="148" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="579" y="266" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">20%</text>
+    
+    <rect x="657" y="198" width="25" height="222" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="669" y="192" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">30%</text>
+    
+    <rect x="747" y="161" width="25" height="259" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="759" y="155" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">35%</text>
+    
+    <rect x="837" y="272" width="25" height="148" rx="3" fill="#10B981" opacity="0.85"/>
+    <text x="849" y="266" text-anchor="middle" fill="#10B981" font-size="10" font-weight="600">20%</text>
+    
+    <!-- X axis labels -->
+    <text x="200" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Orchestrator</text>
+    <text x="290" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Tutor</text>
+    <text x="380" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Evaluator</text>
+    <text x="470" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Path Planner</text>
+    <text x="560" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Debug</text>
+    <text x="650" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Code Review</text>
+    <text x="740" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Interview</text>
+    <text x="830" y="440" text-anchor="middle" fill="#1E293B" font-size="11" font-weight="500">Mentor</text>
+    
+    <!-- Legend -->
+    <rect x="300" y="482" width="14" height="14" rx="3" fill="#F97316"/>
+    <text x="320" y="494" fill="#1E293B" font-size="12">学习效率提升</text>
+    <rect x="450" y="482" width="14" height="14" rx="3" fill="#10B981"/>
+    <text x="470" y="494" fill="#1E293B" font-size="12">学习兴趣增强</text>
+  </svg>
+</div>
+
+<h3>15.13 进化实施保障</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">安全保障 <span class="badge badge-red">必须</span></div>
+    <table>
+      <tr><th>保障项</th><th>实施方式</th></tr>
+      <tr><td>一键回滚</td><td>每个进化变体保留前一版本，30s 内回滚</td></tr>
+      <tr><td>灰度发布</td><td>1% → 5% → 20% → 50% → 100% 渐进</td></tr>
+      <tr><td>效果下限</td><td>进化后指标不得低于基线 95%</td></tr>
+      <tr><td>人工审核</td><td>Prompt 核心逻辑变更需人工确认</td></tr>
+      <tr><td>审计日志</td><td>所有进化变更记录完整审计日志</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-header">验证保障 <span class="badge badge-green">必须</span></div>
+    <table>
+      <tr><th>保障项</th><th>实施方式</th></tr>
+      <tr><td>统计显著性</td><td>p &lt; 0.05 才判定进化有效</td></tr>
+      <tr><td>效果量</td><td>Cohen's d ≥ 0.2 才判定有实际意义</td></tr>
+      <tr><td>最小样本</td><td>每个实验组 ≥ 100 用户</td></tr>
+      <tr><td>实验周期</td><td>最少 7 天，覆盖完整学习周期</td></tr>
+      <tr><td>多指标验证</td><td>效率+兴趣+掌握度三维度同时达标</td></tr>
+    </table>
+  </div>
+</div>
+
+</main>
+</body>
+</html>

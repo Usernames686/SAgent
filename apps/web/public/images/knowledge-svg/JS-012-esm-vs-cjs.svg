@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="420" fill="url(#bg5)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#fb923c" text-anchor="middle">ESM vs CommonJS — 核心差异</text>
+
+  <!-- compare table -->
+  <rect x="30" y="60" width="700" height="40" rx="8" fill="#a78bfa" fill-opacity="0.1"/>
+  <text x="60" y="85" font-size="11" font-weight="700" fill="#c4b5fd">特性</text>
+  <text x="280" y="85" font-size="11" font-weight="700" fill="#6ee7b7">ES Modules</text>
+  <text x="510" y="85" font-size="11" font-weight="700" fill="#93c5fd">CommonJS</text>
+
+  <rect x="30" y="100" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="125" font-size="10" fill="#94a3b8">语法</text>
+  <text x="280" y="125" font-size="10" fill="#6ee7b7" font-family="monospace">import / export</text>
+  <text x="510" y="125" font-size="10" fill="#93c5fd" font-family="monospace">require / module.exports</text>
+
+  <rect x="30" y="140" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="165" font-size="10" fill="#94a3b8">加载时机</text>
+  <text x="280" y="165" font-size="10" fill="#6ee7b7">编译时（静态）</text>
+  <text x="510" y="165" font-size="10" fill="#93c5fd">运行时（动态）</text>
+
+  <rect x="30" y="180" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="205" font-size="10" fill="#94a3b8">值的类型</text>
+  <text x="280" y="205" font-size="10" fill="#6ee7b7">引用（Live Binding）</text>
+  <text x="510" y="205" font-size="10" fill="#93c5fd">拷贝（值的快照）</text>
+
+  <rect x="30" y="220" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="245" font-size="10" fill="#94a3b8">是否可动态</text>
+  <text x="280" y="245" font-size="10" fill="#fca5a5">❌ import 必须静态</text>
+  <text x="510" y="245" font-size="10" fill="#6ee7b7">✅ require 可在任意位置</text>
+
+  <rect x="30" y="260" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="285" font-size="10" fill="#94a3b8">Tree-shaking</text>
+  <text x="280" y="285" font-size="10" fill="#6ee7b7">✅ 支持（死代码消除）</text>
+  <text x="510" y="285" font-size="10" fill="#fca5a5">❌ 难以静态分析</text>
+
+  <rect x="30" y="300" width="700" height="40" rx="8" fill="#1e293b" fill-opacity="0.5"/>
+  <text x="60" y="325" font-size="10" fill="#94a3b8">严格模式</text>
+  <text x="280" y="325" font-size="10" fill="#6ee7b7">✅ 默认启用</text>
+  <text x="510" y="325" font-size="10" fill="#fca5a5">❌ 需手动 'use strict'</text>
+
+  <rect x="30" y="350" width="700" height="50" rx="8" fill="#fbbf24" fill-opacity="0.06" stroke="#fbbf24" stroke-opacity="0.3"/>
+  <text x="50" y="372" font-size="10" font-weight="700" fill="#fcd34d">🏆 趋势：现代 Node.js 与前端工具链都向 ESM 迁移</text>
+  <text x="50" y="390" font-size="9" fill="#94a3b8">package.json 加 "type": "module" 启用 ESM；动态加载用 import() 代替 require()</text>
+</svg>

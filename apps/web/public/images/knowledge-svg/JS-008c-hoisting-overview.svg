@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">变量提升 · 提前搬箱子</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#f97316">🏗️ 变量提升 = 提前搬箱子（但没打开）</text>
+<rect x="30" y="76" width="720" height="160" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.2"/>
+<text x="50" y="96" font-size="10" fill="#94a3b8">搬进新办公室：</text>
+<rect x="50" y="108" width="220" height="50" rx="6" fill="#ef4444" fill-opacity="0.06"/>
+<text x="60" y="128" font-size="10" fill="#ef4444">📦 var箱子：提前搬到楼层</text>
+<text x="60" y="148" font-size="9" fill="#ef4444">但里面是空的(undefined)</text>
+<rect x="290" y="108" width="220" height="50" rx="6" fill="#3b82f6" fill-opacity="0.06"/>
+<text x="300" y="128" font-size="10" fill="#3b82f6">📦 let/const箱子：提前搬到</text>
+<text x="300" y="148" font-size="9" fill="#3b82f6">但贴了封条(TDZ)，禁止打开</text>
+<rect x="530" y="108" width="200" height="50" rx="6" fill="#22c55e" fill-opacity="0.06"/>
+<text x="540" y="128" font-size="10" fill="#22c55e">📦 function箱子：提前搬到</text>
+<text x="540" y="148" font-size="9" fill="#22c55e">楼层且已打开(整体提升)</text>
+<text x="40" y="256" font-size="13" font-weight="600" fill="#ec4899">三种提升行为</text>
+<rect x="30" y="268" width="225" height="100" rx="8" fill="#ef4444" fill-opacity="0.04" stroke="#ef4444" stroke-opacity="0.2"/>
+<text x="142" y="290" font-size="20" text-anchor="middle">⬆️</text>
+<text x="142" y="314" font-size="10" font-weight="600" fill="#ef4444" text-anchor="middle">var提升</text>
+<text x="142" y="334" font-size="8" fill="#94a3b8" text-anchor="middle">声明提前，值为undefined</text>
+<text x="142" y="354" font-size="8" fill="#ef4444" text-anchor="middle">声明前访问不报错</text>
+<rect x="275" y="268" width="225" height="100" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+<text x="387" y="290" font-size="20" text-anchor="middle">🚫</text>
+<text x="387" y="314" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">let/const TDZ</text>
+<text x="387" y="334" font-size="8" fill="#94a3b8" text-anchor="middle">声明提前，但禁止访问</text>
+<text x="387" y="354" font-size="8" fill="#3b82f6" text-anchor="middle">声明前访问报错</text>
+<rect x="520" y="268" width="225" height="100" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="632" y="290" font-size="20" text-anchor="middle">⚡</text>
+<text x="632" y="314" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">function提升</text>
+<text x="632" y="334" font-size="8" fill="#94a3b8" text-anchor="middle">整个函数定义提前</text>
+<text x="632" y="354" font-size="8" fill="#22c55e" text-anchor="middle">声明前调用OK</text>
+<rect x="30" y="390" width="720" height="170" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="416" font-size="11" font-weight="600" fill="#f97316">💡 核心理解</text>
+<text x="50" y="440" font-size="10" fill="#94a3b8">• JavaScript引擎在执行代码前，先"扫描"整个作用域</text>
+<text x="50" y="462" font-size="10" fill="#94a3b8">• 找到所有 var/function 声明，把它们"搬"到作用域顶部</text>
+<text x="50" y="484" font-size="10" fill="#ef4444">• var：只提升声明，不提升赋值 → 值是 undefined</text>
+<text x="50" y="506" font-size="10" fill="#22c55e">• function：整体提升（声明+函数体）→ 声明前可调用</text>
+<text x="50" y="528" font-size="10" fill="#3b82f6">• let/const：也提升，但有TDZ保护 → 声明前访问报错</text>
+<text x="50" y="550" font-size="10" fill="#f97316" font-weight="600">口诀：var提升不报错，let/const提升有TDZ，function整体提升</text>
+</svg>

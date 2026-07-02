@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">数组解构 · 按位置取值</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#eab308">① 基本用法</text>
+  <rect x="30" y="74" width="720" height="80" rx="8" fill="#eab308" fill-opacity="0.04" stroke="#eab308" stroke-opacity="0.25"/>
+  <text x="50" y="96" font-size="10" fill="#eab308" font-family="monospace">const colors = ["red", "green", "blue"];</text>
+  <text x="50" y="114" font-size="10" fill="#22c55e" font-family="monospace">const [first, second, third] = colors;  // first="red", second="green", third="blue"</text>
+  <text x="50" y="132" font-size="9" fill="#94a3b8">左边变量按位置对应右边数组元素</text>
+  <text x="40" y="174" font-size="13" font-weight="600" fill="#3b82f6">② 跳过元素 + 默认值</text>
+  <rect x="30" y="184" width="350" height="100" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="50" y="206" font-size="10" font-weight="600" fill="#3b82f6">跳过</text>
+  <text x="50" y="224" font-size="9" fill="#94a3b8" font-family="monospace">const [,,third] = [1,2,3]; // third=3</text>
+  <text x="50" y="248" font-size="10" font-weight="600" fill="#3b82f6">默认值</text>
+  <text x="50" y="266" font-size="9" fill="#94a3b8" font-family="monospace">const [a=0, b=1] = [5]; // a=5, b=1</text>
+  <text x="400" y="174" font-size="13" font-weight="600" fill="#22c55e">③ 交换变量（不用临时变量！）</text>
+  <rect x="400" y="184" width="350" height="100" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="420" y="206" font-size="10" font-weight="600" fill="#ef4444">❌ 传统</text>
+  <text x="420" y="224" font-size="9" fill="#94a3b8" font-family="monospace">let temp=a; a=b; b=temp;</text>
+  <text x="420" y="248" font-size="10" font-weight="600" fill="#22c55e">✅ 解构</text>
+  <text x="420" y="266" font-size="9" fill="#94a3b8" font-family="monospace">[a, b] = [b, a];</text>
+  <text x="40" y="306" font-size="13" font-weight="600" fill="#a855f7">④ 剩余解构</text>
+  <rect x="30" y="316" width="720" height="60" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="338" font-size="10" fill="#a855f7" font-family="monospace">const [first, ...rest] = [1, 2, 3, 4, 5];  // first=1, rest=[2,3,4,5]</text>
+  <text x="50" y="358" font-size="9" fill="#eab308">...rest 收集剩余元素为新数组，必须放最后</text>
+  <text x="40" y="396" font-size="13" font-weight="600" fill="#06b6d4">⑤ React: useState 解构</text>
+  <rect x="30" y="406" width="720" height="150" rx="8" fill="#06b6d4" fill-opacity="0.04" stroke="#06b6d4" stroke-opacity="0.25"/>
+  <text x="50" y="428" font-size="10" font-weight="600" fill="#06b6d4">useState 返回数组，用解构取值</text>
+  <rect x="50" y="440" width="680" height="50" rx="4" fill="#0f172a"/>
+  <text x="62" y="458" font-size="9" fill="#22c55e" font-family="monospace">const [count, setCount] = useState(0);</text>
+  <text x="62" y="476" font-size="9" fill="#94a3b8" font-family="monospace">// count = 当前值, setCount = 更新函数</text>
+  <text x="50" y="506" font-size="10" font-weight="600" fill="#06b6d4">useReducer 解构</text>
+  <text x="50" y="524" font-size="9" fill="#94a3b8" font-family="monospace">const [state, dispatch] = useReducer(reducer, initialState);</text>
+  <text x="50" y="544" font-size="9" fill="#eab308">💡 React Hooks 大量使用数组解构</text>
+</svg>

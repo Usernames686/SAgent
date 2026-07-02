@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="780" height="360" fill="url(#bg)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">JavaScript 数据类型分类</text>
+
+  <!-- 根节点 -->
+  <rect x="310" y="50" width="160" height="40" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.5"/>
+  <text x="390" y="76" font-size="13" font-weight="700" fill="#f97316" text-anchor="middle">JS 数据类型</text>
+
+  <!-- 连线：根到原始/引用 -->
+  <line x1="350" y1="90" x2="190" y2="120" stroke="#475569" stroke-width="1.2"/>
+  <line x1="430" y1="90" x2="590" y2="120" stroke="#475569" stroke-width="1.2"/>
+
+  <!-- 原始类型 父节点 -->
+  <rect x="80" y="120" width="220" height="36" rx="8" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-width="1.2"/>
+  <text x="190" y="143" font-size="12" font-weight="600" fill="#3b82f6" text-anchor="middle">原始类型 Primitive（7种）</text>
+
+  <!-- 引用类型 父节点 -->
+  <rect x="480" y="120" width="220" height="36" rx="8" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-width="1.2"/>
+  <text x="590" y="143" font-size="12" font-weight="600" fill="#a855f7" text-anchor="middle">引用类型 Reference</text>
+
+  <!-- 原始类型子节点连线（第1行） -->
+  <line x1="120" y1="156" x2="80" y2="180" stroke="#475569" stroke-width="0.8"/>
+  <line x1="140" y1="156" x2="175" y2="180" stroke="#475569" stroke-width="0.8"/>
+  <line x1="190" y1="156" x2="275" y2="180" stroke="#475569" stroke-width="0.8"/>
+  <line x1="240" y1="156" x2="370" y2="180" stroke="#475569" stroke-width="0.8"/>
+
+  <!-- 原始类型子节点连线（第2行） -->
+  <line x1="120" y1="156" x2="80" y2="230" stroke="#475569" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <line x1="190" y1="156" x2="175" y2="230" stroke="#475569" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <line x1="260" y1="156" x2="275" y2="230" stroke="#475569" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+  <!-- 第1行：Number, String, Boolean, undefined -->
+  <rect x="30" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="80" y="198" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">🔢 Number</text>
+  <text x="80" y="212" font-size="8" fill="#64748b" text-anchor="middle">42, 3.14, NaN</text>
+
+  <rect x="140" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#22c55e" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="190" y="198" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">📝 String</text>
+  <text x="190" y="212" font-size="8" fill="#64748b" text-anchor="middle">"hello", 'world'</text>
+
+  <rect x="250" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#eab308" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="300" y="198" font-size="11" font-weight="600" fill="#eab308" text-anchor="middle">✅ Boolean</text>
+  <text x="300" y="212" font-size="8" fill="#64748b" text-anchor="middle">true, false</text>
+
+  <rect x="360" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#64748b" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="410" y="198" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">❓ undefined</text>
+  <text x="410" y="212" font-size="8" fill="#64748b" text-anchor="middle">声明未赋值</text>
+
+  <!-- 第2行：null, Symbol, BigInt -->
+  <rect x="30" y="230" width="100" height="40" rx="6" fill="#0f172a" stroke="#ef4444" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="80" y="248" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">⊘ null</text>
+  <text x="80" y="262" font-size="8" fill="#ef4444" fill-opacity="0.6" text-anchor="middle">⚠️ typeof → "object"</text>
+
+  <rect x="140" y="230" width="100" height="40" rx="6" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="190" y="248" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">🔑 Symbol</text>
+  <text x="190" y="262" font-size="8" fill="#64748b" text-anchor="middle">唯一标识符</text>
+
+  <rect x="250" y="230" width="100" height="40" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="300" y="248" font-size="11" font-weight="600" fill="#06b6d4" text-anchor="middle">🧮 BigInt</text>
+  <text x="300" y="262" font-size="8" fill="#64748b" text-anchor="middle">9007199254740991n</text>
+
+  <!-- 引用类型子节点连线 -->
+  <line x1="530" y1="156" x2="510" y2="180" stroke="#475569" stroke-width="0.8"/>
+  <line x1="590" y1="156" x2="620" y2="180" stroke="#475569" stroke-width="0.8"/>
+  <line x1="650" y1="156" x2="740" y2="180" stroke="#475569" stroke-width="0.8"/>
+
+  <!-- 引用类型子节点 -->
+  <rect x="460" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="510" y="198" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">📦 Object</text>
+  <text x="510" y="212" font-size="8" fill="#64748b" text-anchor="middle">{ key: value }</text>
+
+  <rect x="570" y="180" width="100" height="40" rx="6" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="620" y="198" font-size="11" font-weight="600" fill="#a855f7" fill-opacity="0.7" text-anchor="middle">📋 Array</text>
+  <text x="620" y="212" font-size="8" fill="#64748b" text-anchor="middle">[1, 2, 3]</text>
+
+  <rect x="680" y="180" width="90" height="40" rx="6" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="725" y="198" font-size="11" font-weight="600" fill="#a855f7" fill-opacity="0.7" text-anchor="middle">⚡ Function</text>
+  <text x="725" y="212" font-size="8" fill="#64748b" text-anchor="middle">() => {}</text>
+
+  <!-- 底部说明 -->
+  <rect x="40" y="290" width="700" height="52" rx="8" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+  <text x="60" y="310" font-size="11" fill="#94a3b8">💡 核心区别：原始类型按值存储，引用类型按引用存储</text>
+  <text x="60" y="328" font-size="10" fill="#64748b">⚠️ typeof null === "object" 是 1995 年的历史 bug，null 实际是原始类型</text>
+</svg>

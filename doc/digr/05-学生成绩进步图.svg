@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="300" fill="#0f172a" rx="16"/>
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#f8fafc">学生成绩进步图</text>
+  
+  <line x1="80" y1="230" x2="720" y2="230" stroke="#334155" stroke-width="1"/>
+  <line x1="80" y1="180" x2="720" y2="180" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="130" x2="720" y2="130" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="80" x2="720" y2="80" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
+  
+  <text x="65" y="233" text-anchor="end" font-size="10" fill="#64748b">0</text>
+  <text x="65" y="183" text-anchor="end" font-size="10" fill="#64748b">50</text>
+  <text x="65" y="133" text-anchor="end" font-size="10" fill="#64748b">75</text>
+  <text x="65" y="83" text-anchor="end" font-size="10" fill="#64748b">100</text>
+  
+  <rect x="100" y="195" width="50" height="35" rx="4" fill="#ef4444" opacity="0.8"/>
+  <text x="125" y="188" text-anchor="middle" font-size="10" fill="#ef4444">35</text>
+  <text x="125" y="245" text-anchor="middle" font-size="9" fill="#64748b">第1轮</text>
+  
+  <rect x="180" y="185" width="50" height="45" rx="4" fill="#ef4444" opacity="0.8"/>
+  <text x="205" y="178" text-anchor="middle" font-size="10" fill="#ef4444">45</text>
+  <text x="205" y="245" text-anchor="middle" font-size="9" fill="#64748b">第2轮</text>
+  
+  <rect x="260" y="175" width="50" height="55" rx="4" fill="#ef4444" opacity="0.8"/>
+  <text x="285" y="168" text-anchor="middle" font-size="10" fill="#ef4444">55</text>
+  <text x="285" y="245" text-anchor="middle" font-size="9" fill="#64748b">第3轮</text>
+  
+  <text x="205" y="270" text-anchor="middle" font-size="10" fill="#ef4444">进化前 (平均 45)</text>
+  
+  <line x1="350" y1="60" x2="350" y2="240" stroke="#f97316" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="350" y="260" text-anchor="middle" font-size="9" fill="#f97316">进化</text>
+  
+  <rect x="400" y="105" width="50" height="125" rx="4" fill="#10b981" opacity="0.8"/>
+  <text x="425" y="98" text-anchor="middle" font-size="10" fill="#10b981">75</text>
+  <text x="425" y="245" text-anchor="middle" font-size="9" fill="#64748b">第1轮</text>
+  
+  <rect x="480" y="80" width="50" height="150" rx="4" fill="#10b981" opacity="0.8"/>
+  <text x="505" y="73" text-anchor="middle" font-size="10" fill="#10b981">85</text>
+  <text x="505" y="245" text-anchor="middle" font-size="9" fill="#64748b">第2轮</text>
+  
+  <rect x="560" y="60" width="50" height="170" rx="4" fill="#10b981" opacity="0.8"/>
+  <text x="585" y="53" text-anchor="middle" font-size="10" fill="#10b981">95</text>
+  <text x="585" y="245" text-anchor="middle" font-size="9" fill="#64748b">第3轮</text>
+  
+  <text x="505" y="270" text-anchor="middle" font-size="10" fill="#10b981">进化后 (平均 85)</text>
+  
+  <text x="400" y="290" text-anchor="middle" font-size="11" fill="#f97316">提升幅度: +89%</text>
+</svg>

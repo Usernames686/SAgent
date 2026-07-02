@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Preview Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f172a; min-height: 100vh; font-family: system-ui, sans-serif; }
+    .container { padding: 20px; }
+    .btn { padding: 10px 20px; background: #f97316; color: white; border: none; border-radius: 8px; cursor: pointer; margin: 10px; }
+    .btn:hover { background: #ea580c; }
+    #preview-frame { width: 100%; height: 500px; border: 1px solid #333; border-radius: 8px; margin-top: 20px; }
+    .status { padding: 10px; margin: 10px 0; border-radius: 8px; font-size: 14px; }
+    .status.success { background: #064e3b; color: #34d399; }
+    .status.error { background: #7f1d1d; color: #fca5a5; }
+    .status.loading { background: #1e3a5f; color: #93c5fd; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="color: white; margin-bottom: 20px;">Direct Preview Test</h1>
+    
+    <div id="status" class="status loading">准备就绪，点击按钮测试预览</div>
+    
+    <button class="btn" onclick="testDirectRender()">测试直接渲染</button>
+    <button class="btn" onclick="testBackendAPI()">测试后端 API</button>
+    
+    <iframe id="preview-frame" srcdoc="<html><body style='background:#0f172a;color:white;display:flex;align-items:center;justify-content:center;height:100vh;'><p>Loading preview...</p></body></html>"></iframe>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:4001/api/v1';
+    
+    function updateStatus(msg, type) {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = 'status ' + type;
+    }
+    
+    async function testDirectRender() {
+      updateStatus('正在渲染...', 'loading');
+      
+      const html = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f172a; min-height: 100vh; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 32px; max-width: 400px; }
+    .btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #f97316, #ec4899); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+    .btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <div class="glass">
+    <h2 style="color: white; margin-bottom: 16px;">用户统计</h2>
+    <p style="color: #9ca3af;">当前计数: <span id="count">0</span></p>
+    <button class="btn" onclick="document.getElementById('count').textContent = parseInt(document.getElementById('count').textContent) + 1">点击 +1</button>
+  </div>
+</body>
+</html>`;
+      
+      document.getElementById('preview-frame').srcdoc = html;
+      updateStatus('直接渲染成功！', 'success');
+    }
+    
+    async function testBackendAPI() {
+      updateStatus('正在调用后端 API...', 'loading');
+      
+      const testCode = 'function Component() { return <div className="p-4 bg-white/10 rounded-xl text-white">Test</div>; }';
+      
+      try {
+        const response = await fetch(API_BASE + '/preview/render', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: testCode })
+        });
+        
+        const result = await response.json();
+        
+        if (result.html) {
+          document.getElementById('preview-frame').srcdoc = result.html;
+          updateStatus('后端 API 调用成功！HTML 长度: ' + result.html.length, 'success');
+        } else {
+          updateStatus('后端返回为空', 'error');
+        }
+      } catch (e) {
+        updateStatus('后端 API 错误: ' + e.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

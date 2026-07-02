@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050210"/>
+      <stop offset="100%" stop-color="#0a0520"/>
+    </linearGradient>
+    <linearGradient id="sidebarBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#08061a"/>
+      <stop offset="100%" stop-color="#050210"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="50%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="phase1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="phase2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 整体背景 -->
+  <rect width="1200" height="700" fill="url(#bg)"/>
+
+  <!-- ===== 侧边栏 (280px) ===== -->
+  <rect x="0" y="0" width="280" height="700" fill="url(#sidebarBg)"/>
+  <line x1="280" y1="0" x2="280" y2="700" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+
+  <!-- Logo -->
+  <text x="20" y="38" font-size="18" font-weight="800" fill="url(#accentGrad)">✦ Vibe Learning</text>
+  <text x="20" y="54" font-size="10" fill="#ffffff" fill-opacity="0.25">沉浸式氛围编程学习</text>
+
+  <!-- 总进度 -->
+  <rect x="16" y="68" width="248" height="52" rx="12" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <text x="28" y="86" font-size="10" fill="#ffffff" fill-opacity="0.4">总进度</text>
+  <text x="244" y="86" font-size="11" font-weight="700" fill="url(#accentGrad)" text-anchor="end">42%</text>
+  <rect x="28" y="94" width="220" height="6" rx="3" fill="#ffffff" fill-opacity="0.04"/>
+  <rect x="28" y="94" width="92" height="6" rx="3" fill="url(#accentGrad)"/>
+  <text x="28" y="112" font-size="9" fill="#ffffff" fill-opacity="0.25">🎯 29/69</text>
+
+  <!-- 阶段1: 展开(当前) -->
+  <rect x="12" y="130" width="256" height="36" rx="8" fill="#3b82f6" fill-opacity="0.08"/>
+  <rect x="20" y="136" width="24" height="24" rx="6" fill="url(#phase1)"/>
+  <text x="32" y="152" font-size="10" font-weight="700" fill="white" text-anchor="middle">1</text>
+  <text x="52" y="148" font-size="12" font-weight="600" fill="#ffffff" fill-opacity="0.7">🧱 基础夯实</text>
+  <text x="52" y="160" font-size="9" fill="#ffffff" fill-opacity="0.2">14 讲 · 8 已完成</text>
+
+  <!-- 阶段1 - 模块标题 -->
+  <text x="32" y="180" font-size="9" font-weight="500" fill="#ffffff" fill-opacity="0.25" letter-spacing="1">📜 JAVASCRIPT 核心基础</text>
+
+  <!-- 已完成节点 -->
+  <circle cx="36" cy="200" r="5" fill="#22c55e" fill-opacity="0.6"/>
+  <text x="48" y="204" font-size="11" fill="#ffffff" fill-opacity="0.35">JS-001</text>
+  <rect x="212" y="196" width="24" height="14" rx="3" fill="#22c55e" fill-opacity="0.1"/>
+  <text x="224" y="206" font-size="8" font-weight="700" fill="#22c55e" text-anchor="middle">95</text>
+
+  <circle cx="36" cy="220" r="5" fill="#22c55e" fill-opacity="0.6"/>
+  <text x="48" y="224" font-size="11" fill="#ffffff" fill-opacity="0.35">JS-002</text>
+  <rect x="212" y="216" width="24" height="14" rx="3" fill="#22c55e" fill-opacity="0.1"/>
+  <text x="224" y="226" font-size="8" font-weight="700" fill="#22c55e" text-anchor="middle">88</text>
+
+  <!-- 当前节点(脉冲) -->
+  <circle cx="36" cy="240" r="6" fill="url(#accentGrad)" fill-opacity="0.9"/>
+  <text x="48" y="244" font-size="11" font-weight="600" fill="#ffffff" fill-opacity="0.9">JS-003</text>
+  <rect x="16" y="230" width="248" height="24" rx="6" fill="none" stroke="#f97316" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- 锁定节点 -->
+  <circle cx="36" cy="260" r="5" fill="#ffffff" fill-opacity="0.1"/>
+  <text x="48" y="264" font-size="11" fill="#ffffff" fill-opacity="0.15">JS-004</text>
+
+  <circle cx="36" cy="280" r="5" fill="#ffffff" fill-opacity="0.1"/>
+  <text x="48" y="284" font-size="11" fill="#ffffff" fill-opacity="0.15">JS-005</text>
+
+  <text x="36" y="304" font-size="10" fill="#ffffff" fill-opacity="0.1">···</text>
+
+  <!-- 阶段2: 收起 -->
+  <rect x="12" y="320" width="256" height="36" rx="8" fill="transparent"/>
+  <rect x="20" y="326" width="24" height="24" rx="6" fill="#ffffff" fill-opacity="0.04"/>
+  <text x="32" y="342" font-size="10" font-weight="700" fill="#ffffff" fill-opacity="0.3" text-anchor="middle">2</text>
+  <text x="52" y="338" font-size="12" font-weight="600" fill="#ffffff" fill-opacity="0.2">⚡ 进阶突破</text>
+  <text x="52" y="350" font-size="9" fill="#ffffff" fill-opacity="0.15">27 讲</text>
+
+  <!-- 阶段3~5: 收起 -->
+  <rect x="12" y="362" width="256" height="36" rx="8" fill="transparent"/>
+  <rect x="20" y="368" width="24" height="24" rx="6" fill="#ffffff" fill-opacity="0.03"/>
+  <text x="32" y="384" font-size="10" font-weight="700" fill="#ffffff" fill-opacity="0.15" text-anchor="middle">3</text>
+  <text x="52" y="380" font-size="12" font-weight="600" fill="#ffffff" fill-opacity="0.15">🏗️ 框架实战</text>
+
+  <rect x="12" y="404" width="256" height="36" rx="8" fill="transparent"/>
+  <rect x="20" y="410" width="24" height="24" rx="6" fill="#ffffff" fill-opacity="0.03"/>
+  <text x="32" y="426" font-size="10" font-weight="700" fill="#ffffff" fill-opacity="0.15" text-anchor="middle">4</text>
+  <text x="52" y="422" font-size="12" font-weight="600" fill="#ffffff" fill-opacity="0.15">🔧 工程规范</text>
+
+  <rect x="12" y="446" width="256" height="36" rx="8" fill="transparent"/>
+  <rect x="20" y="452" width="24" height="24" rx="6" fill="#ffffff" fill-opacity="0.03"/>
+  <text x="32" y="468" font-size="10" font-weight="700" fill="#ffffff" fill-opacity="0.15" text-anchor="middle">5</text>
+  <text x="52" y="464" font-size="12" font-weight="600" fill="#ffffff" fill-opacity="0.15">🎓 精通掌握</text>
+
+  <!-- 侧边栏底部 -->
+  <line x1="16" y1="680" x2="264" y2="680" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <text x="20" y="695" font-size="9" fill="#ffffff" fill-opacity="0.2">🔥 连续学习中</text>
+  <text x="200" y="695" font-size="9" fill="#ffffff" fill-opacity="0.2">🕐 今日学习</text>
+
+  <!-- ===== 主内容区 ===== -->
+
+  <!-- 顶部栏 -->
+  <rect x="280" y="0" width="920" height="48" fill="#050210" fill-opacity="0.6"/>
+  <line x1="280" y1="48" x2="1200" y2="48" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+
+  <!-- 阶段徽章 -->
+  <rect x="296" y="12" width="28" height="20" rx="5" fill="url(#phase1)"/>
+  <text x="310" y="26" font-size="10" font-weight="700" fill="white" text-anchor="middle">P1</text>
+
+  <!-- 知识点标题 -->
+  <text x="336" y="24" font-size="14" font-weight="700" fill="#ffffff" fill-opacity="0.9">JS-003 条件与循环</text>
+  <text x="336" y="38" font-size="10" fill="#ffffff" fill-opacity="0.25">JavaScript 核心基础</text>
+
+  <!-- Tab 切换 -->
+  <rect x="920" y="10" width="160" height="28" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <rect x="924" y="14" width="52" height="20" rx="5" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="950" y="28" font-size="10" font-weight="500" fill="white" text-anchor="middle">📖 学习</text>
+  <text x="1004" y="28" font-size="10" font-weight="500" fill="#ffffff" fill-opacity="0.3" text-anchor="middle">📊 进度</text>
+
+  <!-- 模式切换栏 -->
+  <rect x="296" y="56" width="110" height="32" rx="10" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="310" y="76" font-size="12" font-weight="500" fill="#60a5fa">📖 概念理解</text>
+  <rect x="416" y="56" width="110" height="32" rx="10" fill="#ffffff" fill-opacity="0.02"/>
+  <text x="430" y="76" font-size="12" font-weight="500" fill="#ffffff" fill-opacity="0.3">💻 动手实践</text>
+  <rect x="536" y="56" width="110" height="32" rx="10" fill="#ffffff" fill-opacity="0.02"/>
+  <text x="550" y="76" font-size="12" font-weight="500" fill="#ffffff" fill-opacity="0.3">📝 评估反馈</text>
+
+  <!-- 动机卡片 -->
+  <rect x="296" y="104" width="888" height="80" rx="16" fill="#f97316" fill-opacity="0.05" stroke="#f97316" stroke-opacity="0.1" stroke-width="1"/>
+  <rect x="312" y="116" width="40" height="40" rx="10" fill="#f97316" fill-opacity="0.15"/>
+  <text x="332" y="140" font-size="18" text-anchor="middle">✨</text>
+  <text x="364" y="130" font-size="10" font-weight="600" fill="#f97316" fill-opacity="0.8">为什么学这个？</text>
+  <text x="364" y="148" font-size="12" fill="#ffffff" fill-opacity="0.5">条件判断和循环是程序"做决策"和"重复做事"的方式。没有条件，程序只能走一条路；</text>
+  <text x="364" y="164" font-size="12" fill="#ffffff" fill-opacity="0.5">没有循环，程序只能做一次。掌握它们，你的代码才能处理真实世界的复杂性。</text>
+
+  <!-- 核心概念卡 -->
+  <rect x="296" y="196" width="436" height="200" rx="16" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <rect x="296" y="196" width="436" height="32" rx="16" fill="#ffffff" fill-opacity="0.02"/>
+  <text x="316" y="216" font-size="11" font-weight="600" fill="#60a5fa">📖 核心概念</text>
+  <text x="316" y="248" font-size="13" font-weight="600" fill="white">条件判断：if/else 与 switch</text>
+  <text x="316" y="268" font-size="11" fill="#ffffff" fill-opacity="0.4">if/else 是最基础的条件判断：</text>
+  <text x="316" y="284" font-size="11" fill="#ffffff" fill-opacity="0.4">- if (条件) { 执行体 }</text>
+  <text x="316" y="300" font-size="11" fill="#ffffff" fill-opacity="0.4">- if/else — 二选一</text>
+  <text x="316" y="324" font-size="13" font-weight="600" fill="white">循环结构：for/while/for...of</text>
+  <text x="316" y="344" font-size="11" fill="#ffffff" fill-opacity="0.4">for 循环用于已知次数的重复：</text>
+  <text x="316" y="360" font-size="11" fill="#ffffff" fill-opacity="0.4">for (let i = 0; i &lt; 10; i++) { ... }</text>
+
+  <!-- 代码示例卡 -->
+  <rect x="744" y="196" width="440" height="200" rx="16" fill="url(#glassFill)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <rect x="744" y="196" width="440" height="32" rx="16" fill="#ffffff" fill-opacity="0.02"/>
+  <text x="764" y="216" font-size="11" font-weight="600" fill="#34d399">💻 代码示例</text>
+  <rect x="1090" y="202" width="32" height="18" rx="4" fill="#34d399" fill-opacity="0.1"/>
+  <text x="1106" y="214" font-size="9" fill="#34d399" text-anchor="middle">示例1</text>
+  <rect x="1126" y="202" width="32" height="18" rx="4" fill="transparent"/>
+  <text x="1142" y="214" font-size="9" fill="#ffffff" fill-opacity="0.2" text-anchor="middle">示例2</text>
+  <rect x="756" y="236" width="416" height="120" rx="8" fill="#0a0a0f"/>
+  <text x="768" y="256" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">if (score >= 90) {</text>
+  <text x="768" y="272" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">  console.log("优秀");</text>
+  <text x="768" y="288" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">} else if (score >= 60) {</text>
+  <text x="768" y="304" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">  console.log("及格");</text>
+  <text x="768" y="320" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">} else {</text>
+  <text x="768" y="336" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">  console.log("不及格");</text>
+  <text x="768" y="352" font-size="11" font-family="monospace" fill="#ffffff" fill-opacity="0.6">}</text>
+
+  <!-- 要点总结 -->
+  <rect x="296" y="410" width="888" height="60" rx="16" fill="url(#glassFill)" stroke="#a855f7" stroke-opacity="0.3" stroke-width="1"/>
+  <rect x="296" y="410" width="3" height="60" rx="1" fill="#a855f7" fill-opacity="0.4"/>
+  <text x="316" y="430" font-size="11" font-weight="600" fill="#a855f7">📋 要点总结</text>
+  <text x="316" y="448" font-size="11" fill="#ffffff" fill-opacity="0.45">1. if/else 用于条件判断，switch 用于多值匹配</text>
+  <text x="316" y="462" font-size="11" fill="#ffffff" fill-opacity="0.45">2. for/while/for...of 用于不同场景的循环</text>
+
+  <!-- 思考题 + 学习贴士 -->
+  <rect x="296" y="482" width="436" height="90" rx="16" fill="url(#glassFill)"/>
+  <rect x="296" y="482" width="3" height="90" rx="1" fill="#06b6d4" fill-opacity="0.3"/>
+  <text x="316" y="502" font-size="11" font-weight="600" fill="#06b6d4">🤔 思考题</text>
+  <text x="316" y="520" font-size="11" fill="#ffffff" fill-opacity="0.4">1. for...of 和 for...in 有什么区别？</text>
+  <text x="316" y="536" font-size="11" fill="#ffffff" fill-opacity="0.4">2. 什么时候用 while 而不是 for？</text>
+
+  <rect x="744" y="482" width="440" height="90" rx="16" fill="url(#glassFill)"/>
+  <rect x="744" y="482" width="3" height="90" rx="1" fill="#eab308" fill-opacity="0.3"/>
+  <text x="764" y="502" font-size="11" font-weight="600" fill="#eab308">💡 学习贴士</text>
+  <text x="764" y="520" font-size="11" fill="#ffffff" fill-opacity="0.4">• switch 的 case 必须有 break</text>
+  <text x="764" y="536" font-size="11" fill="#ffffff" fill-opacity="0.4">• 避免无限循环：确保循环条件最终为 false</text>
+
+  <!-- CTA 按钮 -->
+  <rect x="520" y="590" width="160" height="40" rx="10" fill="url(#accentGrad)"/>
+  <text x="600" y="614" font-size="13" font-weight="600" fill="white" text-anchor="middle">💻 开始实践 →</text>
+  <rect x="700" y="590" width="120" height="40" rx="10" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="760" y="614" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">📝 直接测试</text>
+</svg>

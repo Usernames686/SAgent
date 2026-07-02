@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">数组方法 · 数据处理的瑞士军刀</text>
+  <text x="390" y="54" font-size="11" fill="#06b6d4" text-anchor="middle">📦 增删 / 遍历 / 转换 / 查找 / 排序</text>
+
+  <!-- 三剑客大图 -->
+  <text x="40" y="86" font-size="13" font-weight="600" fill="#06b6d4">① 三剑客：map / filter / reduce</text>
+
+  <!-- map -->
+  <rect x="30" y="98" width="230" height="170" rx="10" fill="#06b6d4" fill-opacity="0.06" stroke="#06b6d4" stroke-opacity="0.3"/>
+  <text x="145" y="120" font-size="14" font-weight="700" fill="#06b6d4" text-anchor="middle">🔄 map</text>
+  <text x="145" y="138" font-size="10" fill="#94a3b8" text-anchor="middle">每个元素 → 转换 → 新数组</text>
+  <text x="50" y="166" font-size="11" fill="#3b82f6" font-family="monospace">[1, 2, 3]</text>
+  <text x="65" y="184" font-size="10" fill="#06b6d4" text-anchor="middle">↓ n * 2</text>
+  <text x="50" y="206" font-size="11" fill="#22c55e" font-family="monospace">[2, 4, 6]</text>
+  <text x="50" y="232" font-size="9" fill="#eab308">💡 长度不变，元素转换</text>
+  <text x="50" y="250" font-size="9" fill="#94a3b8">提取字段、格式化、平方</text>
+
+  <!-- filter -->
+  <rect x="275" y="98" width="230" height="170" rx="10" fill="#a855f7" fill-opacity="0.06" stroke="#a855f7" stroke-opacity="0.3"/>
+  <text x="390" y="120" font-size="14" font-weight="700" fill="#a855f7" text-anchor="middle">🔍 filter</text>
+  <text x="390" y="138" font-size="10" fill="#94a3b8" text-anchor="middle">保留满足条件的元素</text>
+  <text x="295" y="166" font-size="11" fill="#3b82f6" font-family="monospace">[1, 2, 3, 4]</text>
+  <text x="310" y="184" font-size="10" fill="#a855f7" text-anchor="middle">↓ n % 2 === 0</text>
+  <text x="295" y="206" font-size="11" fill="#22c55e" font-family="monospace">[2, 4]</text>
+  <text x="295" y="232" font-size="9" fill="#eab308">💡 长度可能变</text>
+  <text x="295" y="250" font-size="9" fill="#94a3b8">筛选及格、去重、过滤</text>
+
+  <!-- reduce -->
+  <rect x="520" y="98" width="230" height="170" rx="10" fill="#f97316" fill-opacity="0.06" stroke="#f97316" stroke-opacity="0.3"/>
+  <text x="635" y="120" font-size="14" font-weight="700" fill="#f97316" text-anchor="middle">📊 reduce</text>
+  <text x="635" y="138" font-size="10" fill="#94a3b8" text-anchor="middle">汇总所有元素 → 单个值</text>
+  <text x="540" y="166" font-size="11" fill="#3b82f6" font-family="monospace">[1, 2, 3, 4]</text>
+  <text x="555" y="184" font-size="10" fill="#f97316" text-anchor="middle">↓ (sum, n) => sum + n</text>
+  <text x="540" y="206" font-size="11" fill="#22c55e" font-family="monospace">10</text>
+  <text x="540" y="232" font-size="9" fill="#eab308">💡 最通用，可代替 map/filter</text>
+  <text x="540" y="250" font-size="9" fill="#94a3b8">求和、最值、分组、扁平化</text>
+
+  <!-- 不可变性 -->
+  <rect x="30" y="288" width="720" height="60" rx="8" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2"/>
+  <text x="50" y="312" font-size="12" font-weight="700" fill="#22c55e">🔑 核心特性：不修改原数组（不可变操作）</text>
+  <text x="50" y="332" font-size="10" fill="#cbd5e1">map/filter/reduce/concat/slice 都返回新数组/新值，原数组不变 — 这是函数式编程的安全保障</text>
+
+  <!-- 7 步导览 -->
+  <text x="40" y="378" font-size="13" font-weight="600" fill="#a855f7">② 7 步深度学习路径</text>
+
+  <g font-size="10">
+    <rect x="30"  y="392" width="100" height="56" rx="8" fill="#f97316" fill-opacity="0.10" stroke="#f97316" stroke-opacity="0.3"/>
+    <text x="80"  y="414" text-anchor="middle" font-weight="700" fill="#f97316">① 增删改</text>
+    <text x="80"  y="432" text-anchor="middle" font-size="8" fill="#94a3b8">push/pop/splice</text>
+
+    <rect x="135" y="392" width="100" height="56" rx="8" fill="#06b6d4" fill-opacity="0.10" stroke="#06b6d4" stroke-opacity="0.3"/>
+    <text x="185" y="414" text-anchor="middle" font-weight="700" fill="#06b6d4">② map</text>
+    <text x="185" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">转换映射</text>
+
+    <rect x="240" y="392" width="100" height="56" rx="8" fill="#a855f7" fill-opacity="0.10" stroke="#a855f7" stroke-opacity="0.3"/>
+    <text x="290" y="414" text-anchor="middle" font-weight="700" fill="#a855f7">③ filter</text>
+    <text x="290" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">条件过滤</text>
+
+    <rect x="345" y="392" width="100" height="56" rx="8" fill="#22c55e" fill-opacity="0.10" stroke="#22c55e" stroke-opacity="0.3"/>
+    <text x="395" y="414" text-anchor="middle" font-weight="700" fill="#22c55e">④ reduce</text>
+    <text x="395" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">归约汇总</text>
+
+    <rect x="450" y="392" width="100" height="56" rx="8" fill="#eab308" fill-opacity="0.10" stroke="#eab308" stroke-opacity="0.3"/>
+    <text x="500" y="414" text-anchor="middle" font-weight="700" fill="#eab308">⑤ 查找判断</text>
+    <text x="500" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">find/some/every</text>
+
+    <rect x="555" y="392" width="100" height="56" rx="8" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.3"/>
+    <text x="605" y="414" text-anchor="middle" font-weight="700" fill="#3b82f6">⑥ sort 排序</text>
+    <text x="605" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">默认字符串坑</text>
+
+    <rect x="660" y="392" width="90"  height="56" rx="8" fill="#ec4899" fill-opacity="0.10" stroke="#ec4899" stroke-opacity="0.3"/>
+    <text x="705" y="414" text-anchor="middle" font-weight="700" fill="#ec4899">⑦ 链式调用</text>
+    <text x="705" y="432" text-anchor="middle" font-size="8" fill="#94a3b8">综合实战</text>
+  </g>
+
+  <text x="390" y="478" font-size="12" font-weight="600" fill="#22c55e" text-anchor="middle">🎯 学完这 7 步，数组方法不再有盲区</text>
+  <text x="390" y="500" font-size="10" fill="#64748b" text-anchor="middle">每一步都配 SVG 图解 · 图文并茂 · 由浅入深</text>
+</svg>

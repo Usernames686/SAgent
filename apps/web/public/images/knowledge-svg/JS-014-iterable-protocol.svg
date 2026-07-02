@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="420" fill="url(#bg2)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#a78bfa" text-anchor="middle">可迭代协议 — Symbol.iterator</text>
+  <rect x="30" y="60" width="700" height="100" rx="10" fill="#6ee7b7" fill-opacity="0.06" stroke="#6ee7b7" stroke-opacity="0.3"/>
+  <text x="50" y="85" font-size="11" font-weight="700" fill="#6ee7b7">Iterable 接口 — [Symbol.iterator]() 必须返回 Iterator</text>
+  <text x="50" y="110" font-size="10" font-family="monospace" fill="#fbbf24">const myIterable = {</text>
+  <text x="70" y="128" font-size="10" font-family="monospace" fill="#fbbf24">[Symbol.iterator]() { let i = 0; return { next() { return { value: i++, done: i > 3 }; } }; }</text>
+  <text x="50" y="145" font-size="10" font-family="monospace" fill="#fbbf24">};</text>
+  <rect x="30" y="180" width="340" height="100" rx="10" fill="#93c5fd" fill-opacity="0.06" stroke="#93c5fd" stroke-opacity="0.3"/>
+  <text x="50" y="205" font-size="11" font-weight="700" fill="#93c5fd">✅ 可迭代的内置类型</text>
+  <text x="50" y="228" font-size="10" fill="#fbbf24" font-family="monospace">Array, String, Map, Set</text>
+  <text x="50" y="248" font-size="10" fill="#fbbf24" font-family="monospace">TypedArray, arguments, NodeList</text>
+  <text x="50" y="270" font-size="9" fill="#64748b">都有 [Symbol.iterator]，可用 for...of 遍历</text>
+  <rect x="390" y="180" width="340" height="100" rx="10" fill="#fca5a5" fill-opacity="0.06" stroke="#fca5a5" stroke-opacity="0.3"/>
+  <text x="410" y="205" font-size="11" font-weight="700" fill="#fca5a5">❌ 不可迭代的类型</text>
+  <text x="410" y="228" font-size="10" fill="#fbbf24" font-family="monospace">普通对象 { } — 没有 [Symbol.iterator]</text>
+  <text x="410" y="248" font-size="10" fill="#fbbf24" font-family="monospace">用 Object.keys(obj) 间接遍历</text>
+  <text x="410" y="270" font-size="9" fill="#64748b">或用 for...in 遍历可枚举属性</text>
+  <rect x="30" y="300" width="700" height="100" rx="10" fill="#a78bfa" fill-opacity="0.06" stroke="#a78bfa" stroke-opacity="0.3"/>
+  <text x="50" y="325" font-size="11" font-weight="700" fill="#c4b5fd">消费可迭代对象的语法</text>
+  <text x="50" y="350" font-size="10" fill="#fbbf24" font-family="monospace">for (const x of iterable) { ... }      // for...of 循环</text>
+  <text x="50" y="370" font-size="10" fill="#fbbf24" font-family="monospace">const [a, b] = iterable;               // 解构</text>
+  <text x="50" y="390" font-size="10" fill="#fbbf24" font-family="monospace">const arr = [...iterable];             // 展开</text>
+</svg>

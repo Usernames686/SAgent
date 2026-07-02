@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="e1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="e2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
+    <linearGradient id="e3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="960" height="540" fill="#0f172a" rx="16"/>
+  <text x="480" y="36" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="700">自我进化引擎流程</text>
+  <text x="480" y="56" text-anchor="middle" fill="#64748b" font-size="12">Evolution Agent — 数据采集 → A/B 测试 → 策略优化 → 渐进放量</text>
+
+  <!-- 数据采集 -->
+  <rect x="40" y="80" width="260" height="120" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="40" y="80" width="260" height="6" rx="3" fill="url(#e1)"/>
+  <text x="170" y="108" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="700">数据采集模块</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11">• 用户反馈（满意度/有效性）</text>
+  <text x="60" y="148" fill="#94a3b8" font-size="11">• 行为指标（完成率/通过率）</text>
+  <text x="60" y="166" fill="#94a3b8" font-size="11">• 效果数据（掌握率/留存率）</text>
+  <text x="60" y="184" fill="#94a3b8" font-size="11">• Agent 执行日志</text>
+
+  <line x1="300" y1="140" x2="340" y2="140" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 实验管理 -->
+  <rect x="350" y="80" width="260" height="120" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="350" y="80" width="260" height="6" rx="3" fill="url(#e2)"/>
+  <text x="480" y="108" text-anchor="middle" fill="#fde68a" font-size="14" font-weight="700">实验管理模块</text>
+  <text x="370" y="130" fill="#94a3b8" font-size="11">• A/B 测试（Prompt 变体）</text>
+  <text x="370" y="148" fill="#94a3b8" font-size="11">• 多臂老虎机（MAB）</text>
+  <text x="370" y="166" fill="#94a3b8" font-size="11">• 灰度发布（1%→5%→20%→50%→100%）</text>
+  <text x="370" y="184" fill="#94a3b8" font-size="11">• 实验周期管理</text>
+
+  <line x1="610" y1="140" x2="650" y2="140" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 策略优化 -->
+  <rect x="660" y="80" width="260" height="120" rx="12" fill="#1e293b" filter="url(#sh)"/>
+  <rect x="660" y="80" width="260" height="6" rx="3" fill="url(#e3)"/>
+  <text x="790" y="108" text-anchor="middle" fill="#6ee7b7" font-size="14" font-weight="700">策略优化模块</text>
+  <text x="680" y="130" fill="#94a3b8" font-size="11">• 参数调优（学习率/阈值）</text>
+  <text x="680" y="148" fill="#94a3b8" font-size="11">• 模型更新（Prompt 模板）</text>
+  <text x="680" y="166" fill="#94a3b8" font-size="11">• 策略回滚（一键回退）</text>
+  <text x="680" y="184" fill="#94a3b8" font-size="11">• 审计日志（全量记录）</text>
+
+  <!-- 效果评估引擎 -->
+  <line x1="480" y1="200" x2="480" y2="230" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="120" y="234" width="720" height="80" rx="12" fill="#1e293b" filter="url(#sh)" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="480" y="262" text-anchor="middle" fill="#c4b5fd" font-size="15" font-weight="700">效果评估引擎</text>
+  <text x="480" y="284" text-anchor="middle" fill="#a78bfa" font-size="12">统计显著性检验 (p &lt; 0.05) │ 效果量计算 (Cohen's d ≥ 0.2) │ 渐进式放量 (1%→5%→20%→50%→100%)</text>
+
+  <!-- 进化维度 -->
+  <line x1="480" y1="314" x2="480" y2="344" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="480" y="340" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">六大进化维度</text>
+
+  <rect x="40" y="356" width="140" height="60" rx="8" fill="#ef4444" opacity=".15" stroke="#ef4444" stroke-width="1"/>
+  <text x="110" y="382" text-anchor="middle" fill="#fca5a5" font-size="11" font-weight="600">Prompt 策略</text>
+  <text x="110" y="400" text-anchor="middle" fill="#f87171" font-size="9">每周进化</text>
+
+  <rect x="196" y="356" width="140" height="60" rx="8" fill="#f97316" opacity=".15" stroke="#f97316" stroke-width="1"/>
+  <text x="266" y="382" text-anchor="middle" fill="#fdba74" font-size="11" font-weight="600">路由策略</text>
+  <text x="266" y="400" text-anchor="middle" fill="#fb923c" font-size="9">每周进化</text>
+
+  <rect x="352" y="356" width="140" height="60" rx="8" fill="#eab308" opacity=".15" stroke="#eab308" stroke-width="1"/>
+  <text x="422" y="382" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="600">评估标准</text>
+  <text x="422" y="400" text-anchor="middle" fill="#facc15" font-size="9">每月进化</text>
+
+  <rect x="508" y="356" width="140" height="60" rx="8" fill="#10b981" opacity=".15" stroke="#10b981" stroke-width="1"/>
+  <text x="578" y="382" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="600">路径算法</text>
+  <text x="578" y="400" text-anchor="middle" fill="#34d399" font-size="9">每月进化</text>
+
+  <rect x="664" y="356" width="140" height="60" rx="8" fill="#3b82f6" opacity=".15" stroke="#3b82f6" stroke-width="1"/>
+  <text x="734" y="382" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="600">内容推荐</text>
+  <text x="734" y="400" text-anchor="middle" fill="#60a5fa" font-size="9">每周进化</text>
+
+  <rect x="820" y="356" width="100" height="60" rx="8" fill="#8b5cf6" opacity=".15" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="870" y="382" text-anchor="middle" fill="#c4b5fd" font-size="11" font-weight="600">交互风格</text>
+  <text x="870" y="400" text-anchor="middle" fill="#a78bfa" font-size="9">每月进化</text>
+
+  <!-- 安全约束 -->
+  <rect x="120" y="440" width="720" height="70" rx="12" fill="#1e293b" filter="url(#sh)" stroke="#ef4444" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="480" y="466" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="700">进化安全约束</text>
+  <text x="480" y="488" text-anchor="middle" fill="#94a3b8" font-size="11">回滚机制（一键回退）│ 灰度发布（渐进验证）│ 效果下限（≥ 基线 95%）│ 人工审核（核心变更）│ 审计日志（全量记录）</text>
+</svg>

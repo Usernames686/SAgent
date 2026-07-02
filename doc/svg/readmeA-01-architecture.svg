@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" font-family="Segoe UI, PingFang SC, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e1a"/><stop offset="100%" stop-color="#141b2d"/>
+    </linearGradient>
+    <linearGradient id="l0" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.3"/><stop offset="100%" stop-color="#ec4899" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="l1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25"/><stop offset="100%" stop-color="#818cf8" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="l2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.18"/><stop offset="100%" stop-color="#c084fc" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="l3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.18"/><stop offset="100%" stop-color="#10b981" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.35"/>
+    </filter>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.2"/>
+    </filter>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#475569"/>
+    </marker>
+    <marker id="arrG" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="680" fill="url(#bg)" rx="18"/>
+
+  <!-- 标题区 -->
+  <text x="480" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#f8fafc">sAgent · 系统架构总览</text>
+  <text x="480" y="62" text-anchor="middle" font-size="12" fill="#94a3b8" letter-spacing="2">SELF-EVOLVING MULTI-AGENT · VIBE CODING LEARNING PLATFORM</text>
+  <line x1="380" y1="72" x2="580" y2="72" stroke="url(#acc)" stroke-width="2"/>
+
+  <!-- ════════════ L0 元认知层 ════════════ -->
+  <g filter="url(#glow)">
+    <rect x="30" y="92" width="900" height="56" rx="10" fill="url(#l0)" stroke="#f97316" stroke-width="1.5"/>
+    <text x="48" y="115" font-size="11" font-weight="700" fill="#fb923c" letter-spacing="1">L0 · META LAYER · 元认知层</text>
+    <text x="48" y="135" font-size="10" fill="#94a3b8">系统级自我进化 · 策略优化 · A/B 测试 · 灰度发布 · 回滚保护</text>
+    <!-- Evolution Agent 主体 -->
+    <rect x="380" y="100" width="200" height="40" rx="20" fill="#f97316" opacity="0.22" stroke="#f97316" stroke-width="1.5"/>
+    <text x="480" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#fb923c">⚡ Evolution Agent</text>
+  </g>
+  <line x1="480" y1="148" x2="480" y2="168" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+
+  <!-- ════════════ L1 编排层 ════════════ -->
+  <g filter="url(#glow)">
+    <rect x="30" y="168" width="900" height="56" rx="10" fill="url(#l1)" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="48" y="191" font-size="11" font-weight="700" fill="#7dd3fc" letter-spacing="1">L1 · ORCHESTRATION · 编排调度层</text>
+    <text x="48" y="211" font-size="10" fill="#94a3b8">意图识别 · 任务分解 · Agent 调度 · 冲突解决 · 降级决策 · 上下文管理</text>
+    <rect x="370" y="176" width="220" height="40" rx="20" fill="#38bdf8" opacity="0.22" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="480" y="201" text-anchor="middle" font-size="13" font-weight="700" fill="#7dd3fc">🎛 Orchestrator · ACP/1.0</text>
+  </g>
+
+  <!-- 编排层到业务层的分发线 -->
+  <g stroke="#475569" stroke-width="1.2" fill="none">
+    <path d="M 480 224 L 480 244"/>
+    <path d="M 120 244 L 840 244" stroke-dasharray="2,3"/>
+    <line x1="120" y1="244" x2="120" y2="268" marker-end="url(#arr)"/>
+    <line x1="280" y1="244" x2="280" y2="268" marker-end="url(#arr)"/>
+    <line x1="440" y1="244" x2="440" y2="268" marker-end="url(#arr)"/>
+    <line x1="600" y1="244" x2="600" y2="268" marker-end="url(#arr)"/>
+    <line x1="760" y1="244" x2="760" y2="268" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- ════════════ L2 核心业务层 - 9 Agent ════════════ -->
+  <g filter="url(#glow)">
+    <rect x="30" y="268" width="900" height="180" rx="10" fill="url(#l2)" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="48" y="290" font-size="11" font-weight="700" fill="#c4b5fd" letter-spacing="1">L2 · CORE BUSINESS · 智能体业务层（9 个专业化 Agent · 串行/并行/条件/递归协作）</text>
+  </g>
+
+  <!-- 第一行 5 Agent -->
+  <g font-size="10" fill="#e2e8f0" filter="url(#soft)">
+    <rect x="50"  y="304" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="130" y="325" text-anchor="middle" font-size="20">🧑‍🏫</text>
+    <text x="130" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Tutor</text>
+    <text x="130" y="358" text-anchor="middle" font-size="9" fill="#94a3b8">概念讲解 · 引导式答疑</text>
+
+    <rect x="222" y="304" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="302" y="325" text-anchor="middle" font-size="20">🔬</text>
+    <text x="302" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Evaluator</text>
+    <text x="302" y="358" text-anchor="middle" font-size="9" fill="#94a3b8">代码评估 · 5 维评分</text>
+
+    <rect x="394" y="304" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="474" y="325" text-anchor="middle" font-size="20">🗺️</text>
+    <text x="474" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Path Planner</text>
+    <text x="474" y="358" text-anchor="middle" font-size="9" fill="#94a3b8">BKT+RL · 路径规划</text>
+
+    <rect x="566" y="304" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="646" y="325" text-anchor="middle" font-size="20">🐛</text>
+    <text x="646" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Debug</text>
+    <text x="646" y="358" text-anchor="middle" font-size="9" fill="#94a3b8">错误定位 · 修复引导</text>
+
+    <rect x="738" y="304" width="170" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="823" y="325" text-anchor="middle" font-size="20">🔍</text>
+    <text x="823" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Code Review</text>
+    <text x="823" y="358" text-anchor="middle" font-size="9" fill="#94a3b8">规范审查 · 重构建议</text>
+  </g>
+
+  <!-- 第二行 4 Agent + 编排回环 -->
+  <g font-size="10" fill="#e2e8f0" filter="url(#soft)">
+    <rect x="50"  y="376" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="130" y="397" text-anchor="middle" font-size="20">🕸️</text>
+    <text x="130" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Knowledge Graph</text>
+    <text x="130" y="430" text-anchor="middle" font-size="9" fill="#94a3b8">知识点关联 · 缺口识别</text>
+
+    <rect x="222" y="376" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="302" y="397" text-anchor="middle" font-size="20">💼</text>
+    <text x="302" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Interview</text>
+    <text x="302" y="430" text-anchor="middle" font-size="9" fill="#94a3b8">模拟面试 · 薄弱点分析</text>
+
+    <rect x="394" y="376" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="474" y="397" text-anchor="middle" font-size="20">🎯</text>
+    <text x="474" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Mentor</text>
+    <text x="474" y="430" text-anchor="middle" font-size="9" fill="#94a3b8">动机管理 · 策略建议</text>
+
+    <rect x="566" y="376" width="160" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="646" y="397" text-anchor="middle" font-size="20">✨</text>
+    <text x="646" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Vibe Coding</text>
+    <text x="646" y="430" text-anchor="middle" font-size="9" fill="#94a3b8">氛围描述 → AI 生成</text>
+
+    <rect x="738" y="376" width="170" height="62" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+    <text x="823" y="397" text-anchor="middle" font-size="20">⚡</text>
+    <text x="823" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Feedback</text>
+    <text x="823" y="430" text-anchor="middle" font-size="9" fill="#94a3b8">实时反馈 · 补全提示</text>
+  </g>
+
+  <!-- 业务层到基础设施层连接 -->
+  <g stroke="#475569" stroke-width="1.2" fill="none">
+    <path d="M 480 448 L 480 468"/>
+    <path d="M 120 468 L 840 468" stroke-dasharray="2,3"/>
+    <line x1="150" y1="468" x2="150" y2="488" marker-end="url(#arr)"/>
+    <line x1="300" y1="468" x2="300" y2="488" marker-end="url(#arr)"/>
+    <line x1="450" y1="468" x2="450" y2="488" marker-end="url(#arr)"/>
+    <line x1="600" y1="468" x2="600" y2="488" marker-end="url(#arr)"/>
+    <line x1="750" y1="468" x2="750" y2="488" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- ════════════ L3 基础设施层 ════════════ -->
+  <g filter="url(#glow)">
+    <rect x="30" y="488" width="900" height="76" rx="10" fill="url(#l3)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="48" y="510" font-size="11" font-weight="700" fill="#6ee7b7" letter-spacing="1">L3 · FOUNDATION · 基础设施层（22 实体 · TypeORM · WebSocket · JWT）</text>
+  </g>
+
+  <g font-size="10" fill="#e2e8f0">
+    <rect x="50"  y="522" width="128" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="114" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">LLM Gateway</text>
+
+    <rect x="186" y="522" width="128" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="250" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">RAG Engine</text>
+
+    <rect x="322" y="522" width="128" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="386" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">Code Sandbox</text>
+
+    <rect x="458" y="522" width="128" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="522" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">Memory Store</text>
+
+    <rect x="594" y="522" width="128" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="658" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">行为采集队列</text>
+
+    <rect x="730" y="522" width="170" height="32" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="0.8"/>
+    <text x="815" y="542" text-anchor="middle" font-size="10" font-weight="600" fill="#6ee7b7">进化数据存储</text>
+  </g>
+
+  <!-- ════════════ 数据回流闭环 ════════════ -->
+  <g fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,4">
+    <path d="M 870 538 Q 930 538 930 120 Q 930 120 580 120" marker-end="url(#arrG)"/>
+  </g>
+  <text x="912" y="330" font-size="10" fill="#34d399" transform="rotate(90 912 330)" text-anchor="middle">行为数据回流 · 驱动 L0 自进化</text>
+
+  <!-- ════════════ 左侧接入层 + 右侧 DevOps ════════════ -->
+  <g filter="url(#soft)">
+    <rect x="30" y="590" width="430" height="64" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+    <text x="50" y="612" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1">接入层 · ACCESS</text>
+    <text x="50" y="630" font-size="10" fill="#cbd5e1">Next.js 15 · Monaco Editor · Tailwind 4 · Zustand · WebSocket</text>
+    <text x="50" y="645" font-size="9" fill="#64748b">20+ 页面 · SSR/SSG · 流式 SSE · 响应式</text>
+  </g>
+
+  <g filter="url(#soft)">
+    <rect x="500" y="590" width="430" height="64" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+    <text x="520" y="612" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1">DevOps · 运维层</text>
+    <text x="520" y="630" font-size="10" fill="#cbd5e1">Docker Compose · K8s · GitHub Actions · Prometheus</text>
+    <text x="520" y="645" font-size="9" fill="#64748b">一键编排 · 弹性扩缩 · CI/CD · 全链路追踪</text>
+  </g>
+
+  <!-- 角标：郑州西亚斯学院落地点 -->
+  <rect x="30" y="666" width="900" height="3" fill="url(#acc)" opacity="0.6"/>
+</svg>

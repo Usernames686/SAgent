@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs>
+  <rect width="760" height="420" fill="url(#bg)"/>
+  <text x="380" y="30" font-size="14" font-weight="700" fill="#f87171" text-anchor="middle">try / catch / finally 执行流程</text>
+  <rect x="30" y="60" width="700" height="280" rx="12" fill="#0f172a" stroke="#f87171" stroke-opacity="0.3"/>
+  <text x="50" y="85" font-size="11" font-family="monospace" fill="#94a3b8">try {</text>
+  <text x="70" y="105" font-size="10" font-family="monospace" fill="#6ee7b7">// ① 尝试执行</text>
+  <text x="70" y="123" font-size="10" font-family="monospace" fill="#fbbf24">const data = fetchData();</text>
+  <text x="70" y="141" font-size="10" font-family="monospace" fill="#fbbf24">processData(data);</text>
+  <text x="50" y="165" font-size="11" font-family="monospace" fill="#94a3b8">} catch (err) {</text>
+  <text x="70" y="185" font-size="10" font-family="monospace" fill="#fca5a5">// ② 捕获错误（仅同步错误）</text>
+  <text x="70" y="203" font-size="10" font-family="monospace" fill="#fbbf24">console.error(err.message);</text>
+  <text x="70" y="221" font-size="10" font-family="monospace" fill="#fbbf24">rollbackChanges();</text>
+  <text x="50" y="245" font-size="11" font-family="monospace" fill="#94a3b8">} finally {</text>
+  <text x="70" y="265" font-size="10" font-family="monospace" fill="#93c5fd">// ③ 无论成功失败都执行</text>
+  <text x="70" y="283" font-size="10" font-family="monospace" fill="#fbbf24">closeConnection();</text>
+  <text x="70" y="301" font-size="10" font-family="monospace" fill="#fbbf24">hideLoading();</text>
+  <text x="50" y="325" font-size="11" font-family="monospace" fill="#94a3b8">}</text>
+  <text x="40" y="370" font-size="10" fill="#a78bfa">💡 try 块抛错 → 跳到 catch；无错则跳过 catch；finally 一定执行。</text>
+  <text x="40" y="390" font-size="10" fill="#fca5a5">⚠️ catch 只能捕获同步错误。Promise 异常需要 .catch() 或 try/await。</text>
+</svg>

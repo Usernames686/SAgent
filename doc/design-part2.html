@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sAgent 详细设计文档 - 业务流程与接口设计</title>
+<style>
+  :root { --primary: #0F172A; --accent: #F97316; --success: #10B981; --warning: #F59E0B; --danger: #EF4444; --bg: #F8FAFC; --card: #FFFFFF; --border: #E2E8F0; --text: #1E293B; --text-secondary: #64748B; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .main { padding: 40px 48px; max-width: 1200px; margin: 0 auto; }
+  h2 { font-size: 24px; font-weight: 600; margin: 40px 0 16px; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--primary); }
+  h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text); }
+  p { margin-bottom: 12px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .card-header { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .badge-orange { background: #FFF7ED; color: var(--accent); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
+  .badge-blue { background: #EFF6FF; color: #3B82F6; }
+  .badge-red { background: #FEF2F2; color: var(--danger); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 12px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #F8FAFC; }
+  pre { background: #1E293B; color: #E2E8F0; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 12px 0; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .inline-code { background: #F1F5F9; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--accent); }
+  .svg-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; }
+  .svg-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 12px; text-align: center; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; margin: 2px; }
+  .tag-get { background: #DBEAFE; color: #1D4ED8; }
+  .tag-post { background: #D1FAE5; color: #065F46; }
+  .tag-put { background: #FEF3C7; color: #92400E; }
+  .tag-delete { background: #FEE2E2; color: #991B1B; }
+  .tag-ws { background: #E0E7FF; color: #3730A3; }
+  .info-box { border-left: 4px solid var(--accent); background: #FFF7ED; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .main { padding: 20px; } .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="main">
+
+<!-- ============================================================ -->
+<h2 id="biz-flow">8. 业务流程设计</h2>
+
+<h3 id="flow-register">8.1 用户注册与路径生成流程</h3>
+
+<div class="svg-container">
+  <div class="svg-title">用户注册与个性化路径生成流程图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 920" font-family="Inter, sans-serif">
+    <defs>
+      <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748B"/></marker>
+      <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#EF4444"/></marker>
+    </defs>
+    
+    <!-- Start -->
+    <ellipse cx="450" cy="30" rx="80" ry="25" fill="#10B981"/>
+    <text x="450" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">开始</text>
+    <line x1="450" y1="55" x2="450" y2="80" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 1 -->
+    <rect x="300" y="80" width="300" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="110" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">用户点击「注册」</text>
+    <line x1="450" y1="130" x2="450" y2="155" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 2 -->
+    <rect x="300" y="155" width="300" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="185" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">填写注册信息（邮箱/手机+密码）</text>
+    <line x1="450" y1="205" x2="450" y2="230" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Decision 1 -->
+    <polygon points="450,230 560,280 450,330 340,280" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+    <text x="450" y="276" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">信息有效？</text>
+    <text x="330" y="276" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">否</text>
+    <text x="575" y="276" text-anchor="middle" fill="#10B981" font-size="12" font-weight="600">是</text>
+    
+    <!-- Error branch -->
+    <line x1="340" y1="280" x2="200" y2="280" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <rect x="60" y="258" width="140" height="44" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="130" y="284" text-anchor="middle" fill="#991B1B" font-size="12">提示错误，修正</text>
+    <line x1="130" y1="258" x2="130" y2="185" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <line x1="130" y1="185" x2="300" y2="185" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowRed)"/>
+    
+    <!-- Step 3 -->
+    <line x1="450" y1="330" x2="450" y2="355" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="300" y="355" width="300" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="385" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">创建账户，选择学习目标</text>
+    <line x1="450" y1="405" x2="450" y2="430" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 4 -->
+    <rect x="300" y="430" width="300" height="50" rx="8" fill="#8B5CF6"/>
+    <text x="450" y="460" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">能力诊断测试（IRT 自适应）</text>
+    <line x1="450" y1="480" x2="450" y2="505" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 5 -->
+    <rect x="275" y="505" width="350" height="50" rx="8" fill="#8B5CF6"/>
+    <text x="450" y="535" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">系统评估能力 + 生成用户画像</text>
+    <line x1="450" y1="555" x2="450" y2="580" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 6 -->
+    <rect x="250" y="580" width="400" height="50" rx="8" fill="#F97316"/>
+    <text x="450" y="610" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">Path Planner 生成个性化学习路径</text>
+    <line x1="450" y1="630" x2="450" y2="655" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 7 -->
+    <rect x="275" y="655" width="350" height="50" rx="8" fill="#F97316"/>
+    <text x="450" y="685" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">展示路径概览（阶段+知识点+预估）</text>
+    <line x1="450" y1="705" x2="450" y2="730" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Decision 2 -->
+    <polygon points="450,730 560,780 450,830 340,780" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+    <text x="450" y="776" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">确认路径？</text>
+    <text x="330" y="776" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">否</text>
+    <text x="575" y="776" text-anchor="middle" fill="#10B981" font-size="12" font-weight="600">是</text>
+    
+    <!-- Reject branch -->
+    <line x1="340" y1="780" x2="200" y2="780" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <rect x="60" y="758" width="140" height="44" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="130" y="784" text-anchor="middle" fill="#991B1B" font-size="12">调整偏好重生成</text>
+    <line x1="130" y1="758" x2="130" y2="610" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <line x1="130" y1="610" x2="250" y2="610" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowRed)"/>
+    
+    <!-- Step 8 -->
+    <line x1="450" y1="830" x2="450" y2="855" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="300" y="855" width="300" height="40" rx="8" fill="#10B981"/>
+    <text x="450" y="880" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">进入学习仪表盘，开始学习</text>
+  </svg>
+</div>
+
+<h3 id="flow-code">8.2 氛围编程练习流程</h3>
+
+<div class="svg-container">
+  <div class="svg-title">氛围编程（Vibe Coding）练习流程图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 880" font-family="Inter, sans-serif">
+    <!-- Start -->
+    <ellipse cx="450" cy="30" rx="80" ry="25" fill="#10B981"/>
+    <text x="450" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">开始</text>
+    <line x1="450" y1="55" x2="450" y2="80" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 1 -->
+    <rect x="280" y="80" width="340" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="110" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">选择练习题（路径推荐/题库浏览）</text>
+    <line x1="450" y1="130" x2="450" y2="155" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 2 -->
+    <rect x="280" y="155" width="340" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="178" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">展示题目 + 代码编辑器（模板代码）</text>
+    <text x="450" y="196" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="11">氛围描述式 / Prompt 迭代 / 自由编码</text>
+    <line x1="450" y1="205" x2="450" y2="230" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 3: Mode decision -->
+    <polygon points="450,230 580,285 450,340 320,285" fill="#8B5CF6"/>
+    <text x="450" y="282" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">交互模式？</text>
+    
+    <!-- Vibe mode branch -->
+    <line x1="320" y1="285" x2="150" y2="285" stroke="#8B5CF6" stroke-width="2"/>
+    <rect x="40" y="265" width="110" height="40" rx="6" fill="#8B5CF6"/>
+    <text x="95" y="290" text-anchor="middle" fill="#fff" font-size="12">氛围描述式</text>
+    <line x1="95" y1="305" x2="95" y2="340" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="340" width="150" height="50" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="95" y="362" text-anchor="middle" fill="#6D28D9" font-size="12">输入氛围关键词</text>
+    <text x="95" y="378" text-anchor="middle" fill="#6D28D9" font-size="10">风格+功能+细节+约束</text>
+    <line x1="95" y1="390" x2="95" y2="420" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="420" width="150" height="40" rx="8" fill="#8B5CF6"/>
+    <text x="95" y="445" text-anchor="middle" fill="#fff" font-size="12">AI 生成代码</text>
+    
+    <!-- Prompt mode branch -->
+    <line x1="580" y1="285" x2="750" y2="285" stroke="#F97316" stroke-width="2"/>
+    <rect x="690" y="265" width="120" height="40" rx="6" fill="#F97316"/>
+    <text x="750" y="290" text-anchor="middle" fill="#fff" font-size="12">Prompt 迭代</text>
+    <line x1="750" y1="305" x2="750" y2="340" stroke="#F97316" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="680" y="340" width="140" height="50" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="750" y="362" text-anchor="middle" fill="#92400E" font-size="12">编写 Prompt</text>
+    <text x="750" y="378" text-anchor="middle" fill="#92400E" font-size="10">角色+任务+约束+格式</text>
+    <line x1="750" y1="390" x2="750" y2="420" stroke="#F97316" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="680" y="420" width="140" height="40" rx="8" fill="#F97316"/>
+    <text x="750" y="445" text-anchor="middle" fill="#fff" font-size="12">AI 生成+评审</text>
+    
+    <!-- Free code mode (center) -->
+    <rect x="370" y="345" width="160" height="40" rx="6" fill="#10B981"/>
+    <text x="450" y="370" text-anchor="middle" fill="#fff" font-size="12">自由编码/配对编程</text>
+    
+    <!-- Merge -->
+    <line x1="95" y1="460" x2="95" y2="500" stroke="#64748B" stroke-width="2"/>
+    <line x1="450" y1="385" x2="450" y2="500" stroke="#64748B" stroke-width="2"/>
+    <line x1="750" y1="460" x2="750" y2="500" stroke="#64748B" stroke-width="2"/>
+    <line x1="95" y1="500" x2="750" y2="500" stroke="#64748B" stroke-width="2"/>
+    <line x1="450" y1="500" x2="450" y2="525" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 4: Real-time feedback -->
+    <rect x="280" y="525" width="340" height="50" rx="8" fill="#3B82F6"/>
+    <text x="450" y="548" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">实时反馈：语法检查 + Lint + 智能补全</text>
+    <text x="450" y="566" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="11">幻觉预警 + 氛围匹配度评分</text>
+    <line x1="450" y1="575" x2="450" y2="600" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Step 5: Run -->
+    <rect x="300" y="600" width="300" height="45" rx="8" fill="#3B82F6"/>
+    <text x="450" y="628" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">点击「运行」→ 沙箱执行</text>
+    <line x1="450" y1="645" x2="450" y2="670" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Decision: Error? -->
+    <polygon points="450,670 550,710 450,750 350,710" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+    <text x="450" y="706" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">运行出错？</text>
+    <text x="340" y="706" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">是</text>
+    <text x="565" y="706" text-anchor="middle" fill="#10B981" font-size="12" font-weight="600">否</text>
+    
+    <!-- Error branch -->
+    <line x1="350" y1="710" x2="200" y2="710" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <rect x="60" y="690" width="140" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="130" y="714" text-anchor="middle" fill="#991B1B" font-size="12">Debug Agent 辅助</text>
+    <line x1="130" y1="690" x2="130" y2="625" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <line x1="130" y1="625" x2="300" y2="625" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowRed)"/>
+    
+    <!-- Step 6: Submit -->
+    <line x1="450" y1="750" x2="450" y2="775" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="280" y="775" width="340" height="45" rx="8" fill="#F97316"/>
+    <text x="450" y="803" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">提交评测 → Evaluator + Code Review</text>
+    <line x1="450" y1="820" x2="450" y2="845" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- End -->
+    <rect x="280" y="845" width="340" height="40" rx="8" fill="#10B981"/>
+    <text x="450" y="870" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">展示评测报告 + AI 改进建议</text>
+  </svg>
+</div>
+
+<h3 id="flow-ai">8.3 AI 辅导对话时序图</h3>
+
+<div class="svg-container">
+  <div class="svg-title">AI 辅导对话时序图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Inter, sans-serif">
+    <!-- Participants -->
+    <rect x="30" y="10" width="100" height="36" rx="6" fill="#3B82F6"/>
+    <text x="80" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">用户</text>
+    <rect x="180" y="10" width="100" height="36" rx="6" fill="#6366F1"/>
+    <text x="230" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">前端</text>
+    <rect x="340" y="10" width="100" height="36" rx="6" fill="#8B5CF6"/>
+    <text x="390" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">API 网关</text>
+    <rect x="500" y="10" width="120" height="36" rx="6" fill="#F97316"/>
+    <text x="560" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Agent 编排</text>
+    <rect x="680" y="10" width="120" height="36" rx="6" fill="#10B981"/>
+    <text x="740" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Tutor Agent</text>
+    <rect x="860" y="10" width="120" height="36" rx="6" fill="#0F172A"/>
+    <text x="920" y="34" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">LLM Gateway</text>
+    
+    <!-- Lifelines -->
+    <line x1="80" y1="46" x2="80" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="230" y1="46" x2="230" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="390" y1="46" x2="390" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="560" y1="46" x2="560" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="740" y1="46" x2="740" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="920" y1="46" x2="920" y2="680" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,4"/>
+    
+    <!-- Messages -->
+    <!-- 1 -->
+    <line x1="80" y1="80" x2="230" y2="80" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="155" y="74" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="500">1. 提问</text>
+    
+    <!-- 2 -->
+    <line x1="230" y1="115" x2="390" y2="115" stroke="#6366F1" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="310" y="109" text-anchor="middle" fill="#6366F1" font-size="11" font-weight="500">2. WS /chat</text>
+    
+    <!-- 3 -->
+    <line x1="390" y1="150" x2="560" y2="150" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="475" y="144" text-anchor="middle" fill="#8B5CF6" font-size="11" font-weight="500">3. 转发请求</text>
+    
+    <!-- 4: Self-call for intent -->
+    <rect x="530" y="175" width="60" height="30" rx="4" fill="#FFF7ED" stroke="#F97316" stroke-width="1"/>
+    <text x="560" y="194" text-anchor="middle" fill="#F97316" font-size="10">4. 意图识别</text>
+    
+    <!-- 5 -->
+    <line x1="560" y1="220" x2="740" y2="220" stroke="#F97316" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="650" y="214" text-anchor="middle" fill="#F97316" font-size="11" font-weight="500">5. 路由至 Tutor</text>
+    
+    <!-- 6: Load context -->
+    <rect x="710" y="245" width="60" height="30" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1"/>
+    <text x="740" y="264" text-anchor="middle" fill="#10B981" font-size="10">6. 加载上下文</text>
+    
+    <!-- 7 -->
+    <line x1="740" y1="290" x2="920" y2="290" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="830" y="284" text-anchor="middle" fill="#10B981" font-size="11" font-weight="500">7. LLM 调用</text>
+    
+    <!-- 8: Stream back -->
+    <line x1="920" y1="330" x2="740" y2="330" stroke="#0F172A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+    <text x="830" y="324" text-anchor="middle" fill="#0F172A" font-size="11" font-weight="500">8. 流式响应</text>
+    
+    <!-- 9 -->
+    <line x1="740" y1="370" x2="560" y2="370" stroke="#10B981" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+    <text x="650" y="364" text-anchor="middle" fill="#10B981" font-size="11" font-weight="500">9. 流式输出</text>
+    
+    <!-- 10: Aggregate -->
+    <rect x="530" y="395" width="60" height="30" rx="4" fill="#FFF7ED" stroke="#F97316" stroke-width="1"/>
+    <text x="560" y="414" text-anchor="middle" fill="#F97316" font-size="10">10. 结果聚合</text>
+    
+    <!-- 11 -->
+    <line x1="560" y1="440" x2="390" y2="440" stroke="#F97316" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+    <text x="475" y="434" text-anchor="middle" fill="#F97316" font-size="11" font-weight="500">11. SSE 流</text>
+    
+    <!-- 12 -->
+    <line x1="390" y1="475" x2="230" y2="475" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+    <text x="310" y="469" text-anchor="middle" fill="#8B5CF6" font-size="11" font-weight="500">12. SSE 流</text>
+    
+    <!-- 13 -->
+    <line x1="230" y1="510" x2="80" y2="510" stroke="#6366F1" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+    <text x="155" y="504" text-anchor="middle" fill="#6366F1" font-size="11" font-weight="500">13. 流式展示</text>
+    
+    <!-- 14: Feedback -->
+    <line x1="80" y1="560" x2="230" y2="560" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="155" y="554" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="500">14. 用户反馈</text>
+    
+    <!-- 15 -->
+    <line x1="230" y1="595" x2="560" y2="595" stroke="#6366F1" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="395" y="589" text-anchor="middle" fill="#6366F1" font-size="11" font-weight="500">15. 反馈数据 → Evolution Agent</text>
+    
+    <!-- 16 -->
+    <rect x="530" y="625" width="120" height="30" rx="4" fill="#ECFDF5" stroke="#10B981" stroke-width="1"/>
+    <text x="590" y="644" text-anchor="middle" fill="#10B981" font-size="10">16. 更新知识状态</text>
+    
+    <!-- 17 -->
+    <line x1="560" y1="665" x2="230" y2="665" stroke="#F97316" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="395" y="659" text-anchor="middle" fill="#F97316" font-size="11" font-weight="500">17. 保存对话记录</text>
+  </svg>
+</div>
+
+<h3 id="flow-evolve">8.4 系统自我进化流程</h3>
+
+<div class="svg-container">
+  <div class="svg-title">系统自我进化流程图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 750" font-family="Inter, sans-serif">
+    <ellipse cx="400" cy="30" rx="80" ry="25" fill="#7C3AED"/>
+    <text x="400" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">触发进化</text>
+    <line x1="400" y1="55" x2="400" y2="80" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="250" y="80" width="300" height="45" rx="8" fill="#7C3AED"/>
+    <text x="400" y="108" text-anchor="middle" fill="#fff" font-size="14">Evolution Agent 分析全局数据</text>
+    <line x1="400" y1="125" x2="400" y2="150" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="250" y="150" width="300" height="45" rx="8" fill="#7C3AED"/>
+    <text x="400" y="178" text-anchor="middle" fill="#fff" font-size="14">识别可优化维度</text>
+    <line x1="400" y1="195" x2="400" y2="220" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="250" y="220" width="300" height="45" rx="8" fill="#8B5CF6"/>
+    <text x="400" y="248" text-anchor="middle" fill="#fff" font-size="14">生成策略变体</text>
+    <line x1="400" y1="265" x2="400" y2="290" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="220" y="290" width="360" height="45" rx="8" fill="#8B5CF6"/>
+    <text x="400" y="318" text-anchor="middle" fill="#fff" font-size="14">创建 A/B 实验（1% 流量灰度）</text>
+    <line x1="400" y1="335" x2="400" y2="360" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="250" y="360" width="300" height="45" rx="8" fill="#3B82F6"/>
+    <text x="400" y="388" text-anchor="middle" fill="#fff" font-size="14">运行实验，收集数据</text>
+    <line x1="400" y1="405" x2="400" y2="430" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="250" y="430" width="300" height="45" rx="8" fill="#3B82F6"/>
+    <text x="400" y="458" text-anchor="middle" fill="#fff" font-size="14">统计分析（p&lt;0.05, Cohen's d）</text>
+    <line x1="400" y1="475" x2="400" y2="510" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Decision -->
+    <polygon points="400,510 520,565 400,620 280,565" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+    <text x="400" y="562" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">效果显著？</text>
+    <text x="268" y="562" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">否</text>
+    <text x="535" y="562" text-anchor="middle" fill="#10B981" font-size="12" font-weight="600">是</text>
+    
+    <!-- No branch -->
+    <line x1="280" y1="565" x2="140" y2="565" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <rect x="40" y="545" width="100" height="40" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="90" y="570" text-anchor="middle" fill="#991B1B" font-size="12">回滚变体</text>
+    
+    <!-- Yes branch -->
+    <line x1="520" y1="565" x2="660" y2="565" stroke="#10B981" stroke-width="2"/>
+    <rect x="560" y="545" width="200" height="40" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+    <text x="660" y="570" text-anchor="middle" fill="#065F46" font-size="12">渐进放量 5%→20%→50%→100%</text>
+    <line x1="660" y1="585" x2="660" y2="640" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Merge -->
+    <line x1="90" y1="585" x2="90" y2="670" stroke="#64748B" stroke-width="1.5"/>
+    <line x1="660" y1="640" x2="660" y2="670" stroke="#64748B" stroke-width="1.5"/>
+    <line x1="90" y1="670" x2="660" y2="670" stroke="#64748B" stroke-width="1.5"/>
+    <line x1="400" y1="670" x2="400" y2="700" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="280" y="700" width="240" height="40" rx="8" fill="#7C3AED"/>
+    <text x="400" y="725" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">记录进化日志</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="api-def">9. 接口定义</h2>
+
+<h3>9.1 核心 API 列表</h3>
+
+<h4>9.1.1 认证接口</h4>
+<table>
+  <tr><th>方法</th><th>路径</th><th>描述</th><th>认证</th><th>请求体</th><th>响应</th></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/auth/register</td><td>用户注册</td><td>无</td><td>{email, password, nickname}</td><td>{user, accessToken, refreshToken}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/auth/login</td><td>用户登录</td><td>无</td><td>{email, password}</td><td>{user, accessToken, refreshToken}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/auth/refresh</td><td>刷新 Token</td><td>RefreshToken</td><td>{refreshToken}</td><td>{accessToken, refreshToken}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/auth/oauth/github</td><td>GitHub OAuth</td><td>无</td><td>{code}</td><td>{user, accessToken, refreshToken}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/auth/logout</td><td>退出登录</td><td>JWT</td><td>-</td><td>{success}</td></tr>
+</table>
+
+<h4>9.1.2 用户接口</h4>
+<table>
+  <tr><th>方法</th><th>路径</th><th>描述</th><th>认证</th><th>请求体</th><th>响应</th></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/users/me</td><td>获取当前用户</td><td>JWT</td><td>-</td><td>{user, profile, stats}</td></tr>
+  <tr><td><span class="tag tag-put">PUT</span></td><td>/api/v1/users/me</td><td>更新用户信息</td><td>JWT</td><td>{nickname, avatarUrl, preferences}</td><td>{user}</td></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/users/me/profile</td><td>获取用户画像</td><td>JWT</td><td>-</td><td>{profile}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/users/me/assessment</td><td>提交能力诊断</td><td>JWT</td><td>{answers[]}</td><td>{profile, suggestedPath}</td></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/users/me/dashboard</td><td>学习仪表盘</td><td>JWT</td><td>-</td><td>{stats, path, recommendations}</td></tr>
+</table>
+
+<h4>9.1.3 学习路径接口</h4>
+<table>
+  <tr><th>方法</th><th>路径</th><th>描述</th><th>认证</th><th>请求体</th><th>响应</th></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/learning-paths/me</td><td>我的学习路径</td><td>JWT</td><td>-</td><td>{paths[]}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/learning-paths/generate</td><td>生成学习路径</td><td>JWT</td><td>{goal, timeline, commitment}</td><td>{path}</td></tr>
+  <tr><td><span class="tag tag-put">PUT</span></td><td>/api/v1/learning-paths/{id}/adjust</td><td>调整学习路径</td><td>JWT</td><td>{reason, preferences}</td><td>{path}</td></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/learning-paths/{id}/progress</td><td>路径进度</td><td>JWT</td><td>-</td><td>{progress, knowledgeState}</td></tr>
+</table>
+
+<h4>9.1.4 练习接口</h4>
+<table>
+  <tr><th>方法</th><th>路径</th><th>描述</th><th>认证</th><th>请求体</th><th>响应</th></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/exercises</td><td>练习列表</td><td>JWT</td><td>?page&limit&difficulty&module&language</td><td>{exercises[], total}</td></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/exercises/{id}</td><td>练习详情</td><td>JWT</td><td>-</td><td>{exercise, template, hints}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/exercises/{id}/submit</td><td>提交代码</td><td>JWT</td><td>{code, language}</td><td>{submission, testResults}</td></tr>
+  <tr><td><span class="tag tag-get">GET</span></td><td>/api/v1/exercises/{id}/submissions</td><td>提交历史</td><td>JWT</td><td>?page&limit</td><td>{submissions[]}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/exercises/{id}/run</td><td>运行代码</td><td>JWT</td><td>{code, language, input}</td><td>{output, error}</td></tr>
+</table>
+
+<h4>9.1.5 AI Agent 接口</h4>
+<table>
+  <tr><th>方法</th><th>路径</th><th>描述</th><th>认证</th><th>请求体</th><th>响应</th></tr>
+  <tr><td><span class="tag tag-ws">WS</span></td><td>/api/v1/chat</td><td>AI 对话（流式）</td><td>JWT</td><td>{message, context}</td><td>SSE stream</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/agent/evaluate</td><td>代码评估</td><td>JWT</td><td>{code, exerciseId}</td><td>{evaluation, suggestions}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/agent/debug</td><td>调试辅助</td><td>JWT</td><td>{code, error, logs}</td><td>{diagnosis, fix}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/agent/review</td><td>代码审查</td><td>JWT</td><td>{code, context}</td><td>{review, issues}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/agent/vibe</td><td>氛围编程生成</td><td>JWT</td><td>{vibe, requirements, constraints}</td><td>{code, matchScore}</td></tr>
+  <tr><td><span class="tag tag-post">POST</span></td><td>/api/v1/agent/feedback</td><td>提交 AI 反馈</td><td>JWT</td><td>{sessionId, rating, comment}</td><td>{success}</td></tr>
+</table>
+
+<h3>9.2 统一响应格式</h3>
+<pre><code>// 成功响应
+{
+  "code": 0,
+  "message": "success",
+  "data": { ... },
+  "meta": {
+    "requestId": "req-uuid",
+    "timestamp": "2026-06-10T10:00:00Z",
+    "page": 1,
+    "pageSize": 20,
+    "total": 100
+  }
+}
+
+// 错误响应
+{
+  "code": 1001,
+  "message": "Token 已过期",
+  "errors": [
+    { "field": "token", "message": "Access token expired at ..." }
+  ],
+  "meta": { "requestId": "req-uuid", "timestamp": "..." }
+}</code></pre>
+
+<h3>9.3 WebSocket 消息格式</h3>
+<pre><code>// 客户端发送
+{
+  "type": "message",
+  "data": {
+    "content": "帮我解释一下 JavaScript 闭包",
+    "context": {
+      "currentCode": "function counter() { ... }",
+      "exerciseId": "ex-js-023"
+    }
+  }
+}
+
+// 服务端流式返回
+{
+  "type": "stream_start",
+  "data": { "sessionId": "sess-uuid", "agent": "tutor" }
+}
+{
+  "type": "stream_chunk",
+  "data": { "content": "闭包是指...", "index": 0 }
+}
+{
+  "type": "stream_chunk",
+  "data": { "content": "一个函数可以记住...", "index": 1 }
+}
+{
+  "type": "stream_end",
+  "data": { "sessionId": "sess-uuid", "tokens": 156 }
+}
+
+// 反馈
+{
+  "type": "feedback",
+  "data": { "sessionId": "sess-uuid", "rating": 5, "comment": "解释很清楚" }
+}</code></pre>
+
+</main>
+</body>
+</html>

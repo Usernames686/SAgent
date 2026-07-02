@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 560" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="560" fill="url(#bg)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="390" y="30" font-size="15" font-weight="700" fill="white" text-anchor="middle">JavaScript 七种原始类型 · 全景图解</text>
+
+  <!-- ═══ 根节点 ═══ -->
+  <rect x="290" y="46" width="200" height="36" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.5"/>
+  <text x="390" y="70" font-size="13" font-weight="700" fill="#f97316" text-anchor="middle">JS 数据类型</text>
+
+  <!-- 连线 -->
+  <line x1="340" y1="82" x2="190" y2="100" stroke="#475569" stroke-width="1.2"/>
+  <line x1="440" y1="82" x2="590" y2="100" stroke="#475569" stroke-width="1.2"/>
+
+  <!-- 原始类型 父 -->
+  <rect x="60" y="100" width="260" height="32" rx="8" fill="#3b82f6" fill-opacity="0.1" stroke="#3b82f6" stroke-width="1"/>
+  <text x="190" y="121" font-size="12" font-weight="600" fill="#3b82f6" text-anchor="middle">原始类型 Primitive（7种）</text>
+
+  <!-- 引用类型 父 -->
+  <rect x="460" y="100" width="260" height="32" rx="8" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-width="1"/>
+  <text x="590" y="121" font-size="12" font-weight="600" fill="#a855f7" text-anchor="middle">引用类型 Reference（3种）</text>
+
+  <!-- ═══ 7 种原始类型卡片 ═══ -->
+
+  <!-- Row 1: Number, String, Boolean, undefined -->
+  <!-- Number -->
+  <rect x="20" y="146" width="175" height="90" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="107" y="164" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">🔢 Number</text>
+  <text x="30" y="180" font-size="9" fill="#94a3b8">typeof → "number"</text>
+  <text x="30" y="194" font-size="9" fill="#64748b" font-family="monospace">42, 3.14, NaN, Infinity</text>
+  <text x="30" y="210" font-size="8" fill="#64748b">整数小数都是 Number</text>
+  <text x="30" y="224" font-size="8" fill="#3b82f6" fill-opacity="0.5">⚠️ 0.1 + 0.2 ≠ 0.3</text>
+
+  <!-- String -->
+  <rect x="205" y="146" width="175" height="90" rx="8" fill="#0f172a" stroke="#22c55e" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="292" y="164" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">📝 String</text>
+  <text x="215" y="180" font-size="9" fill="#94a3b8">typeof → "string"</text>
+  <text x="215" y="194" font-size="9" fill="#64748b" font-family="monospace">"hi", 'world', `模板`</text>
+  <text x="215" y="210" font-size="8" fill="#64748b">三种引号均可</text>
+  <text x="215" y="224" font-size="8" fill="#22c55e" fill-opacity="0.5">反引号支持插值 `${x}`</text>
+
+  <!-- Boolean -->
+  <rect x="390" y="146" width="175" height="90" rx="8" fill="#0f172a" stroke="#eab308" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="477" y="164" font-size="11" font-weight="600" fill="#eab308" text-anchor="middle">✅ Boolean</text>
+  <text x="400" y="180" font-size="9" fill="#94a3b8">typeof → "boolean"</text>
+  <text x="400" y="194" font-size="9" fill="#64748b" font-family="monospace">true, false</text>
+  <text x="400" y="210" font-size="8" fill="#64748b">条件判断的基础</text>
+  <text x="400" y="224" font-size="8" fill="#eab308" fill-opacity="0.5">⚠️ truthy / falsy 不等于布尔</text>
+
+  <!-- undefined -->
+  <rect x="575" y="146" width="185" height="90" rx="8" fill="#0f172a" stroke="#64748b" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="667" y="164" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">❓ undefined</text>
+  <text x="585" y="180" font-size="9" fill="#94a3b8">typeof → "undefined"</text>
+  <text x="585" y="194" font-size="9" fill="#64748b" font-family="monospace">let x; // 未赋值</text>
+  <text x="585" y="210" font-size="8" fill="#64748b">变量声明但未赋值</text>
+  <text x="585" y="224" font-size="8" fill="#94a3b8" fill-opacity="0.5">JS 自动产生的"空"</text>
+
+  <!-- Row 2: null, Symbol, BigInt -->
+  <!-- null -->
+  <rect x="20" y="246" width="175" height="90" rx="8" fill="#0f172a" stroke="#ef4444" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="107" y="264" font-size="11" font-weight="600" fill="#ef4444" text-anchor="middle">⊘ null</text>
+  <text x="30" y="280" font-size="9" fill="#94a3b8">typeof → "object" ⚠️</text>
+  <text x="30" y="294" font-size="9" fill="#64748b" font-family="monospace">let x = null;</text>
+  <text x="30" y="310" font-size="8" fill="#64748b">主动设为空</text>
+  <text x="30" y="324" font-size="8" fill="#ef4444" fill-opacity="0.6">BUG! typeof null ≠ "null"</text>
+
+  <!-- Symbol -->
+  <rect x="205" y="246" width="175" height="90" rx="8" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="292" y="264" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">🔑 Symbol</text>
+  <text x="215" y="280" font-size="9" fill="#94a3b8">typeof → "symbol"</text>
+  <text x="215" y="294" font-size="9" fill="#64748b" font-family="monospace">Symbol("id")</text>
+  <text x="215" y="310" font-size="8" fill="#64748b">ES6 唯一标识符</text>
+  <text x="215" y="324" font-size="8" fill="#a855f7" fill-opacity="0.5">每次调用都创建唯一值</text>
+
+  <!-- BigInt -->
+  <rect x="390" y="246" width="175" height="90" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-opacity="0.4" stroke-width="0.8"/>
+  <text x="477" y="264" font-size="11" font-weight="600" fill="#06b6d4" text-anchor="middle">🧮 BigInt</text>
+  <text x="400" y="280" font-size="9" fill="#94a3b8">typeof → "bigint"</text>
+  <text x="400" y="294" font-size="9" fill="#64748b" font-family="monospace">9007199254740991n</text>
+  <text x="400" y="310" font-size="8" fill="#64748b">ES2020 超大整数</text>
+  <text x="400" y="324" font-size="8" fill="#06b6d4" fill-opacity="0.5">后缀 n，不能与 Number 混算</text>
+
+  <!-- ═══ 引用类型 ═══ -->
+  <rect x="575" y="246" width="185" height="90" rx="8" fill="#0f172a" stroke="#a855f7" stroke-opacity="0.2" stroke-width="0.8"/>
+  <text x="667" y="264" font-size="11" font-weight="600" fill="#a855f7" text-anchor="middle">📦 引用类型</text>
+  <text x="585" y="280" font-size="9" fill="#94a3b8">Object / Array / Function</text>
+  <text x="585" y="294" font-size="9" fill="#64748b" font-family="monospace">{ }, [ ], () => {}</text>
+  <text x="585" y="310" font-size="8" fill="#64748b">按引用存储，可修改</text>
+  <text x="585" y="324" font-size="8" fill="#a855f7" fill-opacity="0.5">typeof [] → "object"</text>
+
+  <!-- ═══ Section: 原始 vs 引用 核心区别 ═══ -->
+  <text x="30" y="360" font-size="11" font-weight="600" fill="#f97316">核心区别：原始类型按值存储 vs 引用类型按引用存储</text>
+
+  <!-- 值存储 -->
+  <rect x="30" y="372" width="350" height="80" rx="8" fill="#3b82f6" fill-opacity="0.03" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="205" y="390" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">✅ 原始类型 — 值拷贝</text>
+  <rect x="46" y="398" width="318" height="44" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="54" y="414" font-size="9" fill="#94a3b8" font-family="monospace">let a = 1; let b = a;  // b 拷贝了 a 的值</text>
+  <text x="54" y="428" font-size="9" fill="#22c55e" font-family="monospace">b = 2; console.log(a);  // 1 ← a 不受影响</text>
+  <text x="54" y="440" font-size="8" fill="#64748b">赋值时复制值，互不影响</text>
+
+  <!-- 引用存储 -->
+  <rect x="400" y="372" width="350" height="80" rx="8" fill="#a855f7" fill-opacity="0.03" stroke="#a855f7" stroke-opacity="0.15" stroke-width="0.8"/>
+  <text x="575" y="390" font-size="10" font-weight="600" fill="#a855f7" text-anchor="middle">⚠️ 引用类型 — 引用拷贝</text>
+  <rect x="416" y="398" width="318" height="44" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="424" y="414" font-size="9" fill="#94a3b8" font-family="monospace">let a = {x:1}; let b = a;  // b 指向同一对象</text>
+  <text x="424" y="428" font-size="9" fill="#ef4444" font-family="monospace">b.x = 2; console.log(a.x);  // 2 ← a 被影响了！</text>
+  <text x="424" y="440" font-size="8" fill="#64748b">赋值时复制引用，指向同一对象</text>
+
+  <!-- ═══ 底部速查 ═══ -->
+  <rect x="30" y="466" width="720" height="78" rx="8" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+  <text x="46" y="484" font-size="10" font-weight="600" fill="#94a3b8">📋 typeof 速查</text>
+  <text x="46" y="500" font-size="9" fill="#3b82f6" font-family="monospace">Number→"number"  String→"string"  Boolean→"boolean"  undefined→"undefined"</text>
+  <text x="46" y="516" font-size="9" fill="#ef4444" font-family="monospace">null→"object"⚠️   Symbol→"symbol"   BigInt→"bigint"</text>
+  <text x="46" y="532" font-size="9" fill="#a855f7" font-family="monospace">Object→"object"   Array→"object"    Function→"function"</text>
+  <text x="46" y="546" font-size="8" fill="#f97316">💡 判断数组用 Array.isArray()，判断 null 用 x === null，不要依赖 typeof</text>
+</svg>

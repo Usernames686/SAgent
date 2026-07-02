@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sAgent 详细设计文档 v1.0</title>
+<style>
+  :root {
+    --primary: #0F172A;
+    --accent: #F97316;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1E293B;
+    --text-secondary: #64748B;
+    --sidebar-w: 280px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  
+  /* Sidebar Navigation */
+  .sidebar { position: fixed; left: 0; top: 0; width: var(--sidebar-w); height: 100vh; background: var(--primary); color: #fff; overflow-y: auto; z-index: 100; padding: 24px 0; }
+  .sidebar h2 { font-size: 18px; padding: 0 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; }
+  .sidebar a { display: block; padding: 8px 20px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; transition: all 0.2s; }
+  .sidebar a:hover, .sidebar a.active { color: #fff; background: rgba(255,255,255,0.1); }
+  .sidebar .nav-section { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); padding: 16px 20px 4px; }
+  
+  /* Main Content */
+  .main { margin-left: var(--sidebar-w); padding: 40px 48px; max-width: 1200px; }
+  h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+  h2 { font-size: 24px; font-weight: 600; margin: 40px 0 16px; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--primary); }
+  h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text); }
+  p { margin-bottom: 12px; }
+  
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .card-header { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .card-header .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .badge-orange { background: #FFF7ED; color: var(--accent); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
+  .badge-blue { background: #EFF6FF; color: #3B82F6; }
+  .badge-red { background: #FEF2F2; color: var(--danger); }
+  
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 12px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #F8FAFC; }
+  
+  /* Code */
+  pre { background: #1E293B; color: #E2E8F0; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 12px 0; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .inline-code { background: #F1F5F9; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--accent); }
+  
+  /* SVG Container */
+  .svg-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; }
+  .svg-container svg { width: 100%; height: auto; }
+  .svg-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 12px; text-align: center; }
+  
+  /* Tags */
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; margin: 2px; }
+  .tag-get { background: #DBEAFE; color: #1D4ED8; }
+  .tag-post { background: #D1FAE5; color: #065F46; }
+  .tag-put { background: #FEF3C7; color: #92400E; }
+  .tag-delete { background: #FEE2E2; color: #991B1B; }
+  .tag-ws { background: #E0E7FF; color: #3730A3; }
+  
+  /* Info boxes */
+  .info-box { border-left: 4px solid var(--accent); background: #FFF7ED; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .info-box.success { border-color: var(--success); background: #ECFDF5; }
+  .info-box.warning { border-color: var(--warning); background: #FFFBEB; }
+  .info-box.danger { border-color: var(--danger); background: #FEF2F2; }
+  
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 24px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+  
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+  <h2>sAgent 设计文档</h2>
+  <div class="nav-section">概述</div>
+  <a href="#overview" class="active">1. 文档概述</a>
+  <div class="nav-section">系统架构</div>
+  <a href="#sys-arch">2. 系统架构设计</a>
+  <a href="#sys-struct-svg">2.1 系统结构图</a>
+  <a href="#agent-arch">2.2 智能体架构</a>
+  <div class="nav-section">功能模块</div>
+  <a href="#mod-agent">3. 智能体系统设计</a>
+  <a href="#mod-path">4. 学习路径模块</a>
+  <a href="#mod-vibe">5. 氛围编程模块</a>
+  <a href="#mod-user">6. 用户系统模块</a>
+  <a href="#mod-content">7. 内容管理模块</a>
+  <div class="nav-section">业务流程</div>
+  <a href="#biz-flow">8. 业务流程设计</a>
+  <a href="#flow-register">8.1 注册与路径生成</a>
+  <a href="#flow-code">8.2 氛围编程练习</a>
+  <a href="#flow-ai">8.3 AI 辅导对话</a>
+  <a href="#flow-evolve">8.4 系统自我进化</a>
+  <div class="nav-section">接口与数据</div>
+  <a href="#api-def">9. 接口定义</a>
+  <a href="#data-design">10. 数据结构设计</a>
+  <a href="#er-diagram">10.1 ER 图</a>
+  <div class="nav-section">非功能设计</div>
+  <a href="#state-design">11. 状态设计</a>
+  <a href="#deploy-design">12. 部署架构</a>
+  <a href="#security-design">13. 安全设计</a>
+  <a href="#quality-design">14. 质量属性</a>
+</nav>
+
+<!-- Main Content -->
+<main class="main">
+
+<!-- ============================================================ -->
+<h1 id="overview">sAgent 详细设计文档</h1>
+<p><strong>项目</strong>：自我进化多智能体个性化学习氛围编程网站 &nbsp;|&nbsp; <strong>版本</strong>：v1.0 &nbsp;|&nbsp; <strong>日期</strong>：2026-06-10</p>
+
+<div class="info-box danger">
+  <strong>技术栈硬性约束</strong>：本系统前端与后端开发<strong>必须统一使用 Node.js（TypeScript）作为唯一开发语言</strong>，严禁引入任何其他编程语言（包括但不限于 Python、Java、C#、Go、Rust 等）。所有功能模块、服务接口、数据处理逻辑及 Agent 实现均需遵循此语言约束。唯一例外：代码执行沙箱内部可运行用户提交的任意语言代码。
+</div>
+
+<div class="info-box">
+  <strong>文档范围</strong>：本文档基于需求分析 v2.0，对 sAgent 平台进行全面详细设计，涵盖系统架构、功能模块、业务流程、接口定义、数据结构、部署架构及安全设计。
+</div>
+
+<h2 id="tech-constraints">1. 技术约束规范</h2>
+
+<h3>1.1 语言统一约束</h3>
+
+<div class="card">
+  <div class="card-header">Node.js 全栈统一规范 <span class="badge badge-red">强制约束</span></div>
+  <table>
+    <tr><th style="width:180px">约束项</th><th>规范要求</th><th>验证方式</th></tr>
+    <tr><td>后端服务语言</td><td>仅允许 Node.js (TypeScript)，禁止 Python/Java/Go 等</td><td>CI 代码扫描，非 TS 文件拒绝合并</td></tr>
+    <tr><td>前端框架</td><td>Next.js 15 (React + TypeScript)</td><td>package.json 依赖检查</td></tr>
+    <tr><td>Agent 实现</td><td>所有 Agent 逻辑使用 TypeScript 实现，通过 LLM Gateway 调用 AI 模型</td><td>代码审查 + CI 检查</td></tr>
+    <tr><td>数据处理</td><td>使用 Node.js 流处理/Worker Threads，禁止 Python 脚本</td><td>CI 扫描 .py 文件</td></tr>
+    <tr><td>定时任务</td><td>使用 BullMQ (Node.js)，禁止 Celery/cron+Python</td><td>部署配置审查</td></tr>
+    <tr><td>唯一例外</td><td>代码执行沙箱内部可运行用户提交的任意语言代码</td><td>沙箱隔离，不影响主服务</td></tr>
+  </table>
+</div>
+
+<h3>1.2 技术栈选型（Node.js 全栈）</h3>
+
+<table>
+  <tr><th>技术领域</th><th>选型</th><th>说明</th></tr>
+  <tr><td>前端框架</td><td>Next.js 15 (App Router) + TypeScript</td><td>SSR/SSG、React 生态</td></tr>
+  <tr><td>后端框架</td><td>NestJS + TypeScript</td><td>模块化、装饰器、全栈 TS 统一</td></tr>
+  <tr><td>代码编辑器</td><td>Monaco Editor (TypeScript 版)</td><td>VS Code 同引擎</td></tr>
+  <tr><td>AI 集成</td><td>Node.js SDK + OpenAI 兼容 API</td><td>Qwen3.6 通过 HTTP/WS 调用</td></tr>
+  <tr><td>消息队列</td><td>BullMQ (基于 Redis)</td><td>纯 Node.js 实现</td></tr>
+  <tr><td>实时通信</td><td>Socket.IO (Node.js)</td><td>自动重连、房间管理</td></tr>
+  <tr><td>数据处理</td><td>Worker Threads + Node.js Streams</td><td>多线程 + 流式处理</td></tr>
+  <tr><td>代码执行</td><td>Docker API (node-docker-api)</td><td>Node.js 调用 Docker 管理沙箱</td></tr>
+  <tr><td>向量检索</td><td>Milvus Node.js SDK</td><td>知识图谱语义检索</td></tr>
+  <tr><td>测试框架</td><td>Vitest + Playwright</td><td>单元测试 + E2E 测试</td></tr>
+</table>
+
+<h2 id="sys-arch">2. 系统架构设计</h2>
+
+<h3 id="sys-struct-svg">2.1 系统结构图</h3>
+
+<div class="svg-container">
+  <div class="svg-title">sAgent 系统分层架构图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" font-family="Inter, sans-serif">
+    <defs>
+      <linearGradient id="gAccess" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#6366F1"/></linearGradient>
+      <linearGradient id="gGateway" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#A78BFA"/></linearGradient>
+      <linearGradient id="gBusiness" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F97316"/><stop offset="100%" stop-color="#FB923C"/></linearGradient>
+      <linearGradient id="gIntelligence" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#34D399"/></linearGradient>
+      <linearGradient id="gInfra" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0F172A"/><stop offset="100%" stop-color="#334155"/></linearGradient>
+      <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/></filter>
+    </defs>
+    
+    <!-- Layer 1: Access -->
+    <rect x="30" y="20" width="1040" height="110" rx="12" fill="url(#gAccess)" filter="url(#shadow)"/>
+    <text x="550" y="52" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">接入层 (Access Layer)</text>
+    <rect x="80" y="68" width="200" height="48" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="180" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">Web Client (Next.js)</text>
+    <rect x="320" y="68" width="200" height="48" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="420" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">Mobile PWA</text>
+    <rect x="560" y="68" width="200" height="48" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="660" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">IDE Plugin</text>
+    <rect x="800" y="68" width="220" height="48" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="910" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="500">HTTPS / WSS</text>
+    
+    <!-- Arrow -->
+    <line x1="550" y1="130" x2="550" y2="155" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#94A3B8"/></marker></defs>
+    
+    <!-- Layer 2: Gateway -->
+    <rect x="30" y="155" width="1040" height="100" rx="12" fill="url(#gGateway)" filter="url(#shadow)"/>
+    <text x="550" y="187" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">网关层 (Gateway Layer)</text>
+    <rect x="80" y="200" width="150" height="40" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="155" y="226" text-anchor="middle" fill="#fff" font-size="13">认证鉴权</text>
+    <rect x="260" y="200" width="150" height="40" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="335" y="226" text-anchor="middle" fill="#fff" font-size="13">限流熔断</text>
+    <rect x="440" y="200" width="150" height="40" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="515" y="226" text-anchor="middle" fill="#fff" font-size="13">灰度路由</text>
+    <rect x="620" y="200" width="150" height="40" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="695" y="226" text-anchor="middle" fill="#fff" font-size="13">日志追踪</text>
+    <rect x="800" y="200" width="220" height="40" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="910" y="226" text-anchor="middle" fill="#fff" font-size="13">Kong API Gateway</text>
+    
+    <!-- Arrow -->
+    <line x1="550" y1="255" x2="550" y2="280" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- Layer 3: Business -->
+    <rect x="30" y="280" width="1040" height="140" rx="12" fill="url(#gBusiness)" filter="url(#shadow)"/>
+    <text x="550" y="312" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">业务服务层 (Business Layer)</text>
+    <rect x="55" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="115" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">用户服务</text>
+    <text x="115" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">user-svc</text>
+    <rect x="190" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="250" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">课程服务</text>
+    <text x="250" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">course-svc</text>
+    <rect x="325" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="385" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">练习服务</text>
+    <text x="385" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">exercise-svc</text>
+    <rect x="460" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="520" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">评估服务</text>
+    <text x="520" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">evaluate-svc</text>
+    <rect x="595" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="655" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">Agent 编排</text>
+    <text x="655" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">agent-svc</text>
+    <rect x="730" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="790" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">代码执行</text>
+    <text x="790" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">exec-svc</text>
+    <rect x="865" y="325" width="120" height="48" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <text x="925" y="347" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">数据分析</text>
+    <text x="925" y="363" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">analytics-svc</text>
+    
+    <!-- Arrow -->
+    <line x1="550" y1="420" x2="550" y2="445" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- Layer 4: Intelligence -->
+    <rect x="30" y="445" width="1040" height="180" rx="12" fill="url(#gIntelligence)" filter="url(#shadow)"/>
+    <text x="550" y="477" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">智能引擎层 (Intelligence Layer)</text>
+    
+    <!-- Orchestrator -->
+    <rect x="200" y="490" width="700" height="40" rx="8" fill="rgba(255,255,255,0.25)"/>
+    <text x="550" y="516" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">Agent Orchestrator（意图识别 | 任务分解 | Agent 调度 | 上下文管理 | 结果聚合）</text>
+    
+    <!-- Agents Row 1 -->
+    <rect x="55" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="112" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Tutor</text>
+    <text x="112" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">智能辅导</text>
+    <rect x="185" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="242" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Evaluator</text>
+    <text x="242" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">代码评估</text>
+    <rect x="315" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="372" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Path Planner</text>
+    <text x="372" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">路径规划</text>
+    <rect x="445" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="502" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Debug</text>
+    <text x="502" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">调试辅助</text>
+    <rect x="575" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="632" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Code Review</text>
+    <text x="632" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">代码审查</text>
+    <rect x="705" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="762" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Evolution</text>
+    <text x="762" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">自我进化</text>
+    <rect x="835" y="545" width="115" height="60" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="892" y="572" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">LLM Gateway</text>
+    <text x="892" y="592" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Qwen3.6</text>
+    
+    <!-- Arrow -->
+    <line x1="550" y1="625" x2="550" y2="650" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- Layer 5: Infrastructure -->
+    <rect x="30" y="650" width="1040" height="150" rx="12" fill="url(#gInfra)" filter="url(#shadow)"/>
+    <text x="550" y="682" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">基础设施层 (Infrastructure Layer)</text>
+    
+    <rect x="55" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="120" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">PostgreSQL</text>
+    <text x="120" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">核心业务</text>
+    <rect x="200" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="265" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Redis</text>
+    <text x="265" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">缓存/会话</text>
+    <rect x="345" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="410" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">MongoDB</text>
+    <text x="410" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">行为日志</text>
+    <rect x="490" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="555" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">ClickHouse</text>
+    <text x="555" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">分析仓库</text>
+    <rect x="635" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="700" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Elasticsearch</text>
+    <text x="700" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">全文搜索</text>
+    <rect x="780" y="700" width="130" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="845" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">RabbitMQ</text>
+    <text x="845" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">消息队列</text>
+    <rect x="925" y="700" width="120" height="50" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="985" y="722" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">MinIO</text>
+    <text x="985" y="740" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">文件存储</text>
+    
+    <rect x="55" y="760" width="130" height="28" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="120" y="779" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">Milvus 向量库</text>
+    <rect x="200" y="760" width="130" height="28" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="265" y="779" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">Kafka 事件流</text>
+    <rect x="345" y="760" width="280" height="28" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="485" y="779" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">Prometheus + Grafana 监控 | ELK 日志 | OpenTelemetry 链路追踪</text>
+  </svg>
+</div>
+
+<h3 id="agent-arch">2.2 智能体架构设计</h3>
+
+<div class="svg-container">
+  <div class="svg-title">智能体分层架构与协作关系图</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Inter, sans-serif">
+    <!-- L0 Meta -->
+    <rect x="300" y="10" width="400" height="70" rx="12" fill="#7C3AED" filter="url(#shadow)"/>
+    <text x="500" y="38" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">L0 元认知层</text>
+    <text x="500" y="60" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="12">Evolution Agent — 策略优化 | A/B 测试 | 效果评估</text>
+    
+    <!-- Arrow L0 -> L1 -->
+    <line x1="500" y1="80" x2="500" y2="110" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- L1 Orchestration -->
+    <rect x="200" y="110" width="600" height="70" rx="12" fill="#3B82F6" filter="url(#shadow)"/>
+    <text x="500" y="138" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">L1 编排调度层</text>
+    <text x="500" y="160" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="12">Orchestrator Agent — 意图识别 | 任务路由 | 上下文管理 | 冲突解决</text>
+    
+    <!-- Arrow L1 -> L2 -->
+    <line x1="500" y1="180" x2="500" y2="210" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- L2 Core Business -->
+    <rect x="30" y="210" width="940" height="200" rx="12" fill="#F97316" filter="url(#shadow)" opacity="0.1"/>
+    <rect x="30" y="210" width="940" height="200" rx="12" fill="none" stroke="#F97316" stroke-width="2"/>
+    <text x="500" y="238" text-anchor="middle" fill="#F97316" font-size="16" font-weight="700">L2 核心业务层</text>
+    
+    <!-- Agent boxes -->
+    <rect x="50" y="255" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="120" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Tutor Agent</text>
+    <text x="120" y="300" text-anchor="middle" fill="#92400E" font-size="10">智能辅导</text>
+    
+    <rect x="210" y="255" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="280" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Evaluator Agent</text>
+    <text x="280" y="300" text-anchor="middle" fill="#92400E" font-size="10">代码评估</text>
+    
+    <rect x="370" y="255" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="440" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Path Planner</text>
+    <text x="440" y="300" text-anchor="middle" fill="#92400E" font-size="10">路径规划</text>
+    
+    <rect x="530" y="255" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="600" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Debug Agent</text>
+    <text x="600" y="300" text-anchor="middle" fill="#92400E" font-size="10">调试辅助</text>
+    
+    <rect x="690" y="255" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="760" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Code Review</text>
+    <text x="760" y="300" text-anchor="middle" fill="#92400E" font-size="10">代码审查</text>
+    
+    <rect x="850" y="255" width="100" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="900" y="280" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Interview</text>
+    <text x="900" y="300" text-anchor="middle" fill="#92400E" font-size="10">面试模拟</text>
+    
+    <rect x="50" y="335" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="120" y="360" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Mentor Agent</text>
+    <text x="120" y="380" text-anchor="middle" fill="#92400E" font-size="10">学习导师</text>
+    
+    <rect x="210" y="335" width="140" height="65" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+    <text x="280" y="360" text-anchor="middle" fill="#F97316" font-size="13" font-weight="600">Knowledge Graph</text>
+    <text x="280" y="380" text-anchor="middle" fill="#92400E" font-size="10">知识图谱</text>
+    
+    <!-- Arrow L2 -> L3 -->
+    <line x1="500" y1="410" x2="500" y2="440" stroke="#F97316" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- L3 Foundation -->
+    <rect x="100" y="440" width="800" height="140" rx="12" fill="#0F172A" filter="url(#shadow)"/>
+    <text x="500" y="468" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">L3 基础能力层</text>
+    
+    <rect x="130" y="485" width="160" height="50" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="210" y="507" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">LLM Gateway</text>
+    <text x="210" y="525" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Qwen3.6-35B</text>
+    
+    <rect x="310" y="485" width="160" height="50" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="390" y="507" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">RAG Engine</text>
+    <text x="390" y="525" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">检索增强生成</text>
+    
+    <rect x="490" y="485" width="160" height="50" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="570" y="507" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Tool Executor</text>
+    <text x="570" y="525" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">工具执行引擎</text>
+    
+    <rect x="670" y="485" width="160" height="50" rx="6" fill="rgba(255,255,255,0.1)"/>
+    <text x="750" y="507" text-anchor="middle" fill="#fff" font-size="13" font-weight="500">Memory Store</text>
+    <text x="750" y="525" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">记忆与上下文</text>
+    
+    <rect x="130" y="548" width="700" height="24" rx="4" fill="rgba(255,255,255,0.05)"/>
+    <text x="480" y="564" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11">ACP 通信协议 | 共享上下文 (Redis) | 事件总线 (RabbitMQ) | 降级策略</text>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="mod-agent">3. 智能体系统详细设计</h2>
+
+<h3>3.1 Orchestrator Agent 设计</h3>
+
+<div class="card">
+  <div class="card-header">Orchestrator Agent <span class="badge badge-orange">L1 编排层</span></div>
+  <table>
+    <tr><th style="width:140px">属性</th><th>说明</th></tr>
+    <tr><td>职责</td><td>全局编排调度，意图识别，Agent 路由，上下文管理，冲突解决</td></tr>
+    <tr><td>输入</td><td>用户消息 + 会话上下文 + 用户画像</td></tr>
+    <tr><td>输出</td><td>Agent 调度指令 / 聚合后的统一响应</td></tr>
+    <tr><td>通信协议</td><td>ACP/1.0（同步 RPC + 异步消息）</td></tr>
+    <tr><td>降级策略</td><td>Agent 不可用时降级到基础 Tutor 响应</td></tr>
+  </table>
+</div>
+
+<h4>3.1.1 意图识别决策表</h4>
+
+<table>
+  <tr><th>意图类别</th><th>关键词/信号</th><th>路由 Agent</th><th>协作模式</th></tr>
+  <tr><td>概念提问</td><td>"什么是..."、"怎么理解..."、"解释一下"</td><td>Tutor Agent</td><td>独立</td></tr>
+  <tr><td>代码出错</td><td>运行报错、错误日志、异常栈</td><td>Debug → Tutor</td><td>串行</td></tr>
+  <tr><td>代码提交</td><td>提交评测、运行测试</td><td>Evaluator + Code Review</td><td>并行</td></tr>
+  <tr><td>路径请求</td><td>"推荐学习"、"下一步学什么"</td><td>Path Planner + Knowledge Graph</td><td>串行</td></tr>
+  <tr><td>面试准备</td><td>"面试题"、"模拟面试"</td><td>Interview Agent</td><td>独立</td></tr>
+  <tr><td>氛围描述</td><td>视觉风格、交互效果、Vibe 关键词</td><td>Tutor Agent（氛围模式）</td><td>独立</td></tr>
+  <tr><td>Prompt 优化</td><td>"帮我写 Prompt"、"优化提示词"</td><td>Tutor Agent（Prompt 模式）</td><td>独立</td></tr>
+  <tr><td>闲聊/问候</td><td>非编程相关对话</td><td>Tutor Agent（轻量模式）</td><td>独立</td></tr>
+</table>
+
+<h3>3.2 Evolution Agent 自我进化设计</h3>
+
+<div class="card">
+  <div class="card-header">Evolution Agent <span class="badge badge-blue">L0 元认知层</span></div>
+  <table>
+    <tr><th style="width:140px">属性</th><th>说明</th></tr>
+    <tr><td>触发方式</td><td>定期触发（每周）+ 阈值触发（指标下降超 5%）</td></tr>
+    <tr><td>进化维度</td><td>Prompt 策略、路由策略、评估标准、路径算法、推荐机制、交互风格</td></tr>
+    <tr><td>实验框架</td><td>A/B 测试（1%→5%→20%→50%→100% 渐进放量）</td></tr>
+    <tr><td>统计标准</td><td>p &lt; 0.05 显著性检验，Cohen's d ≥ 0.2 效果量</td></tr>
+    <tr><td>安全约束</td><td>一键回滚、灰度发布、效果下限 ≥ 95% 基线、人工审核</td></tr>
+  </table>
+</div>
+
+<h3>3.3 Agent 通信协议 (ACP/1.0)</h3>
+
+<pre><code>{
+  "protocol": "ACP/1.0",
+  "message": {
+    "id": "msg-uuid",
+    "from": "orchestrator",
+    "to": "tutor",
+    "type": "request | response | event | error",
+    "timestamp": "2026-06-10T10:00:00.000Z",
+    "correlationId": "session-uuid",
+    "payload": {
+      "action": "explain_concept",
+      "parameters": { "concept": "闭包", "language": "javascript" },
+      "context": {
+        "userId": "user-uuid",
+        "sessionId": "session-uuid",
+        "userLevel": "beginner",
+        "currentCode": "function counter() {...}",
+        "knowledgeState": { "js-func": 0.8, "js-closure": 0.2 }
+      }
+    },
+    "metadata": {
+      "priority": "high",
+      "timeout": 30000,
+      "retryPolicy": { "maxRetries": 2, "backoffMs": 1000 }
+    }
+  }
+}</code></pre>
+
+<!-- ============================================================ -->
+<h2 id="mod-path">4. 学习路径模块详细设计</h2>
+
+<h3>4.1 用户画像数据结构</h3>
+
+<pre><code>// 用户画像模型
+interface UserProfile {
+  userId: string;
+  profileVersion: number;
+  updatedAt: Date;
+  
+  basics: {
+    age: number;
+    occupation: string;
+    education: string;
+  };
+  
+  goals: {
+    targetRole: string;          // 目标岗位
+    targetLanguages: string[];   // 目标语言
+    timeline: string;            // 时间预期
+    commitment: string;          // 投入承诺
+  };
+  
+  abilities: {
+    overall: number;             // 综合能力 0-1
+    dimensions: {
+      programming_fundamentals: number;
+      data_structures: number;
+      algorithms: number;
+      web_development: number;
+      database: number;
+      system_design: number;
+      prompt_engineering: number;  // Vibe Coding 专属
+      vibe_abstraction: number;    // 氛围抽象能力
+    };
+    confidence: number;          // 评估置信度
+  };
+  
+  learningStyle: {
+    preferredMode: 'hands_on' | 'visual' | 'theoretical';
+    pacePreference: 'fast' | 'moderate' | 'steady';
+    challengeTolerance: number;  // 0-1
+    hintPreference: 'progressive' | 'direct' | 'minimal';
+  };
+  
+  behavior: {
+    avgSessionDuration: number;  // 分钟
+    preferredTimeSlots: string[];
+    weeklyFrequency: number;
+    focusScore: number;          // 0-1
+  };
+  
+  emotional: {
+    frustrationLevel: number;    // 0-1
+    confidenceLevel: number;     // 0-1
+    engagementLevel: number;     // 0-1
+  };
+}</code></pre>
+
+<h3>4.2 路径生成算法</h3>
+
+<div class="card">
+  <div class="card-header">BKT + RL 混合路径算法</div>
+  <p><strong>贝叶斯知识追踪 (BKT)</strong>：估算每个知识点的掌握概率 P(known)</p>
+  <p><strong>强化学习 (RL)</strong>：基于历史学习效果数据，优化知识点推荐序列</p>
+  <p><strong>约束层</strong>：应用知识图谱的前置依赖约束</p>
+  <pre><code>推荐知识点 = argmax(
+    P(掌握|推荐) × 学习收益权重
+    - P(挫败|推荐) × 挫折惩罚权重
+    + 路径连贯性奖励
+)
+subject to: 前置知识已掌握</code></pre>
+</div>
+
+<h3>4.3 路径调整触发条件</h3>
+
+<table>
+  <tr><th>触发条件</th><th>检测方式</th><th>调整动作</th><th>响应时间</th></tr>
+  <tr><td>连续 3 题失败</td><td>实时检测</td><td>回退前置知识点巩固</td><td>即时</td></tr>
+  <tr><td>单题耗时 &gt; 3 倍平均</td><td>实时检测</td><td>降低后续难度、提供提示</td><td>即时</td></tr>
+  <tr><td>连续 5 题通过</td><td>实时检测</td><td>加速推进、提升难度</td><td>即时</td></tr>
+  <tr><td>知识掌握率 &lt; 60%</td><td>阶段评估</td><td>路径重构、补充薄弱点</td><td>下一阶段</td></tr>
+  <tr><td>学习停滞 &gt; 3 天</td><td>定时检测</td><td>Mentor Agent 介入</td><td>24h 内</td></tr>
+  <tr><td>遗忘曲线触发</td><td>定时检测</td><td>推送复习任务</td><td>复习节点</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="mod-vibe">5. 氛围编程模块详细设计</h2>
+
+<h3>5.1 八大知识模块映射</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">模块一：认知与思维 <span class="badge badge-orange">D1-D3</span></div>
+    <p>Vibe Coding 范式理解、氛围抽象能力、氛围描述黄金公式、产品化思维、人机协作思维</p>
+    <p><strong>核心产出</strong>：氛围描述文档（风格+功能+细节+技术约束）</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块二：工具链 <span class="badge badge-green">D1-D3</span></div>
+    <p>AI IDE (Cursor/Claude Code/Codex)、Git/GitHub、浏览器调试、云平台部署、AI 辅助工具</p>
+    <p><strong>核心产出</strong>：独立搭建 AI 开发环境并部署应用</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块三：提示词工程 <span class="badge badge-blue">D2-D4</span></div>
+    <p>基础 Prompt 结构、氛围类 Prompt（视觉/交互/代码）、高级技巧、场景化模板</p>
+    <p><strong>核心产出</strong>：高质量 Prompt 模板库</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块四：代码阅读理解 <span class="badge badge-orange">D1-D3</span></div>
+    <p>前端基础 (HTML/CSS/JS/React)、后端基础 (HTTP/API/DB)、代码评审能力、幻觉排查</p>
+    <p><strong>核心产出</strong>：能读懂、评审、修改 AI 生成代码</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块五：全栈工程能力 <span class="badge badge-green">D2-D3</span></div>
+    <p>需求拆解、架构选型、数据库设计、API 开发联调、部署上线、版本控制协作</p>
+    <p><strong>核心产出</strong>：独立交付完整全栈产品</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块六：AI 高级能力 <span class="badge badge-red">D3-D4</span></div>
+    <p>LLM 原理、RAG 应用、AI Agent 开发、多轮对话设计、多模态生成</p>
+    <p><strong>核心产出</strong>：构建 AI 增强应用</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块七：质量安全避坑 <span class="badge badge-orange">D3-D4</span></div>
+    <p>AI 代码评审清单、测试驱动、幻觉识别修复、安全漏洞防范、性能优化、依赖管理</p>
+    <p><strong>核心产出</strong>：保障 AI 生成代码的质量与安全</p>
+  </div>
+  <div class="card">
+    <div class="card-header">模块八：实战项目 <span class="badge badge-green">D1-D4</span></div>
+    <p>入门级（纯前端）→ 中级（前后端+DB）→ 高级（全栈+AI+部署）</p>
+    <p><strong>核心产出</strong>：可展示的项目作品集</p>
+  </div>
+</div>
+
+<h3>5.2 氛围编程交互模式设计</h3>
+
+<table>
+  <tr><th>模式</th><th>描述</th><th>用户操作</th><th>AI 行为</th></tr>
+  <tr><td><strong>氛围描述式</strong></td><td>核心 Vibe Coding 模式</td><td>输入氛围关键词+功能描述</td><td>生成匹配氛围的完整代码</td></tr>
+  <tr><td><strong>Prompt 迭代</strong></td><td>多轮优化 Prompt</td><td>描述→评审→优化 Prompt</td><td>按优化后 Prompt 重新生成</td></tr>
+  <tr><td><strong>配对编程</strong></td><td>人机协作</td><td>人定方向、写 Prompt</td><td>AI 生成代码，人评审</td></tr>
+  <tr><td><strong>氛围竞猜</strong></td><td>反向训练氛围抽象</td><td>观察界面效果，反推描述</td><td>评分并给出优化建议</td></tr>
+  <tr><td><strong>代码审查</strong></td><td>AI 代码评审训练</td><td>审查 AI 生成代码</td><td>提供评审清单和参考答案</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="mod-user">6. 用户系统模块详细设计</h2>
+
+<h3>6.1 用户模型</h3>
+
+<pre><code>interface User {
+  id: string;                    // UUID
+  email: string;                 // 邮箱（唯一）
+  phone?: string;                // 手机号
+  passwordHash: string;          // bcrypt 哈希
+  nickname: string;              // 昵称
+  avatarUrl?: string;            // 头像
+  role: 'student' | 'teacher' | 'admin';
+  subscription: 'free' | 'pro' | 'enterprise';
+  profile: UserProfile;          // 用户画像
+  preferences: {
+    theme: 'dark' | 'light';
+    language: 'zh' | 'en';
+    editorKeymap: 'default' | 'vim' | 'emacs';
+  };
+  stats: {
+    totalStudyMinutes: number;
+    totalExercises: number;
+    streak: number;               // 连续学习天数
+    level: number;
+    xp: number;
+  };
+  createdAt: Date;
+  lastActiveAt: Date;
+}</code></pre>
+
+<h3>6.2 认证流程</h3>
+
+<div class="card">
+  <div class="card-header">JWT + Refresh Token 认证</div>
+  <p>Access Token 有效期 15 分钟，Refresh Token 有效期 7 天。支持 GitHub/微信 OAuth 第三方登录。</p>
+  <pre><code>// 认证流程
+1. 用户登录 → 验证凭证
+2. 签发 AccessToken (15min) + RefreshToken (7d)
+3. 请求携带 AccessToken → API Gateway 验证
+4. AccessToken 过期 → 用 RefreshToken 换发新 AccessToken
+5. RefreshToken 过期 → 重新登录</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="mod-content">7. 内容管理模块详细设计</h2>
+
+<h3>7.1 知识点模型</h3>
+
+<pre><code>interface KnowledgePoint {
+  nodeId: string;                // 如 "vc-prompt-001"
+  name: string;                  // 知识点名称
+  domain: string;                // 领域：vibe_coding | python | javascript
+  module: string;                // 所属模块：cognition | tools | prompt | ...
+  category: string;              // 分类
+  difficulty: 1 | 2 | 3 | 4 | 5;
+  estimatedMinutes: number;      // 预计学习时长
+  description: string;
+  prerequisites: string[];       // 前置知识点 ID
+  dependents: string[];          // 后续知识点 ID
+  skills: string[];              // 技能标签
+  assessmentCriteria: {
+    basic: string;
+    intermediate: string;
+    advanced: string;
+  };
+  resources: {
+    docId?: string;
+    exerciseIds: string[];
+    projectId?: string;
+  };
+  version: string;               // 语义化版本
+  status: 'draft' | 'published' | 'archived';
+}</code></pre>
+
+<h3>7.2 练习题模型</h3>
+
+<pre><code>interface Exercise {
+  id: string;
+  title: string;
+  description: string;           // Markdown 格式
+  type: 'concept' | 'fill_blank' | 'code_complete' | 'free_code' 
+      | 'bug_fix' | 'code_review' | 'vibe_describe' | 'prompt_write';
+  difficulty: 1 | 2 | 3 | 4 | 5;
+  knowledgePointIds: string[];
+  language?: string;             // 编程语言
+  template?: string;             // 模板代码
+  testCases: {
+    input: string;
+    expectedOutput: string;
+    isHidden: boolean;
+  }[];
+  hints: string[];               // 渐进式提示（3级）
+  referenceSolution?: string;
+  vibePrompt?: {                 // 氛围编程专属
+    expectedStyle: string;
+    expectedKeywords: string[];
+    evaluationCriteria: string;
+  };
+  stats: {
+    submissionCount: number;
+    passRate: number;
+    avgAttempts: number;
+  };
+  version: string;
+  status: 'draft' | 'published' | 'archived';
+}</code></pre>
+
+</main>
+</body>
+</html>

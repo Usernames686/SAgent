@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">展开运算符 · 合并 / 浅拷贝 / React 状态更新</text>
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#3b82f6">① 数组展开</text>
+  <rect x="30" y="74" width="350" height="120" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+  <text x="50" y="96" font-size="10" font-weight="600" fill="#3b82f6">合并</text>
+  <text x="50" y="114" font-size="9" fill="#94a3b8" font-family="monospace">const merged = [...a, ...b];</text>
+  <text x="50" y="132" font-size="10" font-weight="600" fill="#3b82f6">复制</text>
+  <text x="50" y="150" font-size="9" fill="#94a3b8" font-family="monospace">const copy = [...arr];</text>
+  <text x="50" y="168" font-size="10" font-weight="600" fill="#3b82f6">插入</text>
+  <text x="50" y="186" font-size="9" fill="#94a3b8" font-family="monospace">const withExtra = [...arr.slice(0,i), item, ...arr.slice(i)];</text>
+  <text x="400" y="64" font-size="13" font-weight="600" fill="#22c55e">② 对象展开 — React 核心！</text>
+  <rect x="400" y="74" width="350" height="120" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="420" y="96" font-size="10" font-weight="600" fill="#22c55e">合并（后覆盖前）</text>
+  <text x="420" y="114" font-size="9" fill="#94a3b8" font-family="monospace">const merged = {...defaults, ...userConfig};</text>
+  <text x="420" y="132" font-size="10" font-weight="600" fill="#22c55e">React 状态更新</text>
+  <text x="420" y="150" font-size="9" fill="#94a3b8" font-family="monospace">setState({...state, key: newValue});</text>
+  <text x="420" y="168" font-size="9" fill="#eab308">必须创建新对象，不能直接修改！</text>
+  <text x="40" y="216" font-size="13" font-weight="600" fill="#ef4444">③ 浅拷贝陷阱（重点！）</text>
+  <rect x="30" y="226" width="720" height="150" rx="8" fill="#ef4444" fill-opacity="0.05" stroke="#ef4444" stroke-opacity="0.3"/>
+  <text x="50" y="248" font-size="10" font-weight="600" fill="#ef4444">展开只拷贝第一层，嵌套对象仍是引用</text>
+  <rect x="50" y="260" width="680" height="50" rx="4" fill="#0f172a"/>
+  <text x="62" y="278" font-size="9" fill="#ef4444" font-family="monospace">const nested = { info: { city: "北京" } };</text>
+  <text x="62" y="296" font-size="9" fill="#ef4444" font-family="monospace">const copied = { ...nested };</text>
+  <text x="62" y="314" font-size="9" fill="#ef4444" font-family="monospace">copied.info.city = "上海";  // nested.info.city 也变！</text>
+  <text x="50" y="338" font-size="10" font-weight="600" fill="#22c55e">✅ 深拷贝方案</text>
+  <text x="50" y="356" font-size="9" fill="#94a3b8" font-family="monospace">JSON.parse(JSON.stringify(obj))   // 简单但有局限</text>
+  <text x="50" y="370" font-size="9" fill="#22c55e" font-family="monospace">structuredClone(obj)             // 现代 API，推荐</text>
+  <text x="40" y="400" font-size="13" font-weight="600" fill="#eab308">④ 展开顺序 — 后覆盖前</text>
+  <rect x="30" y="410" width="720" height="80" rx="8" fill="#eab308" fill-opacity="0.04" stroke="#eab308" stroke-opacity="0.25"/>
+  <text x="50" y="432" font-size="10" fill="#eab308" font-family="monospace">const a = { x: 1, y: 2 };</text>
+  <text x="50" y="450" font-size="10" fill="#eab308" font-family="monospace">const b = { y: 3, z: 4 };</text>
+  <text x="50" y="468" font-size="10" fill="#22c55e" font-family="monospace">{...a, ...b}  // { x:1, y:3, z:4 } — b.y 覆盖 a.y</text>
+  <text x="50" y="484" font-size="9" fill="#eab308">配置合并惯用模式: {...defaults, ...userConfig}</text>
+</svg>

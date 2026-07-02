@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs><rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">var vs let vs const 提升对比</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#f97316">📊 三种声明的提升行为对比</text>
+<rect x="30" y="76" width="720" height="280" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<rect x="40" y="86" width="180" height="28" fill="#f97316" fill-opacity="0.12"/>
+<text x="130" y="104" font-size="10" font-weight="600" fill="#f97316" text-anchor="middle">特性</text>
+<rect x="220" y="86" width="160" height="28" fill="#ef4444" fill-opacity="0.1"/>
+<text x="300" y="104" font-size="10" font-weight="600" fill="#ef4444" text-anchor="middle">var</text>
+<rect x="380" y="86" width="160" height="28" fill="#3b82f6" fill-opacity="0.1"/>
+<text x="460" y="104" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">let</text>
+<rect x="540" y="86" width="200" height="28" fill="#a855f7" fill-opacity="0.1"/>
+<text x="640" y="104" font-size="10" font-weight="600" fill="#a855f7" text-anchor="middle">const</text>
+<text x="50" y="132" font-size="9" fill="#94a3b8">是否提升</text>
+<text x="300" y="132" font-size="9" fill="#22c55e" text-anchor="middle">✅ 是</text>
+<text x="460" y="132" font-size="9" fill="#22c55e" text-anchor="middle">✅ 是</text>
+<text x="640" y="132" font-size="9" fill="#22c55e" text-anchor="middle">✅ 是</text>
+<text x="50" y="154" font-size="9" fill="#94a3b8">提升后初始值</text>
+<text x="300" y="154" font-size="9" fill="#ef4444" text-anchor="middle">undefined</text>
+<text x="460" y="154" font-size="9" fill="#ef4444" text-anchor="middle">未初始化(TDZ)</text>
+<text x="640" y="154" font-size="9" fill="#ef4444" text-anchor="middle">未初始化(TDZ)</text>
+<text x="50" y="176" font-size="9" fill="#94a3b8">声明前访问</text>
+<text x="300" y="176" font-size="9" fill="#ef4444" text-anchor="middle">undefined(不报错)</text>
+<text x="460" y="176" font-size="9" fill="#ef4444" text-anchor="middle">❌ ReferenceError</text>
+<text x="640" y="176" font-size="9" fill="#ef4444" text-anchor="middle">❌ ReferenceError</text>
+<text x="50" y="198" font-size="9" fill="#94a3b8">作用域</text>
+<text x="300" y="198" font-size="9" fill="#ef4444" text-anchor="middle">函数作用域</text>
+<text x="460" y="198" font-size="9" fill="#22c55e" text-anchor="middle">块级作用域</text>
+<text x="640" y="198" font-size="9" fill="#22c55e" text-anchor="middle">块级作用域</text>
+<text x="50" y="220" font-size="9" fill="#94a3b8">可否重复声明</text>
+<text x="300" y="220" font-size="9" fill="#ef4444" text-anchor="middle">✅ 可以(危险)</text>
+<text x="460" y="220" font-size="9" fill="#ef4444" text-anchor="middle">❌ 不可以</text>
+<text x="640" y="220" font-size="9" fill="#ef4444" text-anchor="middle">❌ 不可以</text>
+<text x="50" y="242" font-size="9" fill="#94a3b8">可否重新赋值</text>
+<text x="300" y="242" font-size="9" fill="#22c55e" text-anchor="middle">✅ 可以</text>
+<text x="460" y="242" font-size="9" fill="#22c55e" text-anchor="middle">✅ 可以</text>
+<text x="640" y="242" font-size="9" fill="#ef4444" text-anchor="middle">❌ 不可以</text>
+<text x="50" y="264" font-size="9" fill="#94a3b8">推荐程度</text>
+<text x="300" y="264" font-size="9" fill="#ef4444" text-anchor="middle">🚫 永远不用</text>
+<text x="460" y="264" font-size="9" fill="#22c55e" text-anchor="middle">✅ 需要时用</text>
+<text x="640" y="264" font-size="9" fill="#22c55e" text-anchor="middle">🏆 默认首选</text>
+<text x="40" y="384" font-size="13" font-weight="600" fill="#a855f7">📖 关键理解</text>
+<rect x="30" y="396" width="720" height="160" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.15"/>
+<text x="50" y="420" font-size="10" fill="#a855f7" font-weight="600">let/const也会提升！</text>
+<text x="50" y="444" font-size="10" fill="#94a3b8">很多人以为let/const不提升，这是错误的</text>
+<text x="50" y="468" font-size="10" fill="#94a3b8">区别在于提升后的行为：</text>
+<text x="50" y="492" font-size="10" fill="#ef4444">• var：提升 + 初始化为undefined → 声明前访问得undefined</text>
+<text x="50" y="516" font-size="10" fill="#3b82f6">• let/const：提升 + 不初始化 → 声明前访问报错(TDZ)</text>
+<text x="50" y="544" font-size="10" fill="#f97316" font-weight="600">口诀：都提升，var给undefined，let/const给TDZ</text>
+</svg>

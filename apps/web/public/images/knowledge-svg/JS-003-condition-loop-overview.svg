@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="32" font-size="16" font-weight="700" fill="white" text-anchor="middle">条件与循环 · 程序的"决策"与"重复"</text>
+
+  <!-- 左：条件判断 -->
+  <text x="30" y="62" font-size="12" font-weight="600" fill="#f97316">① 条件判断 — 程序的"岔路口"</text>
+  <rect x="30" y="72" width="350" height="220" rx="10" fill="url(#orangeGrad)" stroke="#f97316" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <!-- 分数 -->
+  <rect x="160" y="88" width="90" height="26" rx="13" fill="#f97316" fill-opacity="0.15" stroke="#f97316" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="205" y="105" font-size="11" font-weight="600" fill="#f97316" text-anchor="middle">score = 85</text>
+
+  <!-- if 分支 -->
+  <line x1="205" y1="114" x2="120" y2="138" stroke="#22c55e" stroke-opacity="0.5" stroke-width="1.2"/>
+  <line x1="205" y1="114" x2="290" y2="138" stroke="#ef4444" stroke-opacity="0.5" stroke-width="1.2"/>
+  <rect x="50" y="138" width="140" height="26" rx="6" fill="#22c55e" fill-opacity="0.08" stroke="#22c55e" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="120" y="155" font-size="10" fill="#22c55e" text-anchor="middle">score &gt;= 80 ?</text>
+  <rect x="220" y="138" width="140" height="26" rx="6" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="290" y="155" font-size="10" fill="#ef4444" text-anchor="middle">else 分支</text>
+
+  <line x1="120" y1="164" x2="120" y2="186" stroke="#22c55e" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="50" y="186" width="140" height="34" rx="6" fill="#22c55e" fill-opacity="0.12" stroke="#22c55e" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="120" y="202" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">→ grade = "B"</text>
+  <text x="120" y="214" font-size="8" fill="#64748b" text-anchor="middle">✅ 条件成立，执行此分支</text>
+
+  <text x="60" y="244" font-size="9" fill="#94a3b8" font-family="monospace">if (score &gt;= 80) grade = "B";</text>
+  <text x="60" y="260" font-size="9" fill="#94a3b8" font-family="monospace">else if (score &gt;= 60) grade = "D";</text>
+  <text x="60" y="276" font-size="9" fill="#94a3b8" font-family="monospace">else grade = "F";</text>
+
+  <!-- 右：循环 -->
+  <text x="400" y="62" font-size="12" font-weight="600" fill="#3b82f6">② 循环 — 程序的"轮子"</text>
+  <rect x="400" y="72" width="350" height="220" rx="10" fill="url(#blueGrad)" stroke="#3b82f6" stroke-opacity="0.25" stroke-width="0.8"/>
+
+  <!-- 循环节点 -->
+  <rect x="525" y="92" width="100" height="26" rx="13" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="575" y="109" font-size="11" font-weight="600" fill="#3b82f6" text-anchor="middle">i &lt; 5 ?</text>
+
+  <!-- 是 → 执行 → 回到判断 -->
+  <line x1="540" y1="118" x2="490" y2="150" stroke="#22c55e" stroke-opacity="0.5" stroke-width="1.2"/>
+  <text x="500" y="138" font-size="9" fill="#22c55e">是</text>
+  <rect x="430" y="150" width="120" height="30" rx="6" fill="#3b82f6" fill-opacity="0.12" stroke="#3b82f6" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="490" y="170" font-size="10" fill="#3b82f6" text-anchor="middle">执行 console.log(i)</text>
+  <line x1="490" y1="180" x2="490" y2="200" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1"/>
+  <rect x="430" y="200" width="120" height="26" rx="6" fill="#a855f7" fill-opacity="0.10" stroke="#a855f7" stroke-opacity="0.3" stroke-width="0.8"/>
+  <text x="490" y="217" font-size="10" fill="#a855f7" text-anchor="middle">i++ (更新)</text>
+  <!-- 回到判断 -->
+  <path d="M 490 226 Q 490 245 540 245 Q 575 245 575 118" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+  <text x="500" y="240" font-size="8" fill="#64748b">↻ 重新判断</text>
+
+  <!-- 否 → 跳出 -->
+  <line x1="610" y1="118" x2="660" y2="150" stroke="#ef4444" stroke-opacity="0.5" stroke-width="1.2"/>
+  <text x="630" y="138" font-size="9" fill="#ef4444">否</text>
+  <rect x="600" y="150" width="120" height="30" rx="6" fill="#ef4444" fill-opacity="0.10" stroke="#ef4444" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="660" y="170" font-size="10" fill="#ef4444" text-anchor="middle">⏹ 跳出循环</text>
+
+  <text x="410" y="244" font-size="9" fill="#94a3b8" font-family="monospace">for (let i = 0; i &lt; 5; i++) {</text>
+  <text x="410" y="260" font-size="9" fill="#94a3b8" font-family="monospace">  console.log(i);  // 0,1,2,3,4</text>
+  <text x="410" y="276" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+
+  <!-- 底部口诀 -->
+  <rect x="30" y="310" width="720" height="80" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="0.8"/>
+  <text x="390" y="338" font-size="13" font-weight="700" fill="#f97316" text-anchor="middle">💡 没有条件，程序只能走一条路；没有循环，程序只能做一次</text>
+  <text x="390" y="362" font-size="10" fill="#94a3b8" text-anchor="middle">条件判断 = if / else if / else / switch / 三元 ?:</text>
+  <text x="390" y="378" font-size="10" fill="#94a3b8" text-anchor="middle">循环 = for / while / do...while / for...of / for...in</text>
+
+  <!-- 7 步导览 -->
+  <text x="30" y="420" font-size="12" font-weight="600" fill="#a855f7">③ 7 步深度学习路径</text>
+  <g font-size="9" fill="#cbd5e1">
+    <rect x="30"  y="432" width="92" height="44" rx="6" fill="#f97316" fill-opacity="0.08" stroke="#f97316" stroke-opacity="0.25"/>
+    <text x="76"  y="450" text-anchor="middle" font-weight="600" fill="#f97316">① 概览</text>
+    <text x="76"  y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">生活类比</text>
+
+    <rect x="130" y="432" width="92" height="44" rx="6" fill="#3b82f6" fill-opacity="0.08" stroke="#3b82f6" stroke-opacity="0.25"/>
+    <text x="176" y="450" text-anchor="middle" font-weight="600" fill="#3b82f6">② if/三元</text>
+    <text x="176" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">条件分支</text>
+
+    <rect x="230" y="432" width="92" height="44" rx="6" fill="#a855f7" fill-opacity="0.08" stroke="#a855f7" stroke-opacity="0.25"/>
+    <text x="276" y="450" text-anchor="middle" font-weight="600" fill="#a855f7">③ switch</text>
+    <text x="276" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">穿透陷阱</text>
+
+    <rect x="330" y="432" width="92" height="44" rx="6" fill="#22c55e" fill-opacity="0.08" stroke="#22c55e" stroke-opacity="0.25"/>
+    <text x="376" y="450" text-anchor="middle" font-weight="600" fill="#22c55e">④ for/while</text>
+    <text x="376" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">循环骨架</text>
+
+    <rect x="430" y="432" width="92" height="44" rx="6" fill="#06b6d4" fill-opacity="0.08" stroke="#06b6d4" stroke-opacity="0.25"/>
+    <text x="476" y="450" text-anchor="middle" font-weight="600" fill="#06b6d4">⑤ of/in</text>
+    <text x="476" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">遍历对比</text>
+
+    <rect x="530" y="432" width="92" height="44" rx="6" fill="#eab308" fill-opacity="0.08" stroke="#eab308" stroke-opacity="0.25"/>
+    <text x="576" y="450" text-anchor="middle" font-weight="600" fill="#eab308">⑥ break/cont</text>
+    <text x="576" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">循环控制</text>
+
+    <rect x="630" y="432" width="120" height="44" rx="6" fill="#ec4899" fill-opacity="0.08" stroke="#ec4899" stroke-opacity="0.25"/>
+    <text x="690" y="450" text-anchor="middle" font-weight="600" fill="#ec4899">⑦ 决策口诀</text>
+    <text x="690" y="466" text-anchor="middle" font-size="7.5" fill="#94a3b8">速查表</text>
+  </g>
+
+  <text x="390" y="510" font-size="10" fill="#64748b" text-anchor="middle">每一步都配 SVG 图解 · 图文并茂 · 由浅入深</text>
+  <text x="390" y="540" font-size="11" font-weight="600" fill="#22c55e" text-anchor="middle">🎯 学完这 7 步，条件与循环不再有盲区</text>
+</svg>

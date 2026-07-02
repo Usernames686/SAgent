@@ -1,0 +1,19 @@
+{
+  "name": "sagent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "自我进化多智能体个性化学习氛围编程平台",
+  "scripts": {
+    "dev": "pnpm --filter @sagent/* dev",
+    "dev:web": "pnpm --filter @sagent/web dev",
+    "dev:api": "pnpm --filter @sagent/api dev",
+    "build": "pnpm --filter @sagent/* build",
+    "test": "pnpm --filter @sagent/* test",
+    "lint": "pnpm --filter @sagent/* lint",
+    "typecheck": "pnpm --filter @sagent/* typecheck"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

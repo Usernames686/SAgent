@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui,sans-serif">
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#0a1628"/></linearGradient></defs>
+<rect width="780" height="580" fill="url(#bg)" rx="12"/>
+<text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">闭包形成 · 三个条件</text>
+<text x="40" y="64" font-size="13" font-weight="600" fill="#ec4899">✅ 最简单的闭包</text>
+<rect x="30" y="76" width="720" height="160" rx="8" fill="#ec4899" fill-opacity="0.04" stroke="#ec4899" stroke-opacity="0.2"/>
+<text x="50" y="100" font-size="10" fill="#3b82f6" font-family="monospace">function outer() {</text>
+<text x="70" y="120" font-size="10" fill="#ec4899" font-family="monospace">const message = "Hello";  // ① 外层变量</text>
+<text x="70" y="140" font-size="10" fill="#22c55e" font-family="monospace">function inner() {         // ② 内层函数</text>
+<text x="90" y="160" font-size="10" fill="#22c55e" font-family="monospace">console.log(message);     // ③ 引用外层变量</text>
+<text x="70" y="180" font-size="10" fill="#22c55e" font-family="monospace">}</text>
+<text x="70" y="200" font-size="10" fill="#f97316" font-family="monospace">return inner;              // ④ 返回到外部</text>
+<text x="50" y="220" font-size="10" fill="#3b82f6" font-family="monospace">}</text>
+<text x="50" y="244" font-size="9" fill="#ec4899">const fn = outer();  // outer执行完，message本该销毁</text>
+<text x="50" y="260" font-size="9" fill="#22c55e">fn();  // "Hello" — message被闭包保持！</text>
+<text x="40" y="286" font-size="13" font-weight="600" fill="#f97316">📋 闭包形成的3个条件</text>
+<rect x="30" y="298" width="225" height="80" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.2"/>
+<text x="142" y="322" font-size="28" text-anchor="middle">1️⃣</text>
+<text x="142" y="346" font-size="10" font-weight="600" fill="#3b82f6" text-anchor="middle">外层+内层函数</text>
+<text x="142" y="364" font-size="8" fill="#94a3b8" text-anchor="middle">嵌套结构是前提</text>
+<rect x="275" y="298" width="225" height="80" rx="8" fill="#ec4899" fill-opacity="0.04" stroke="#ec4899" stroke-opacity="0.2"/>
+<text x="387" y="322" font-size="28" text-anchor="middle">2️⃣</text>
+<text x="387" y="346" font-size="10" font-weight="600" fill="#ec4899" text-anchor="middle">内层引用外层变量</text>
+<text x="387" y="364" font-size="8" fill="#94a3b8" text-anchor="middle">形成"记忆"连接</text>
+<rect x="520" y="298" width="225" height="80" rx="8" fill="#22c55e" fill-opacity="0.04" stroke="#22c55e" stroke-opacity="0.2"/>
+<text x="632" y="322" font-size="28" text-anchor="middle">3️⃣</text>
+<text x="632" y="346" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">内层被返回/传递</text>
+<text x="632" y="364" font-size="8" fill="#94a3b8" text-anchor="middle">到外部使用</text>
+<text x="40" y="406" font-size="13" font-weight="600" fill="#a855f7">🔍 引擎视角</text>
+<rect x="30" y="418" width="720" height="140" rx="8" fill="#0f172a" stroke="#1e293b"/>
+<text x="50" y="442" font-size="10" fill="#94a3b8">1. outer()执行 → 创建词法环境 { message: "Hello" }</text>
+<text x="50" y="466" font-size="10" fill="#94a3b8">2. inner函数绑定到当前词法环境 → 形成闭包</text>
+<text x="50" y="490" font-size="10" fill="#94a3b8">3. outer()返回inner → inner持有对message的引用</text>
+<text x="50" y="514" font-size="10" fill="#ec4899">4. outer执行完 → message引用计数>0 → GC不回收 → 存活！</text>
+<text x="50" y="544" font-size="10" fill="#22c55e" font-weight="600">关键：引用计数>0，变量就不会被垃圾回收</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 580" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="580" fill="url(#bg)" rx="12"/>
+  <text x="390" y="34" font-size="17" font-weight="700" fill="white" text-anchor="middle">高阶函数 · 闭包 · 函数是一等公民</text>
+
+  <!-- ① 函数是一等公民 -->
+  <text x="40" y="64" font-size="13" font-weight="600" fill="#a855f7">① 函数是一等公民 — 和数字、字符串一样</text>
+
+  <rect x="30" y="74" width="230" height="100" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="50" y="94" font-size="10" font-weight="600" fill="#a855f7">赋值给变量</text>
+  <text x="50" y="114" font-size="9" fill="#94a3b8" font-family="monospace">const f = function() { ... };</text>
+  <text x="50" y="138" font-size="10" font-weight="600" fill="#a855f7">作为参数传递</text>
+  <text x="50" y="158" font-size="9" fill="#94a3b8" font-family="monospace">[1,2].map(n =&gt; n*2)</text>
+
+  <rect x="270" y="74" width="230" height="100" rx="8" fill="#a855f7" fill-opacity="0.04" stroke="#a855f7" stroke-opacity="0.25"/>
+  <text x="290" y="94" font-size="10" font-weight="600" fill="#a855f7">作为返回值</text>
+  <text x="290" y="114" font-size="9" fill="#94a3b8" font-family="monospace">function outer() {</text>
+  <text x="290" y="128" font-size="9" fill="#94a3b8" font-family="monospace">  return () =&gt; 42;</text>
+  <text x="290" y="142" font-size="9" fill="#94a3b8" font-family="monospace">}</text>
+  <text x="290" y="162" font-size="10" font-weight="600" fill="#a855f7">存到数组/对象</text>
+
+  <rect x="510" y="74" width="240" height="100" rx="8" fill="#22c55e" fill-opacity="0.05" stroke="#22c55e" stroke-opacity="0.25"/>
+  <text x="530" y="94" font-size="10" font-weight="600" fill="#22c55e">高阶函数定义</text>
+  <text x="530" y="114" font-size="9" fill="#cbd5e1">满足以下任一条件：</text>
+  <text x="530" y="132" font-size="9" fill="#22c55e">• 接受函数作为参数</text>
+  <text x="530" y="148" font-size="9" fill="#22c55e">• 返回一个新函数</text>
+  <text x="530" y="166" font-size="9" fill="#eab308">map/filter/reduce 都是高阶函数</text>
+
+  <!-- ② 高阶函数实例 -->
+  <text x="40" y="200" font-size="13" font-weight="600" fill="#3b82f6">② 高阶函数实例 — 函数作为参数（回调）</text>
+  <rect x="30" y="210" width="720" height="100" rx="8" fill="#3b82f6" fill-opacity="0.04" stroke="#3b82f6" stroke-opacity="0.25"/>
+
+  <rect x="50" y="226" width="680" height="76" rx="4" fill="#0f172a"/>
+  <text x="62" y="244" font-size="9" fill="#3b82f6" font-family="monospace">// 数组方法都是高阶函数：接受一个函数作为参数</text>
+  <text x="62" y="262" font-size="9" fill="#22c55e" font-family="monospace">const nums = [1, 2, 3, 4];</text>
+  <text x="62" y="278" font-size="9" fill="#22c55e" font-family="monospace">nums.map(n =&gt; n * 2);           // [2, 4, 6, 8]  ← 转换</text>
+  <text x="62" y="294" font-size="9" fill="#22c55e" font-family="monospace">nums.filter(n =&gt; n &gt; 2);        // [3, 4]         ← 过滤</text>
+
+  <!-- ③ 闭包 -->
+  <text x="40" y="332" font-size="13" font-weight="600" fill="#f97316">③ 闭包 — 函数"记住"它出生时的作用域</text>
+  <rect x="30" y="342" width="720" height="160" rx="8" fill="#f97316" fill-opacity="0.04" stroke="#f97316" stroke-opacity="0.25"/>
+
+  <rect x="50" y="360" width="340" height="130" rx="4" fill="#0f172a"/>
+  <text x="62" y="378" font-size="9" fill="#f97316" font-family="monospace">function createCounter() {</text>
+  <text x="62" y="394" font-size="9" fill="#f97316" font-family="monospace">  let count = 0;</text>
+  <text x="62" y="410" font-size="9" fill="#f97316" font-family="monospace">  return () =&gt; {</text>
+  <text x="62" y="424" font-size="9" fill="#22c55e" font-family="monospace">    count++;        // ✅ 仍能访问 count</text>
+  <text x="62" y="438" font-size="9" fill="#22c55e" font-family="monospace">    return count;</text>
+  <text x="62" y="452" font-size="9" fill="#f97316" font-family="monospace">  };</text>
+  <text x="62" y="466" font-size="9" fill="#f97316" font-family="monospace">}</text>
+  <text x="62" y="484" font-size="9" fill="#22c55e" font-family="monospace">const counter = createCounter();</text>
+
+  <rect x="410" y="360" width="320" height="130" rx="4" fill="#0f172a"/>
+  <text x="422" y="378" font-size="9" fill="#eab308" font-weight="600">闭包 = 函数 + 它引用的外层变量</text>
+  <text x="422" y="400" font-size="9" fill="#cbd5e1">createCounter 执行完后，count 本该</text>
+  <text x="422" y="416" font-size="9" fill="#cbd5e1">被销毁，但返回的箭头函数"捕获"了</text>
+  <text x="422" y="432" font-size="9" fill="#cbd5e1">count，所以 count 一直"活着"。</text>
+  <text x="422" y="458" font-size="9" fill="#22c55e" font-weight="600">应用场景：</text>
+  <text x="422" y="476" font-size="9" fill="#cbd5e1">• 私有变量封装（外部无法直接访问 count）</text>
+  <text x="422" y="492" font-size="9" fill="#cbd5e1">• 函数工厂、防抖节流、React Hooks</text>
+
+  <!-- 底部 -->
+  <rect x="30" y="518" width="720" height="44" rx="8" fill="#a855f7" fill-opacity="0.06" stroke="#a855f7" stroke-opacity="0.2"/>
+  <text x="50" y="540" font-size="11" font-weight="700" fill="#a855f7">💡 一等公民 + 高阶函数 + 闭包 = JavaScript 函数式编程的三大基石</text>
+  <text x="50" y="556" font-size="10" fill="#94a3b8">→ React Hooks、Redux、RxJS 全部建立在这些概念之上</text>
+</svg>

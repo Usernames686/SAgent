@@ -1,0 +1,45 @@
+node_modules/
+dist/
+.next/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+coverage/
+.turbo/
+__pycache__/
+*.pyc
+*.pyo
+*.tsbuildinfo
+tmp_*
+*.tmp
+# AtomCode personal settings (skills, memory, hooks)
+.atomcode/
+.agents/
+.mcp.json
+skills-lock.json
+ 
+# Sensitive files 
+deploy_key* 
+*.pem 
+.env 
+.env.local 
+*_key* 
+# Temp files 
+_*.js 
+_*.json 
+_files.txt
+_render_learning_theory/
+check_server*.py 
+fix-lecture-step*.js 
+*{}
+*.log 
+api-out.log 
+web-*.log 
+tsc-output.txt
+tsc_errors.txt
+console.log(*
+# Build artifacts 
+apps/api/data/sagent.db 
+.tmp_start_web.ps1 

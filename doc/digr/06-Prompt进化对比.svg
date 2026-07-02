@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="250" fill="#0f172a" rx="16"/>
+  <text x="450" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#f8fafc">Prompt 进化对比</text>
+  
+  <rect x="30" y="60" width="400" height="160" rx="12" fill="rgba(239,68,68,0.06)" stroke="#ef4444" stroke-opacity="0.3"/>
+  <text x="230" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#ef4444">进化前：直接讲授</text>
+  
+  <rect x="50" y="105" width="360" height="45" rx="6" fill="rgba(239,68,68,0.08)"/>
+  <text x="60" y="125" font-size="10" fill="#94a3b8">毛玻璃效果 = backdrop-filter: blur()</text>
+  <text x="60" y="140" font-size="10" fill="#94a3b8">+ 半透明背景 + 细微边框。请记住这个公式。</text>
+  
+  <rect x="50" y="160" width="360" height="45" rx="6" fill="rgba(239,68,68,0.08)"/>
+  <text x="60" y="180" font-size="10" fill="#94a3b8">问题：学生只是机械记忆，不理解原理</text>
+  <text x="60" y="195" font-size="10" fill="#ef4444">效果：平均分 45，通过率 20%</text>
+  
+  <text x="450" y="140" text-anchor="middle" font-size="24" fill="#f97316">→</text>
+  <text x="450" y="160" text-anchor="middle" font-size="10" fill="#f97316">进化</text>
+  
+  <rect x="470" y="60" width="400" height="160" rx="12" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="670" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#10b981">进化后：苏格拉底式引导</text>
+  
+  <rect x="490" y="105" width="360" height="45" rx="6" fill="rgba(16,185,129,0.08)"/>
+  <text x="500" y="125" font-size="10" fill="#94a3b8">你想创建毛玻璃效果的卡片，</text>
+  <text x="500" y="140" font-size="10" fill="#94a3b8">你会从哪些方面来描述它？</text>
+  
+  <rect x="490" y="160" width="360" height="45" rx="6" fill="rgba(16,185,129,0.08)"/>
+  <text x="500" y="180" font-size="10" fill="#94a3b8">改进：引导学生主动思考，自己发现规律</text>
+  <text x="500" y="195" font-size="10" fill="#10b981">效果：平均分 90，通过率 95%</text>
+</svg>
